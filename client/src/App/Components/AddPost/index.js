@@ -4,7 +4,10 @@ import Fab from '@material-ui/core/Fab';
 import Modal from '@material-ui/core/Modal';
 import AddIcon from '@material-ui/icons/Add';
 import Fade from '@material-ui/core/Fade';
+import TextField from '@material-ui/core/TextField';
 import Backdrop from '@material-ui/core/Backdrop';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -23,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
+    form: {
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    submitBtn: {
+        marginTop: '16px'
+    }
 }));
 
 export default function AddPost() {
@@ -37,14 +47,18 @@ export default function AddPost() {
         setOpen(false);
     };
 
+    const handleSubmit = () => {
+        console.log('meow');
+    };
+
     return (
         <div>
             <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
                 <AddIcon />
             </Fab>
             <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
                 className={classes.modal}
                 open={open}
                 onClose={handleClose}
@@ -56,8 +70,17 @@ export default function AddPost() {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h2 id="transition-modal-title">Transition modal</h2>
-                        <p id="transition-modal-description">react-transition-group animates me.</p>
+                        <form noValidate autoComplete="off">
+                            <Grid className={classes.form}>
+                                <TextField label="Title" />
+                                <TextField label="Price" />
+                                <TextField label="Date" />
+                                <TextField label="Description" />
+                                <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+                                    Add Post
+                                </Button>
+                            </Grid>
+                        </form>
                     </div>
                 </Fade>
             </Modal>
