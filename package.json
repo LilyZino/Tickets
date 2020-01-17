@@ -4,7 +4,7 @@
   "description": "Buy or sell 2nd hand concert tickets",
   "main": "index.js",
   "scripts": {
-    "all": "start npm run client-dev && start npm run server-dev",
+    "all": "start npm run server-dev && start npm run client-dev",
     "client-dev": "webpack-dev-server --open",
     "server-dev": "nodemon --exec babel-node ./server/app.js",
     "build-dev": "webpack --mode=development",
