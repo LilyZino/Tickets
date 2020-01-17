@@ -12,7 +12,8 @@ import AddIcon from '@material-ui/icons/Add';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
 } from 'react-router-dom';
 import PostsList from './Components/PostsList';
 
@@ -68,12 +69,9 @@ export default function ButtonAppBar() {
                             user profile
                         </Route>
                         <Route path="/">
-                            <PostsList />
+                            <Redirect to="/feed" />
                             {/* TODO: implement that / will go to /feed if user is logged,
                             if not go to /login */}
-                            <Fab color="primary" aria-label="add" className={classes.fab}>
-                                <AddIcon />
-                            </Fab>
                         </Route>
                     </Switch>
                 </Router>
