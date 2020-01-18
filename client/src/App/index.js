@@ -7,6 +7,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 import styled from 'styled-components';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect
+} from 'react-router-dom';
 import PostsList from './Components/PostsList';
 import AddPost from './Components/AddPost';
 
@@ -49,9 +55,7 @@ export default function ButtonAppBar() {
                         </Route>
                         <Route path="/feed">
                             <PostsList />
-                            <Fab color="primary" aria-label="add" className={classes.fab}>
-                                <AddIcon />
-                            </Fab>
+                            <AddPost />
                         </Route>
                         <Route path="/userProfile">
                             user profile
@@ -64,7 +68,6 @@ export default function ButtonAppBar() {
                     </Switch>
                 </Router>
             </Container>
-            <AddPost />
         </div>
     );
 }
