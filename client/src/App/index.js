@@ -36,7 +36,33 @@ export default function ButtonAppBar() {
                 </Toolbar>
             </AppBar>
             <Container maxWidth="md">
-                <PostsList />
+                <Router>
+                    <Switch>
+                        <Route path="/login">
+                            login form
+                        </Route>
+                        <Route path="/register">
+                            register form
+                        </Route>
+                        <Route path="/about">
+                            about page
+                        </Route>
+                        <Route path="/feed">
+                            <PostsList />
+                            <Fab color="primary" aria-label="add" className={classes.fab}>
+                                <AddIcon />
+                            </Fab>
+                        </Route>
+                        <Route path="/userProfile">
+                            user profile
+                        </Route>
+                        <Route path="/">
+                            <Redirect to="/feed" />
+                            {/* TODO: implement that / will go to /feed if user is logged,
+                            if not go to /login */}
+                        </Route>
+                    </Switch>
+                </Router>
             </Container>
             <AddPost />
         </div>

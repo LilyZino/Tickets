@@ -31,6 +31,7 @@ module.exports = {
         proxy: {
             '/api': 'http://localhost:9000',
         },
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
