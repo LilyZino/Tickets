@@ -18,11 +18,13 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect
+    Redirect,
+    Link
 } from 'react-router-dom';
 import PostsList from './Components/PostsList';
 import AddPost from './Components/AddPost';
 import Search from './Components/Search';
+import About from './Components/About';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -80,7 +82,7 @@ export default function ButtonAppBar() {
                             register form
                         </Route>
                         <Route path="/about">
-                            about page
+                            <About />
                         </Route>
                         <Route path="/feed">
                             <Search />
