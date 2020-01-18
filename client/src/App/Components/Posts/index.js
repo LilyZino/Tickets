@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Post(props) {
     const classes = useStyles();
+    const { title, artist, price, text, date } = props;
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -50,18 +51,18 @@ export default function Post(props) {
         <Card className={classes.card}>
             <CardContent>
                 <Typography variant="h5" component="h2">
-                    {props.title}
+                    {title}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    {props.artist}
+                    {artist}
                     ,
-                    {moment(props.date).format('DD/MM/YYYY')}
+                    {moment(date).format('DD/MM/YYYY')}
                 </Typography>
                 <Typography variant="body2" component="p">
-                    {props.text}
+                    {text}
                 </Typography>
                 <Typography align="right">
-                    {props.price}
+                    {price}
                 </Typography>
             </CardContent>
             <CardActions>
