@@ -114,7 +114,7 @@ export default function AddPost() {
                                     }}
                                 />
                                 <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-                                    Add Post
+                                    Add Ticket
                                 </Button>
                             </Grid>
                         </form>
