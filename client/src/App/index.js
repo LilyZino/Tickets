@@ -33,11 +33,6 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
     },
-    fab: {
-        position: 'absolute',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    }
 }));
 
 const FullTitle = styled(Typography)`
@@ -93,9 +88,6 @@ export default function ButtonAppBar() {
                             <Search />
                             <PostsList />
                             <AddPost />
-                            <Fab color="primary" aria-label="add" className={classes.fab}>
-                                <AddIcon />
-                            </Fab>
                         </Route>
                         <Route path="/userProfile">
                             user profile
