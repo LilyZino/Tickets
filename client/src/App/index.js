@@ -23,6 +23,7 @@ import {
 import PostsList from './Components/PostsList';
 import AddPost from './Components/AddPost';
 import Search from './Components/Search';
+import PersonalArea from './Components/PersonalArea';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -88,7 +89,7 @@ export default function ButtonAppBar() {
                             <AddPost />
                         </Route>
                         <Route path="/userProfile">
-                            user profile
+                            <PersonalArea />
                         </Route>
                         <Route path="/">
                             <Redirect to="/feed" />
