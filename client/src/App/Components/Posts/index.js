@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -34,7 +35,9 @@ export default function Post(props) {
                     {props.title}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    {props.artist}, {props.date}
+                    {props.artist}
+                    ,
+                    {moment(props.date).format('DD/MM/YYYY')}
                 </Typography>
                 <Typography variant="body2" component="p">
                     {props.text}
