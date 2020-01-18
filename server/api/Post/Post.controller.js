@@ -20,8 +20,6 @@ export const addPost = async (req, res) => {
             user: req.body.userId,
         });
 
-        console.log(newPost.date);
-
         const post = await newPost.save();
 
         res.json(post);
@@ -29,10 +27,6 @@ export const addPost = async (req, res) => {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
-};
-
-export const editUser = (req, res) => {
-    res.status(501).send('not implemented');
 };
 
 export const getPost = async (req, res) => {
