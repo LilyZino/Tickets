@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,11 +9,9 @@ import Container from '@material-ui/core/Container';
 import styled from 'styled-components';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import InfoIcon from '@material-ui/icons/Info';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {
     BrowserRouter as Router,
     Switch,
@@ -25,6 +23,7 @@ import PostsList from './Components/PostsList';
 import AddPost from './Components/AddPost';
 import Search from './Components/Search';
 import About from './Components/About';
+import ListItemLink from './Components/ListItemLink';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -39,7 +38,7 @@ const FullTitle = styled(Typography)`
     flex-grow: 1
 `;
 
-export default function ButtonAppBar() {
+export default function () {
     const classes = useStyles();
 
     const [drawerState, setDrawerState] = useState(false);
@@ -50,30 +49,25 @@ export default function ButtonAppBar() {
 
     return (
         <div>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onDrawerClicked}>
-                        <MenuIcon />
-                    </IconButton>
-                    <FullTitle variant="h6" className={classes.title}>
-                        Tickets
-                    </FullTitle>
-                </Toolbar>
-            </AppBar>
-            <Drawer open={drawerState} onClose={onDrawerClicked}>
-                <List className={classes.list}>
-                    <ListItem button key="about">
-                        <ListItemIcon><InfoIcon /></ListItemIcon>
-                        <ListItemText primary="About Us" />
-                    </ListItem>
-                    <ListItem button key="myTckets">
-                        <ListItemIcon><ConfirmationNumberIcon /></ListItemIcon>
-                        <ListItemText primary="My Tickets" />
-                    </ListItem>
-                </List>
-            </Drawer>
-            <Container maxWidth="md">
-                <Router>
+            <Router>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onDrawerClicked}>
+                            <MenuIcon />
+                        </IconButton>
+                        <FullTitle variant="h6" className={classes.title}>
+                            Tickets
+                        </FullTitle>
+                    </Toolbar>
+                </AppBar>
+                <Drawer open={drawerState} onClose={onDrawerClicked}>
+                    <List className={classes.list}>
+                        <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} />
+                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} />
+                        <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} />
+                    </List>
+                </Drawer>
+                <Container maxWidth="md">
                     <Switch>
                         <Route path="/login">
                             login form
@@ -98,8 +92,8 @@ export default function ButtonAppBar() {
                             if not go to /login */}
                         </Route>
                     </Switch>
-                </Router>
-            </Container>
+                </Container>
+            </Router>
         </div>
     );
 }
