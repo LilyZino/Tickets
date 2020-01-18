@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import Modal from '@material-ui/core/Modal';
@@ -11,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
-        position: 'absolute',
+        position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
     },
@@ -48,7 +49,13 @@ export default function AddPost() {
     };
 
     const handleSubmit = () => {
-        console.log('meow');
+        axios.put('/api/posts', {
+            title: 'Test',
+            text: 'selling tickets blah blah blah',
+            artist: 'Test',
+            price: 190,
+            userId: '5e19e11a4975240b38166237'
+        });
     };
 
     return (
