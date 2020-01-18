@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
+        border: '1px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
@@ -38,7 +38,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddPost() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [enteredTitle, setEnteredTitle] = useState('');
+    const [enteredPrice, setEnteredPrice] = useState();
+    const [enteredArtist, setEnteredArtist] = useState('');
+    const [enteredDescription, setEnteredDescription] = useState('');
+
 
     const handleOpen = () => {
         setOpen(true);
@@ -50,10 +55,10 @@ export default function AddPost() {
 
     const handleSubmit = () => {
         axios.put('/api/posts', {
-            title: 'Test',
-            text: 'selling tickets blah blah blah',
-            artist: 'Test',
-            price: 190,
+            title: enteredTitle,
+            text: enteredDescription,
+            artist: enteredArtist,
+            price: enteredPrice,
             userId: '5e19e11a4975240b38166237'
         });
     };
@@ -79,10 +84,35 @@ export default function AddPost() {
                     <div className={classes.paper}>
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
-                                <TextField label="Title" />
-                                <TextField label="Price" />
+                                <TextField
+                                    label="Title"
+                                    value={enteredTitle}
+                                    onChange={(event) => {
+                                        setEnteredTitle(event.target.value);
+                                    }}
+                                />
+                                <TextField
+                                    label="Artist"
+                                    value={enteredArtist}
+                                    onChange={(event) => {
+                                        setEnteredArtist(event.target.value);
+                                    }}
+                                />
+                                <TextField
+                                    label="Price"
+                                    value={enteredPrice}
+                                    onChange={(event) => {
+                                        setEnteredPrice(event.target.value);
+                                    }}
+                                />
                                 <TextField label="Date" />
-                                <TextField label="Description" />
+                                <TextField
+                                    label="Description"
+                                    value={enteredDescription}
+                                    onChange={(event) => {
+                                        setEnteredDescription(event.target.value);
+                                    }}
+                                />
                                 <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
                                     Add Post
                                 </Button>

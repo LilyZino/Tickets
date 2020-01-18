@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
 
 const useStyles = makeStyles({
     card: {
@@ -35,7 +34,7 @@ export default function Post(props) {
                     {props.title}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    27/02/2020 {props.artist}
+                    {props.artist}, {props.date}
                 </Typography>
                 <Typography variant="body2" component="p">
                     {props.text}
