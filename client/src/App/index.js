@@ -15,6 +15,7 @@ import {
 } from 'react-router-dom';
 import PostsList from './Components/PostsList';
 import AddPost from './Components/AddPost';
+import Search from './Components/Search';
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -54,6 +55,7 @@ export default function ButtonAppBar() {
                             about page
                         </Route>
                         <Route path="/feed">
+                            <Search />
                             <PostsList />
                             <AddPost />
                         </Route>
