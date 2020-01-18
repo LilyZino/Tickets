@@ -30,6 +30,7 @@ module.exports = {
     'consistent-return': 'off',
     'object-curly-newline': 'off',
     "arrow-body-style": "off",
-    'react/jsx-indent-props': "off"
+    'react/jsx-indent-props': "off",
+    'no-underscore-dangle': 'off'
   }
 };

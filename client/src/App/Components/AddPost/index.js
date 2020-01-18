@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Backdrop from '@material-ui/core/Backdrop';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -42,6 +43,7 @@ export default function AddPost() {
     const [enteredTitle, setEnteredTitle] = useState('');
     const [enteredPrice, setEnteredPrice] = useState();
     const [enteredArtist, setEnteredArtist] = useState('');
+    const [enteredDate, setEnteredDate] = useState(moment().format('YYYY-MM-DD'));
     const [enteredDescription, setEnteredDescription] = useState('');
 
 
@@ -99,13 +101,25 @@ export default function AddPost() {
                                     }}
                                 />
                                 <TextField
+                                    id="datetime-local"
+                                    label="Date"
+                                    type="date"
+                                    className={classes.textField}
+                                    value={enteredDate}
+                                    onChange={(event) => {
+                                        setEnteredDate(event.target.value);
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                                <TextField
                                     label="Price"
                                     value={enteredPrice}
                                     onChange={(event) => {
                                         setEnteredPrice(event.target.value);
                                     }}
                                 />
-                                <TextField label="Date" />
                                 <TextField
                                     label="Description"
                                     value={enteredDescription}
