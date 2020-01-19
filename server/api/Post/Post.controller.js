@@ -55,7 +55,7 @@ export const getPostByUser = async (req, res) => {
         const posts = await Post.find().where('user').equals(req.params.userId);
 
         if (!posts) {
-            return res.status(404).json({ msg: 'This user had no posts' });
+            return res.status(404).json({ msg: 'This user has no posts' });
         }
 
         res.json(posts);
