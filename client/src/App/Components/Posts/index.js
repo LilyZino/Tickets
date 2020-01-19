@@ -8,7 +8,10 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Collapse from '@material-ui/core/Collapse';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -47,6 +50,10 @@ export default function Post(props) {
         setExpanded(!expanded);
     };
 
+    const handleDelete = async () => {
+        // const response = await axios.
+    };
+
     return (
         <Card className={classes.card}>
             <CardContent>
@@ -66,6 +73,12 @@ export default function Post(props) {
                 </Typography>
             </CardContent>
             <CardActions>
+                <IconButton>
+                    <EditIcon />
+                </IconButton>
+                <IconButton>
+                    <DeleteIcon />
+                </IconButton>
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,

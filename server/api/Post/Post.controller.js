@@ -64,3 +64,20 @@ export const getPostByUser = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+export const deletePost = async (req, res) => {
+    try {
+        const post = await Post.findByIdAndDelete(req.params.id);
+
+        // Check for ObjectId format and post
+        if (!post) {
+            return res.status(404).json({ msg: 'Post not found' });
+        }
+
+        res.json(post);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+}
