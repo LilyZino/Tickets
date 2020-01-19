@@ -31,6 +31,7 @@ export default function PostsList(props) {
             {posts.map((post) => (
                 <Post
                     key={post._id}
+                    id={post._id}
                     title={post.title}
                     text={post.text}
                     artist={post.artist}

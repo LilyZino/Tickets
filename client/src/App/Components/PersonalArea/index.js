@@ -10,7 +10,7 @@ export default function PersonalArea() {
 
     return (
         <div>
-            <PostsList userId="5e19e0e24975240b38166236" />
+            <PostsList userId="5e19e11a4975240b38166237" />
         </div>
     );
 }

@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Post(props) {
     const classes = useStyles();
-    const { title, artist, price, text, date } = props;
+    const { id, title, artist, price, text, date } = props;
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -51,7 +51,9 @@ export default function Post(props) {
     };
 
     const handleDelete = async () => {
-        // const response = await axios.
+        console.log(props);
+        console.log(id);
+        await axios.delete(`api/posts/${id}`);
     };
 
     return (
@@ -76,7 +78,7 @@ export default function Post(props) {
                 <IconButton>
                     <EditIcon />
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={handleDelete}>
                     <DeleteIcon />
                 </IconButton>
                 <IconButton
