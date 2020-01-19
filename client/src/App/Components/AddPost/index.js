@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AddPost() {
+export default function AddPost(props) {
+    const [isEditable] = props;
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [enteredTitle, setEnteredTitle] = useState('');
