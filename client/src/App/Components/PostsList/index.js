@@ -10,7 +10,7 @@ export default function PostsList() {
         const response = await axios.get('/api/posts');
         setPosts(response.data);
         console.log(`useEffect: ${response}`);
-    }
+    };
 
     useEffect(() => {
         const sockets = io();
