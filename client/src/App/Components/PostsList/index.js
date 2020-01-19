@@ -37,6 +37,7 @@ export default function PostsList(props) {
                     artist={post.artist}
                     price={post.price}
                     date={post.date}
+                    isEditable={userId ? true : false}
                 />
             ))}
             {console.log(posts)}

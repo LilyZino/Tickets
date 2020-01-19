@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Post(props) {
     const classes = useStyles();
-    const { id, title, artist, price, text, date } = props;
+    const { id, title, artist, price, text, date, isEditable } = props;
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -55,6 +55,17 @@ export default function Post(props) {
         console.log(id);
         await axios.delete(`api/posts/${id}`);
     };
+
+    const editButtons = (
+        <div>
+            <IconButton>
+                <EditIcon />
+            </IconButton>
+            <IconButton onClick={handleDelete}>
+                <DeleteIcon />
+            </IconButton>
+        </div>
+    );
 
     return (
         <Card className={classes.card}>
@@ -75,12 +86,7 @@ export default function Post(props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <IconButton>
-                    <EditIcon />
-                </IconButton>
-                <IconButton onClick={handleDelete}>
-                    <DeleteIcon />
-                </IconButton>
+                {isEditable ? editButtons : null}
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
