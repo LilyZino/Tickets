@@ -2,6 +2,7 @@ require('@babel/polyfill');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const serverHost = 'http://localhost:9000';
 
 module.exports = {
     entry: ['@babel/polyfill', './client/src/index.js'],
@@ -29,7 +30,8 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'client/src'),
         proxy: {
-            '/api': 'http://localhost:9000',
+            '/api': serverHost,
+            '/socket.io': serverHost
         },
         historyApiFallback: true,
     },

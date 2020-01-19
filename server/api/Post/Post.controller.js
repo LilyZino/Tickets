@@ -1,4 +1,5 @@
 import Post from './Post.model';
+import { informTicketsUpdated } from '../../config/sockets';
 
 export const getAllPosts = async (req, res) => {
     try {
@@ -21,6 +22,8 @@ export const addPost = async (req, res) => {
         });
 
         const post = await newPost.save();
+
+        informTicketsUpdated();
 
         res.json(post);
     } catch (err) {

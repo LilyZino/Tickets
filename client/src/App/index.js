@@ -17,8 +17,8 @@ import {
     Switch,
     Route,
     Redirect,
-    Link
 } from 'react-router-dom';
+import io from 'socket.io-client';
 import PostsList from './Components/PostsList';
 import AddPost from './Components/AddPost';
 import Search from './Components/Search';
@@ -46,6 +46,8 @@ export default function () {
     const onDrawerClicked = () => {
         setDrawerState(!drawerState);
     };
+
+
 
     return (
         <div>
