@@ -1,19 +1,15 @@
 import io from 'socket.io';
 
-export const emitTicketsUpdate = () => {
-    socket.broadcast.emit('hi');
-};
+let socket = null;
 
-export const onEmitTicketsUpdate = (callback) => {
-
+export const informTicketsUpdated = () => {
+    socket.emit('posts-updated');
+    console.log('Sending post was updated to all clients');
 };
 
 export const initSocket = (app) => {
-    const sockets = io(app);
-    sockets.on('connection', (socket) => {
-        console.log('a user connected');
-        onEmitTicketsUpdate(() => {
-
-        });
+    socket = io(app);
+    socket.on('connection', (currSocket) => {
+        console.log(`User connected: ${currSocket.client.id} `);
     });
 };

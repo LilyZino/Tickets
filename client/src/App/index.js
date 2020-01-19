@@ -47,9 +47,7 @@ export default function () {
         setDrawerState(!drawerState);
     };
 
-    useEffect(() => {
-        const sockets = io();
-    }, []);
+
 
     return (
         <div>
