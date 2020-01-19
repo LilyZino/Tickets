@@ -8,7 +8,8 @@
     "client-dev": "webpack-dev-server --open",
     "server-dev": "nodemon --exec babel-node ./server/app.js",
     "build-dev": "webpack --mode=development",
-    "build-prod": "webpack --mode=production"
+    "build-prod": "webpack --mode=production",
+    "debug": "babel-node --inspect ./server/app.js"
   },
   "repository": {
     "type": "git",
