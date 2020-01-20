@@ -5,6 +5,6 @@ import { sendAuthenticationMail, verifyCode } from './MailAuth.controller';
 const router = AsyncRouter();
 
 router.post('/', sendAuthenticationMail);
-router.post('/verify', verifyCode);
+router.get('/verify/:userMail/:uuid', verifyCode);
 
 export default router;

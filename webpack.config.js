@@ -1,8 +1,10 @@
 require('@babel/polyfill');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+require('dotenv-extended').load();
 
-const serverHost = 'http://localhost:9000';
+
+const serverHost = `http://${process.env.SERVER_HOST}:${process.env.HOST_PORT}`;
 
 module.exports = {
     entry: ['@babel/polyfill', './client/src/index.js'],
