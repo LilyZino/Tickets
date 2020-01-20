@@ -17,11 +17,9 @@ import {
     Switch,
     Route,
     Redirect,
-    Link
 } from 'react-router-dom';
-import PostsList from './Components/PostsList';
+import Feed from './Components/Feed';
 import AddPost from './Components/AddPost';
-import Search from './Components/Search';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
 import PersonalArea from './Components/PersonalArea';
@@ -80,8 +78,7 @@ export default function () {
                             <About />
                         </Route>
                         <Route path="/feed">
-                            <Search />
-                            <PostsList />
+                            <Feed />
                             <AddPost />
                         </Route>
                         <Route path="/userProfile">

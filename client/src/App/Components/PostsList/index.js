@@ -1,30 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Post from '../Posts';
 
 export default function PostsList(props) {
-    const { userId, filter } = props;
-    const [posts, setPosts] = useState([]);
-
-    useEffect(() => {
-        (async () => {
-            let response;
-
-            if (userId) {
-                response = await axios.get(`/api/posts/user/${userId}`);
-            } else {
-                response = await axios.get('/api/posts');
-            }
-
-            let postsToRender = response.data;
-
-            if (filter) {
-                postsToRender = filter(postsToRender);
-            }
-
-            setPosts(postsToRender);
-        })();
-    }, [filter, userId]);
+    const { posts } = props;
 
     return (
         <div>
@@ -38,10 +16,8 @@ export default function PostsList(props) {
                     price={post.price}
                     count={post.count}
                     date={post.date}
-                    isEditable={userId ? true : false}
                 />
             ))}
-            {console.log(posts)}
         </div>
     );
 }

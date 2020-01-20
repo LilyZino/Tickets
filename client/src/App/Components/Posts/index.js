@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Post(props) {
     const classes = useStyles();
     const { id, title, artist, price, text, date, isEditable, count } = props;
-    console.log(count);
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
