@@ -36,6 +36,7 @@ export default function PostsList(props) {
                     text={post.text}
                     artist={post.artist}
                     price={post.price}
+                    count={post.count}
                     date={post.date}
                     isEditable={userId ? true : false}
                 />
