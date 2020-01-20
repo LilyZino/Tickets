@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import io from 'socket.io-client';
 import axios from 'axios';
 import PostsList from '../PostsList';
 import Search from '../Search';
@@ -11,18 +12,20 @@ export default function Feed() {
     const classes = useStyles();
     const [posts, setPosts] = useState([]);
 
+    const getAllPosts = async () => {
+        const response = await axios.get('/api/posts');
+        setPosts(response.data);
+        console.log(`useEffect: ${response}`);
+    };
+
     useEffect(() => {
-        (async () => {
-            const response = await axios.get('/api/posts');
-            const postsToRender = response.data;
+        const sockets = io();
+        sockets.on('posts-updated', () => {
+            console.log('posts was updated');
+            getAllPosts();
+        });
 
-            // if (filter) {
-            //     postsToRender = filter(postsToRender);
-            // }
-
-            console.log('feed render posts');
-            setPosts(postsToRender);
-        })();
+        getAllPosts();
     }, []);
 
     return (
