@@ -18,7 +18,10 @@ export const addPost = async (req, res) => {
             artist: req.body.artist,
             price: req.body.price,
             user: req.body.userId,
+            count: req.body.count,
         });
+
+        console.log(newPost);
 
         const post = await newPost.save();
 

@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Post(props) {
     const classes = useStyles();
-    const { id, title, artist, price, text, date, isEditable } = props;
+    const { id, title, artist, price, text, date, isEditable, count } = props;
+    console.log(count);
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -51,8 +52,6 @@ export default function Post(props) {
     };
 
     const handleDelete = async () => {
-        console.log(props);
-        console.log(id);
         await axios.delete(`api/posts/${id}`);
     };
 
@@ -77,6 +76,9 @@ export default function Post(props) {
                     {artist}
                     ,
                     {moment(date).format('DD/MM/YYYY')}
+                </Typography>
+                <Typography>
+                    {count} Tickets Available
                 </Typography>
                 <Typography variant="body2" component="p">
                     {text}
