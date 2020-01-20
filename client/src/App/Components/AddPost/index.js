@@ -37,12 +37,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AddPost() {
+export default function AddPost(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [enteredTitle, setEnteredTitle] = useState('');
     const [enteredPrice, setEnteredPrice] = useState();
     const [enteredArtist, setEnteredArtist] = useState('');
+    const [enteredCount, setEnteredCount] = useState('');
     const [enteredDate, setEnteredDate] = useState(moment().format('YYYY-MM-DD'));
     const [enteredDescription, setEnteredDescription] = useState('');
 
@@ -61,6 +62,7 @@ export default function AddPost() {
             text: enteredDescription,
             artist: enteredArtist,
             price: enteredPrice,
+            count: enteredCount,
             userId: '5e19e11a4975240b38166237'
         });
     };
@@ -98,6 +100,12 @@ export default function AddPost() {
                                     value={enteredArtist}
                                     onChange={(event) => {
                                         setEnteredArtist(event.target.value);
+                                    }}
+                                />                                <TextField
+                                    label="Count"
+                                    value={enteredCount}
+                                    onChange={(event) => {
+                                        setEnteredCount(event.target.value);
                                     }}
                                 />
                                 <TextField

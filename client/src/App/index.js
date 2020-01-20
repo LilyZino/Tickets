@@ -19,11 +19,11 @@ import {
     Redirect,
 } from 'react-router-dom';
 import io from 'socket.io-client';
-import PostsList from './Components/PostsList';
+import Feed from './Components/Feed';
 import AddPost from './Components/AddPost';
-import Search from './Components/Search';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
+import PersonalArea from './Components/PersonalArea';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -81,12 +81,11 @@ export default function () {
                             <About />
                         </Route>
                         <Route path="/feed">
-                            <Search />
-                            <PostsList />
+                            <Feed />
                             <AddPost />
                         </Route>
                         <Route path="/userProfile">
-                            user profile
+                            <PersonalArea />
                         </Route>
                         <Route path="/">
                             <Redirect to="/feed" />

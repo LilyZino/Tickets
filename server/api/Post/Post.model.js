@@ -26,6 +26,14 @@ const PostSchema = new Schema({
         type: Date,
         default: Date.now,
         required: true
+    },
+    isSold: {
+        type: Boolean,
+        default: false,
+    },
+    count: {
+        type: Number,
+        required: true
     }
 });
 
