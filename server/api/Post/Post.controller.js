@@ -21,8 +21,6 @@ export const addPost = async (req, res) => {
             count: req.body.count,
         });
 
-        console.log(newPost);
-
         const post = await newPost.save();
 
         res.json(post);
