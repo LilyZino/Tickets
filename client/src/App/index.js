@@ -24,6 +24,7 @@ import AddPost from './Components/AddPost';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
 import PersonalArea from './Components/PersonalArea';
+import Footer from './Components/Footer';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -69,7 +70,7 @@ export default function () {
                         <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} />
                     </List>
                 </Drawer>
-                <Container maxWidth="md">
+                <Container maxWidth="md" id="main">
                     <Switch>
                         <Route path="/login">
                             login form
@@ -93,6 +94,7 @@ export default function () {
                             if not go to /login */}
                         </Route>
                     </Switch>
+                    <Footer />
                 </Container>
             </Router>
         </div>

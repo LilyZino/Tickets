@@ -27,6 +27,16 @@ module.exports = {
                 test: /'.html$/,
                 use: 'html-loader'
             },
+            {
+                test: /\.mp4/,
+                use: {
+                  loader: 'url-loader',
+                  options: {
+                    limit: 10000,
+                    mimtetype: 'video/mp4',
+                  }
+                }
+              },
         ],
     },
     devServer: {

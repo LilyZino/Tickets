@@ -53,6 +53,7 @@
     "dotenv-extended": "^2.7.0",
     "express": "^4.17.1",
     "express-async-router": "^0.1.15",
+    "file-loader": "^5.0.2",
     "moment": "^2.24.0",
     "mongoose": "^5.8.4",
     "morgan": "^1.9.1",
@@ -63,6 +64,7 @@
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "styled-components": "^4.4.1",
+    "url-loader": "^3.0.0",
     "uuid": "^3.4.0"
   }
 }
