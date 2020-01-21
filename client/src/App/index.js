@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { authenticationService } from '../App/_services';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -62,13 +63,16 @@ export default function () {
                         <FullTitle variant="h6" className={classes.title}>
                             Tickets
                         </FullTitle>
-                        {/* TOOD: check if login */ }
-                        {/* // _.isEmpty(userData) && */}
                         <LoginDropDown/>
-                    {/* // !_.isEmpty(userData) && */}
-                        <IconButton  className={classes.ExitToAppIcon} color="inherit" aria-label="Logout">
+                        {/* {!authenticationService.currentUserValue &&
+                            <LoginDropDown/>
+                        }
+
+                    {   authenticationService.currentUserValue &&
+                        <IconButton  className={classes.ExitToAppIcon} color="inherit" aria-label="Logout" onClick={authenticationService.logout}>
                             <LogoutIcon />
                         </IconButton>
+                    } */}
                     </Toolbar>
                 </AppBar>
                 <Drawer open={drawerState} onClose={onDrawerClicked}>

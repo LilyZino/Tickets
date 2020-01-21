@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { authenticationService } from '../../_services';
+import { withRouter } from "react-router";
+import { useHistory} from 'react-router-dom';
+import IconButton from '@material-ui/core/IconButton';
+import LogoutIcon from "@material-ui/icons/MeetingRoom";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Fade from '@material-ui/core/Fade';
@@ -64,30 +68,38 @@ export default function LoginDropDown() {
         setOpen(false);
         setloginError('')
     };
-
+    let history = useHistory();
     const handleSubmit = () => {
+      
       setloginError('')
       authenticationService.login(enteredUname, enteredPass)
       .then(()=>{ 
-        console.log("back")
         setOpen(false); 
+        //history.replace('/')
+
       }).catch((response)=>{
-        console.log("response: " + response.response.data.msg)
         setloginError(response.response.data.msg)
       });
   };
 
   return (
     <div>
-      <Button
-        aria-controls="customized-menu"
-        aria-haspopup="true"
-        variant="contained"
-        color="primary"
-        onClick={handleOpen}
-      >
-        Login
-      </Button>
+      { authenticationService.currentUserValue &&
+        <IconButton  className={classes.ExitToAppIcon} color="inherit" aria-label="Logout" onClick={ ()=>{ authenticationService.logout}}>
+          <LogoutIcon />
+        </IconButton> 
+      }
+      { !authenticationService.currentUserValue &&
+        <Button
+          aria-controls="customized-menu"
+          aria-haspopup="true"
+          variant="contained"
+          color="primary"
+          onClick={handleOpen}
+        >
+          Login
+        </Button>
+      }
       <Modal
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
@@ -158,87 +170,6 @@ export default function LoginDropDown() {
       </div>
       </Fade>
       </Modal>
-      {/* <StyledMenu
-        id="customized-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <StyledMenuItem>
-          <ListItemIcon>
-          <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-          </ListItemIcon>
-          
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <DraftsIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-        
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-          <ListItemText primary="Inbox" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-        <ListItemText primary="User name: " />
-          <form  noValidate autoComplete="off">
-            <TextField id="standard-basic" label="Standard" />
-            </form>
-        </StyledMenuItem>
-      </StyledMenu> */}
     </div>
   );
 }

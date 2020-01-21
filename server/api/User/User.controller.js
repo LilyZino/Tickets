@@ -1,4 +1,6 @@
 import User from './User.model';
+const jwt = require("jsonwebtoken");
+//const config = require("config");
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -58,15 +60,27 @@ export const getUser = async (req, res) => {
 export const login = async (req, res) => {
     const { name, password } = req.body;
     try {
-        let user = await User.findOne({ name: name, password: password});
-        console.log('user' + user)
-        if (user != null) {
+        let loggedUser = await User.findOne({ name: name, password: password});
+        console.log('user' + loggedUser)
+        if (loggedUser != null) {
+            
+              jwt.sign(
+                loggedUser.toJSON(),
+                process.env.JWT_SECRET,
+                { expiresIn: 3600 },
+                (err, token) => {
+                  if (err) throw err;
+                  console.log(token)
+                  res.json({ token });
+                }
+              );
+              
             return true
         } else {
             return res.status(404).json({ msg: 'User name or password are incorrect' });
         }
     } catch (error) {
-        console.error(error.message);
+        console.error("my error:" + error.message);
         res.status(500).send('Server Error');
     }
 };
