@@ -1,5 +1,4 @@
 import express from 'express';
-import exampleModalRouter from './ExampleModel';
 import postRouter from './Post';
 import userRouter from './User';
 import mailAuthRouter from './MailAuth';
