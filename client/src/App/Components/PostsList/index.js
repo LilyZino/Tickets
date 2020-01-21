@@ -1,12 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Post from '../Posts';
 
 export default function PostsList(props) {
-    const { posts } = props;
+    const { posts, filter } = props;
+    const [filteredPosts, setFilteredPosts] = useState(posts);
+
+    console.log('filteredPosts');
+    console.log(filteredPosts);
+
+    useEffect(() => {
+        setFilteredPosts(posts);
+    }, [posts]);
+
+    useEffect(() => {
+        const postsToRender = posts.filter((post) => {
+            return post.title.toLowerCase().includes(filter.title);
+        });
+
+        setFilteredPosts(postsToRender);
+
+        console.log('filter:');
+        console.log(filter);
+        console.log('postsToRender:');
+        console.log(postsToRender);
+    }, [posts, filter]);
+
 
     return (
         <div>
-            {posts.map((post) => (
+            {filteredPosts.map((post) => (
                 <Post
                     key={post._id}
                     id={post._id}

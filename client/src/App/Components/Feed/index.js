@@ -11,11 +11,16 @@ const useStyles = makeStyles({
 export default function Feed() {
     const classes = useStyles();
     const [posts, setPosts] = useState([]);
+    const [filter, setFilter] = useState([]);
 
     const getAllPosts = async () => {
         const response = await axios.get('/api/posts');
         setPosts(response.data);
         console.log(`useEffect: ${response}`);
+    };
+
+    const handleFilter = (searchFilter) => {
+        setFilter(searchFilter);
     };
 
     useEffect(() => {
@@ -30,8 +35,8 @@ export default function Feed() {
 
     return (
         <div>
-            <Search />
-            <PostsList posts={posts} />
+            <Search setFilter={handleFilter} />
+            <PostsList filter={filter} posts={posts} />
         </div>
     );
 }
