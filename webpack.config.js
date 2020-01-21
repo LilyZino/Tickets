@@ -33,7 +33,8 @@ module.exports = {
         contentBase: path.join(__dirname, 'client/src'),
         proxy: {
             '/api': serverHost,
-            '/socket.io': serverHost
+            '/socket.io': serverHost,
+            '/sockjs-node/': serverHost
         },
         historyApiFallback: true,
     },
