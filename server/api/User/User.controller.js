@@ -54,3 +54,19 @@ export const getUser = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+export const login = async (req, res) => {
+    const { name, password } = req.body;
+    try {
+        let user = await User.findOne({ name: name, password: password});
+        console.log('user' + user)
+        if (user != null) {
+            return true
+        } else {
+            return res.status(404).json({ msg: 'User name or password are incorrect' });
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
+    }
+};

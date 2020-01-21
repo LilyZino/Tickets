@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import LogoutIcon from "@material-ui/icons/MeetingRoom";
 import Container from '@material-ui/core/Container';
 import styled from 'styled-components';
 import Drawer from '@material-ui/core/Drawer';
@@ -12,6 +13,7 @@ import List from '@material-ui/core/List';
 import InfoIcon from '@material-ui/icons/Info';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LoginDropDown from '../App/Components/Users/dropDown'
 import {
     BrowserRouter as Router,
     Switch,
@@ -60,6 +62,13 @@ export default function () {
                         <FullTitle variant="h6" className={classes.title}>
                             Tickets
                         </FullTitle>
+                        {/* TOOD: check if login */ }
+                        {/* // _.isEmpty(userData) && */}
+                        <LoginDropDown/>
+                    {/* // !_.isEmpty(userData) && */}
+                        <IconButton  className={classes.ExitToAppIcon} color="inherit" aria-label="Logout">
+                            <LogoutIcon />
+                        </IconButton>
                     </Toolbar>
                 </AppBar>
                 <Drawer open={drawerState} onClose={onDrawerClicked}>
