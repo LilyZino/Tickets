@@ -1,30 +1,12 @@
 import React, { useState } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { authenticationService } from '../../_services';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import TextField from '@material-ui/core/TextField';
 import Fade from '@material-ui/core/Fade';
-import Fab from '@material-ui/core/Fab';
 import Modal from '@material-ui/core/Modal';
-import axios from 'axios';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
 import Backdrop from '@material-ui/core/Backdrop';
-import Paper from '@material-ui/core/Paper';
-import Slide from '@material-ui/core/Slide';
-import SendIcon from '@material-ui/icons/Send';
-import AddIcon from '@material-ui/icons/Add';
-import moment from 'moment';
-
 import { makeStyles } from '@material-ui/core/styles';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
@@ -47,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
   title:{
     textAlign:'center'
   },
+  error:{
+    textAlign:'center',
+    color: 'red'
+  },
   paper: {
       backgroundColor: theme.palette.background.paper,
       border: '1px solid #000',
@@ -65,8 +51,9 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginDropDown() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-    const [enteredUname, setEnteredUname] = useState('');
-    const [enteredPass, setEnteredPass] = useState();
+  const [enteredUname, setEnteredUname] = useState('');
+  const [loginError, setloginError] = useState('');
+  const [enteredPass, setEnteredPass] = useState('');
 
 
     const handleOpen = () => {
@@ -75,12 +62,18 @@ export default function LoginDropDown() {
 
     const handleClose = () => {
         setOpen(false);
+        setloginError('')
     };
 
     const handleSubmit = () => {
-      axios.put('/api/Users/login', {
-          name: enteredUname,
-          password: enteredPass
+      setloginError('')
+      authenticationService.login(enteredUname, enteredPass)
+      .then(()=>{ 
+        console.log("back")
+        setOpen(false); 
+      }).catch((response)=>{
+        console.log("response: " + response.response.data.msg)
+        setloginError(response.response.data.msg)
       });
   };
 
@@ -115,6 +108,9 @@ export default function LoginDropDown() {
         <Typography component="h1" variant="h5" className={classes.title}>
           Sign in
         </Typography>
+        <Typography component="h5"  className={classes.error}>
+          {loginError}
+        </Typography>
           <form noValidate autoComplete="off">
             <Grid className={classes.form}>
               <TextField
@@ -148,7 +144,7 @@ export default function LoginDropDown() {
         }}
       />
       <Button
-        type="submit"
+        // type="submit"
         fullWidth
         variant="contained"
         color="primary"

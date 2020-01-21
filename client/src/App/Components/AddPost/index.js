@@ -41,7 +41,7 @@ export default function AddPost() {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [enteredTitle, setEnteredTitle] = useState('');
-    const [enteredPrice, setEnteredPrice] = useState();
+    const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredArtist, setEnteredArtist] = useState('');
     const [enteredDate, setEnteredDate] = useState(moment().format('YYYY-MM-DD'));
     const [enteredDescription, setEnteredDescription] = useState('');
