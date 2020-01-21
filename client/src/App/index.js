@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,7 +18,6 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import io from 'socket.io-client';
 import Feed from './Components/Feed';
 import AddPost from './Components/AddPost';
 import About from './Components/About';
@@ -48,8 +47,6 @@ export default function () {
         setDrawerState(!drawerState);
     };
 
-
-
     return (
         <div>
             <Router>
@@ -65,9 +62,9 @@ export default function () {
                 </AppBar>
                 <Drawer open={drawerState} onClose={onDrawerClicked}>
                     <List className={classes.list}>
-                        <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} />
-                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} />
-                        <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} />
+                        <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
+                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
+                        <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
                     </List>
                 </Drawer>
                 <Container maxWidth="md" id="main">
@@ -94,8 +91,8 @@ export default function () {
                             if not go to /login */}
                         </Route>
                     </Switch>
-                    <Footer />
                 </Container>
+                <Footer />
             </Router>
         </div>
     );
