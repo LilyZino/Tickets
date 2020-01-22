@@ -12,12 +12,14 @@ import List from '@material-ui/core/List';
 import InfoIcon from '@material-ui/icons/Info';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Entrance from './Components/Users/entryButtons';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Redirect,
 } from 'react-router-dom';
+import PostsList from './Components/PostsList';
 import Feed from './Components/Feed';
 import AddPost from './Components/AddPost';
 import About from './Components/About';
@@ -58,6 +60,7 @@ export default function () {
                         <FullTitle variant="h6" className={classes.title}>
                             Tickets
                         </FullTitle>
+                        <Entrance/>
                     </Toolbar>
                 </AppBar>
                 <Drawer open={drawerState} onClose={onDrawerClicked}>
