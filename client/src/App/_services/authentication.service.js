@@ -8,16 +8,14 @@ const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('
 export const authenticationService = {
     login,
     logout,
+    register,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue () { return currentUserSubject.value }
 };
 
-
-
 function login(username, password) {
 
-    // let history = useHistory();
-
+    console.log(username)
     return axios.put('/api/Users/login', {
         name: username,
         password: password
@@ -25,18 +23,26 @@ function login(username, password) {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));
         currentUserSubject.next(user);
-        // history.replace('/')
         return user;
     });
 }
 
 function logout() {
 
-    // let history = useHistory();
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
-    console.log('bye')
-    history.replace('/')
     currentUserSubject.next(null);
-    history.replace('/')
+}
+
+function register(username, password, email) {
+
+    return axios.put('/api/Users', {
+        name: username,
+        password: password,
+        email: email,
+    }).then(user =>{
+        login(username, password)
+        currentUserSubject.next(user);
+        return user;
+    });
 }

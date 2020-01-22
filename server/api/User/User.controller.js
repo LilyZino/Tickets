@@ -16,19 +16,19 @@ export const addUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        let user = await User.findOne({ email });
+        let user = await User.findOne({ name });
 
         if (user) {
             return res
                 .status(400)
-                .json({ errors: [{ msg: 'User already exists' }] });
+                .json({ msg: 'User already exists' });
         }
 
         user = new User({
             name, email, password
         });
 
-        user.save();
+        await user.save();
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error');
@@ -60,6 +60,7 @@ export const getUser = async (req, res) => {
 export const login = async (req, res) => {
     const { name, password } = req.body;
     try {
+        // console.log('name: ' + name + " pass: " + password);
         let loggedUser = await User.findOne({ name: name, password: password});
         console.log('user' + loggedUser)
         if (loggedUser != null) {
@@ -70,7 +71,7 @@ export const login = async (req, res) => {
                 { expiresIn: 3600 },
                 (err, token) => {
                   if (err) throw err;
-                  console.log(token)
+                //   console.log(token)
                   res.json({ token });
                 }
               );

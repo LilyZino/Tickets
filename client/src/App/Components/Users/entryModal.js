@@ -1,9 +1,4 @@
 import React, { useState } from 'react';
-import { authenticationService } from '../../_services';
-import { withRouter } from "react-router";
-import { useHistory} from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
-import LogoutIcon from "@material-ui/icons/MeetingRoom";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Fade from '@material-ui/core/Fade';
@@ -14,7 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
-
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -49,70 +43,30 @@ const useStyles = makeStyles((theme) => ({
   },
   submitBtn: {
       marginTop: '16px'
-  }
+  },
 }));
 
-export default function LoginDropDown() {
+export default function EntryModal(props) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [enteredUname, setEnteredUname] = useState('');
-  const [loginError, setloginError] = useState('');
-  const [enteredPass, setEnteredPass] = useState('');
-
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-        setloginError('')
-    };
-    let history = useHistory();
-    const handleSubmit = () => {
-      
-      setloginError('')
-      authenticationService.login(enteredUname, enteredPass)
-      .then(()=>{ 
-        setOpen(false); 
-        //history.replace('/')
-
-      }).catch((response)=>{
-        setloginError(response.response.data.msg)
-      });
-  };
-
+  const textStyles = {
+    display: props.isRegister ? "block" : "none"//Look at me! no image then no text
+  }
   return (
     <div>
-      { authenticationService.currentUserValue &&
-        <IconButton  className={classes.ExitToAppIcon} color="inherit" aria-label="Logout" onClick={ ()=>{ authenticationService.logout}}>
-          <LogoutIcon />
-        </IconButton> 
-      }
-      { !authenticationService.currentUserValue &&
-        <Button
-          aria-controls="customized-menu"
-          aria-haspopup="true"
-          variant="contained"
-          color="primary"
-          onClick={handleOpen}
-        >
-          Login
-        </Button>
-      }
       <Modal
+          className={classes.button}
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
           className={classes.modal}
-          open={open}
-          onClose={handleClose}
+          open={props.open}
+          onClose={props.handleClose}
           closeAfterTransition
           BackdropComponent={Backdrop}
           BackdropProps={{
               timeout: 500,
           }}
       >
-      <Fade in={open}>
+      <Fade in={props.open}>
         <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -121,7 +75,7 @@ export default function LoginDropDown() {
           Sign in
         </Typography>
         <Typography component="h5"  className={classes.error}>
-          {loginError}
+          {props.errorText}
         </Typography>
           <form noValidate autoComplete="off">
             <Grid className={classes.form}>
@@ -135,9 +89,9 @@ export default function LoginDropDown() {
                 name="UserName"
                 autoComplete="UserName"
                 autoFocus
-                value={enteredUname}
+                value={props.enteredUname}
                 onChange={(event) => {
-                  setEnteredUname(event.target.value);
+                  props.setEnteredUname(event.target.value);
                 }}
             />
       <TextField
@@ -150,18 +104,33 @@ export default function LoginDropDown() {
         type="password"
         id="password"
         autoComplete="current-password"
-        value={enteredPass}
+        value={props.enteredPass}
         onChange={(event) => {
-          setEnteredPass(event.target.value);
+          props.setEnteredPass(event.target.value);
+        }}
+      />
+      <TextField
+        style= {textStyles}
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        name="email"
+        label="email"
+        type="email"
+        id="email"
+        autoComplete="current-email"
+        value={props.enteredEmail}
+        onChange={(event) => {
+          props.setEnteredEmail(event.target.value);
         }}
       />
       <Button
-        // type="submit"
         fullWidth
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={handleSubmit}
+        onClick={props.handleSubmit}
       >
         Sign In
       </Button>
