@@ -10,6 +10,7 @@ router.get('/:id', getPost);
 router.put('/', addPost);
 router.post('/', editPost);
 router.get('/user/:userId', getPostByUser);
+// router.get('/user/:userId', getPostByConcert);
 router.delete('/:id', deletePost);
 
 export default router;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Collapse from '@material-ui/core/Collapse';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -43,11 +44,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Post(props) {
+export default (props) => {
     const classes = useStyles();
-    // const { id, title, artist, price, text, date, isEditable, count } = props;
     const { id, artist, location, time } = props;
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
+    const [concertTickets, setConcertTickets] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            if (!expanded) return;
+
+            const response = await axios.get('/api/posts');
+            console.log('get all ticekts of concert', response.data);
+            setConcertTickets(response.data);
+        })();
+    }, [expanded]);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -81,15 +92,19 @@ export default function Post(props) {
                         Available tickets:
                     </Typography>
                     <List>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <ConfirmationNumberIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary="3 Tickets"
-                                secondary="Shaked Hadas"
-                            />
-                        </ListItem>
+                        {concertTickets.map((ticket) => {
+                            return (
+                                <ListItem button key={ticket._id}>
+                                    <ListItemIcon>
+                                        <ConfirmationNumberIcon />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={`${ticket.count} Tickets`}
+                                        secondary={ticket.user}
+                                    />
+                                </ListItem>
+                            );
+                        })}
                     </List>
                 </CardContent>
             </Collapse>
