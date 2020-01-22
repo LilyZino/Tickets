@@ -26,6 +26,7 @@ import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
 import PersonalArea from './Components/PersonalArea';
 import Footer from './Components/Footer';
+import ConcertsFeed from './Components/ConcertsFeed';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -68,6 +69,7 @@ export default function () {
                         <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
                         <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
                         <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
+                        <ListItemLink to="/concert" primary="Concerts" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
                     </List>
                 </Drawer>
                 <Container maxWidth="md" id="main">
@@ -84,6 +86,9 @@ export default function () {
                         <Route path="/feed">
                             <Feed />
                             <AddPost />
+                        </Route>
+                        <Route path="/concert">
+                            <ConcertsFeed />
                         </Route>
                         <Route path="/userProfile">
                             <PersonalArea />
