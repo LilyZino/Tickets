@@ -1,8 +1,10 @@
 require('@babel/polyfill');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+require('dotenv-extended').load();
 
-const serverHost = 'http://localhost:9000';
+
+const serverHost = `http://${process.env.SERVER_HOST}:${process.env.HOST_PORT}`;
 
 module.exports = {
     entry: ['@babel/polyfill', './client/src/index.js'],
@@ -25,13 +27,24 @@ module.exports = {
                 test: /'.html$/,
                 use: 'html-loader'
             },
+            {
+                test: /\.mp4/,
+                use: {
+                  loader: 'url-loader',
+                  options: {
+                    limit: 10000,
+                    mimtetype: 'video/mp4',
+                  }
+                }
+              },
         ],
     },
     devServer: {
         contentBase: path.join(__dirname, 'client/src'),
         proxy: {
             '/api': serverHost,
-            '/socket.io': serverHost
+            '/socket.io': serverHost,
+            '/sockjs-node/': serverHost
         },
         historyApiFallback: true,
     },

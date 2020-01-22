@@ -17,9 +17,17 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Search() {
+export default function Search(props) {
     const classes = useStyles();
-    const [enteredFilter, setEnteredFilter] = useState('');
+    const [enteredTitle, setEnteredTitle] = useState('');
+
+    const setSearchFilter = () => {
+        const filter = {
+            title: enteredTitle
+        };
+
+        props.setFilter(filter);
+    };
 
     return (
         <div className={classes.search}>
@@ -29,10 +37,10 @@ export default function Search() {
                 label="Search"
                 variant="outlined"
                 type="text"
-                value={enteredFilter}
-                onChange={(event) => setEnteredFilter(event.target.value)}
+                value={enteredTitle}
+                onChange={(event) => setEnteredTitle(event.target.value)}
             />
-            <Button variant="contained" color="primary">Search</Button>
+            <Button variant="contained" color="primary" onClick={setSearchFilter}>Search</Button>
         </div>
     );
 }

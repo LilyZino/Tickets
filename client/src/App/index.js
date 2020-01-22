@@ -20,10 +20,12 @@ import {
     Redirect,
 } from 'react-router-dom';
 import PostsList from './Components/PostsList';
+import Feed from './Components/Feed';
 import AddPost from './Components/AddPost';
-import Search from './Components/Search';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
+import PersonalArea from './Components/PersonalArea';
+import Footer from './Components/Footer';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -47,8 +49,6 @@ export default function () {
         setDrawerState(!drawerState);
     };
 
-
-
     return (
         <div>
             <Router>
@@ -65,12 +65,12 @@ export default function () {
                 </AppBar>
                 <Drawer open={drawerState} onClose={onDrawerClicked}>
                     <List className={classes.list}>
-                        <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} />
-                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} />
-                        <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} />
+                        <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
+                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
+                        <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
                     </List>
                 </Drawer>
-                <Container maxWidth="md">
+                <Container maxWidth="md" id="main">
                     <Switch>
                         <Route path="/login">
                             login form
@@ -82,12 +82,11 @@ export default function () {
                             <About />
                         </Route>
                         <Route path="/feed">
-                            <Search />
-                            <PostsList />
+                            <Feed />
                             <AddPost />
                         </Route>
                         <Route path="/userProfile">
-                            user profile
+                            <PersonalArea />
                         </Route>
                         <Route path="/">
                             <Redirect to="/feed" />
@@ -96,6 +95,7 @@ export default function () {
                         </Route>
                     </Switch>
                 </Container>
+                <Footer />
             </Router>
         </div>
     );

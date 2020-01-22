@@ -1,18 +1,21 @@
 import React from 'react';
+import Video from '../../../Assets/Vids/tomorrowland.mp4';
 
 export default function About() {
     return (
         <div>
-            <div>
-                <video autoPlay loop muted>
-                    <source src="../Assest/Vids/Tomorrowland.mp3" type="video/mp3"/>
-                </video>
-                <div>
+            <div id="videoDiv">
+                <div id="videoBlock">
+                    <video id="video" autoPlay loop muted>
+                        <source src={Video} type="video/mp4" />
+                    </video>
+                </div>
+                <div id="videoMessage">
                     <h1>
                         <span>
-                            Find your show today
+                            Life is built on memories
                             <br />
-                            You only live once
+                            Find your show today
                         </span>
                     </h1>
                 </div>
@@ -33,3 +36,4 @@ export default function About() {
         </div>
     );
 }
+

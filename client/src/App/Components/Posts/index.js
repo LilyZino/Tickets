@@ -8,7 +8,10 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Collapse from '@material-ui/core/Collapse';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -40,31 +43,51 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Post(props) {
     const classes = useStyles();
+    const { id, title, artist, price, text, date, isEditable, count } = props;
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
+    const handleDelete = async () => {
+        await axios.delete(`api/posts/${id}`);
+    };
+
+    const editButtons = (
+        <div>
+            <IconButton>
+                <EditIcon />
+            </IconButton>
+            <IconButton onClick={handleDelete}>
+                <DeleteIcon />
+            </IconButton>
+        </div>
+    );
+
     return (
         <Card className={classes.card}>
             <CardContent>
                 <Typography variant="h5" component="h2">
-                    {props.title}
+                    {title}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    {props.artist}
+                    {artist}
                     ,
-                    {moment(props.date).format('DD/MM/YYYY')}
+                    {moment(date).format('DD/MM/YYYY')}
+                </Typography>
+                <Typography>
+                    {count} Tickets Available
                 </Typography>
                 <Typography variant="body2" component="p">
-                    {props.text}
+                    {text}
                 </Typography>
                 <Typography align="right">
-                    {props.price}
+                    {price}
                 </Typography>
             </CardContent>
             <CardActions>
+                {isEditable ? editButtons : null}
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
