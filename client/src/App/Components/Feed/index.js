@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import io from 'socket.io-client';
 import axios from 'axios';
 import PostsList from '../PostsList';
 import Search from '../Search';
 
-const useStyles = makeStyles({
-});
-
 export default function Feed() {
-    const classes = useStyles();
     const [posts, setPosts] = useState([]);
-    const [filter, setFilter] = useState([]);
+    const [filter, setFilter] = useState({});
 
     const getAllPosts = async () => {
         const response = await axios.get('/api/posts');
         setPosts(response.data);
-        console.log(`useEffect: ${response}`);
+        console.log(`useEffect getAllPosts: ${response}`);
     };
 
     const handleFilter = (searchFilter) => {
