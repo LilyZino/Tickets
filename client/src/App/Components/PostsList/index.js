@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import Post from '../Posts';
 
 const PostsList = (props) => {
@@ -7,6 +8,8 @@ const PostsList = (props) => {
 
     useEffect(() => {
         const postsToRender = posts.filter((post) => {
+            if (_.isEmpty(filter)) return posts;
+
             if (filter.title) {
                 return post.title.toLowerCase().includes(filter.title);
             }
