@@ -3,8 +3,8 @@ import { informTicketsUpdated } from '../../config/sockets';
 
 export const getAllTickets = async (req, res) => {
     try {
-        const posts = await Ticket.find();
-        res.json(posts);
+        const tickets = await Ticket.find();
+        res.json(tickets);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -57,7 +57,7 @@ export const getTicketsByUser = async (req, res) => {
         const tickets = await Ticket.find().where('user').equals(req.params.userId).populate('concert');
 
         if (!tickets) {
-            return res.status(404).json({ msg: 'This user has no posts' });
+            return res.status(404).json({ msg: 'This user has no tickets' });
         }
 
         res.json(tickets);
@@ -73,7 +73,7 @@ export const deleteTicket = async (req, res) => {
 
         // Check for ObjectId format and post
         if (!ticket) {
-            return res.status(404).json({ msg: 'Post not found' });
+            return res.status(404).json({ msg: 'Ticekt not found' });
         }
 
         res.json(ticket);

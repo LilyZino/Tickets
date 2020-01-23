@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import Ticket from '../Ticket';
 
-const PostsList = (props) => {
+const TicketsList = (props) => {
     const { tickets, filter } = props;
     const [filteredTickets, setFilteredTickets] = useState(tickets);
 
@@ -36,4 +36,4 @@ const PostsList = (props) => {
     );
 };
 
-export default PostsList;
+export default TicketsList;
