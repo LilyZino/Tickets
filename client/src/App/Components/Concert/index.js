@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Collapse from '@material-ui/core/Collapse';
 import axios from 'axios';
+import MapIcon from '@material-ui/icons/Map';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -32,9 +33,11 @@ const useStyles = makeStyles((theme) => ({
     pos: {
         marginBottom: 12,
     },
+    iconLocation: {
+        marginLeft: 'auto',
+    },
     expand: {
         transform: 'rotate(0deg)',
-        marginLeft: 'auto',
         transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest,
         }),
@@ -75,6 +78,9 @@ export default (props) => {
                 </Typography>
             </CardContent>
             <CardActions>
+                <IconButton className={classes.iconLocation}>
+                    <MapIcon />
+                </IconButton>
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -85,6 +91,7 @@ export default (props) => {
                 >
                     <ExpandMoreIcon />
                 </IconButton>
+
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
