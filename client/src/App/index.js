@@ -19,7 +19,6 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import PostsList from './Components/PostsList';
 import AddPost from './Components/AddPost';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
@@ -60,7 +59,7 @@ export default function () {
                         <FullTitle variant="h6" className={classes.title}>
                             Tickets
                         </FullTitle>
-                        <Entrance/>
+                        <Entrance />
                     </Toolbar>
                 </AppBar>
                 <Drawer open={drawerState} onClose={onDrawerClicked}>
