@@ -20,7 +20,6 @@ import {
     Redirect,
 } from 'react-router-dom';
 import PostsList from './Components/PostsList';
-import Feed from './Components/Feed';
 import AddPost from './Components/AddPost';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';

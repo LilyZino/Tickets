@@ -54,7 +54,7 @@ export const getTicket = async (req, res) => {
 
 export const getTicketsByUser = async (req, res) => {
     try {
-        const tickets = await Ticket.find().where('user').equals(req.params.userId);
+        const tickets = await Ticket.find().where('user').equals(req.params.userId).populate('concert');
 
         if (!tickets) {
             return res.status(404).json({ msg: 'This user has no posts' });

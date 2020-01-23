@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 // import io from 'socket.io-client';
 import axios from 'axios';
 import ConcertsList from '../ConcertsList';
-import Search from '../ConcertSearch';
+import Search from '../ConcertsSearch';
 
-export default function Feed() {
+export default function ConcertsFeed() {
     const [concerts, setConcerts] = useState([]);
     const [filter, setFilter] = useState({});
 

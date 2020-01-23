@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Search(props) {
+export default function TicketsSearch(props) {
     const classes = useStyles();
     const [enteredArtist, setEnteredArtist] = useState('');
 
