@@ -57,7 +57,7 @@ export default (props) => {
         (async () => {
             if (!expanded) return;
 
-            const response = await axios.get('/api/posts');
+            const response = await axios.get(`/api/tickets/concert/${id}`);
             console.log('get all ticekts of concert', response.data);
             setConcertTickets(response.data);
         })();
@@ -99,19 +99,24 @@ export default (props) => {
                         Available tickets:
                     </Typography>
                     <List>
-                        {concertTickets.map((ticket) => {
-                            return (
-                                <ListItem button key={ticket._id}>
-                                    <ListItemIcon>
-                                        <ConfirmationNumberIcon />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={`${ticket.count} Tickets`}
-                                        secondary={ticket.user}
-                                    />
-                                </ListItem>
-                            );
-                        })}
+                        {concertTickets
+                            .filter((ticket) => !ticket.isSold)
+                            .map((ticket) => {
+                                return (
+                                    <ListItem button key={ticket._id}>
+                                        <ListItemIcon>
+                                            <ConfirmationNumberIcon />
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={`${ticket.amount} Tickets`}
+                                            secondary={ticket.user.name}
+                                        />
+                                        <Typography variant="h6">
+                                            {`${ticket.price}₪`}
+                                        </Typography>
+                                    </ListItem>
+                                );
+                            })}
                     </List>
                 </CardContent>
             </Collapse>
