@@ -58,7 +58,7 @@ export default function Ticket(props) {
     };
 
     return (
-        <Card className={classes.card}>
+        <Card className={classes.card} elavation="2">
             <div className={classes.cardContent}>
                 <CardContent>
                     <Typography variant="h5" component="h2">
