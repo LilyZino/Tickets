@@ -86,13 +86,12 @@ export default function AddTicket(props) {
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         console.log(`my val: ${userId}`);
         console.log(`my token: ${token}`);
-        const data = await axios.put('/api/posts', {
-            concert: enteredConcert,
+        await axios.put('/api/tickets', {
+            concertId: enteredConcert,
             price: enteredPrice,
-            count: enteredAmount,
+            amount: enteredAmount,
             userId
         }, { headers: { Authorization: `Bearer ${token}` } });
-        console.log(data);
     };
 
     return (
