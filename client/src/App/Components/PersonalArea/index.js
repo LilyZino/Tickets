@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { authenticationService } from '../../_services';
+import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { Typography } from '@material-ui/core';
 import TicketsFeed from '../TicketsFeed';
