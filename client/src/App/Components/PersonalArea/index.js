@@ -20,7 +20,7 @@ export default function PersonalArea() {
             if(authenticationService.currentUserValue){
                 const userId = authenticationService.currentUserValue.data ? 
                     authenticationService.currentUserValue.data._id :  authenticationService.currentUserValue._id;
-            const getTicketsResponse = await axios.get(`/api/tickets/user/${userId}`);
+            const getTicketsResponse = await axios.get('/api/tickets/user/' + userId);
             setTickets(getTicketsResponse.data);
             console.log(getTicketsResponse.data);
         }})();
