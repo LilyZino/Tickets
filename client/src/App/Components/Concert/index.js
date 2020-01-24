@@ -68,7 +68,7 @@ export default (props) => {
     };
 
     return (
-        <Card className={classes.card}>
+        <Card className={classes.card} elevation="2">
             <CardContent>
                 <Typography variant="h4" component="h2">
                     {artist}
