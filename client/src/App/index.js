@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { authenticationService } from './_services';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -19,7 +20,6 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import PostsList from './Components/PostsList';
 import Feed from './Components/Feed';
 import AddPost from './Components/AddPost';
 import About from './Components/About';
@@ -67,7 +67,9 @@ export default function () {
                     <List className={classes.list}>
                         <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
                         <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
-                        <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
+                        { authenticationService.currentUserValue &&
+                            <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
+                        }
                     </List>
                 </Drawer>
                 <Container maxWidth="md" id="main">
