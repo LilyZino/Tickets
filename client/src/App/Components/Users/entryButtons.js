@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { authenticationService } from '../../_services';
 import { useHistory} from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
@@ -32,6 +32,13 @@ export default function Entrance() {
   
   let history = useHistory();
 
+  useEffect(() => {
+    (async () => {
+        if(authenticationService.currentUserValue){
+          setUname(authenticationService.currentUserValue.data.name)
+    }})();
+}, []);
+
   const handleOpenLogin = () => {
     setOpenLogin(true);
   };
@@ -62,6 +69,7 @@ export default function Entrance() {
     authenticationService.login(enteredUname, enteredPass)
     .then(()=>{ 
       setOpenLogin(false);
+      setOpenRegister(false);
       setUname(enteredUname)
     }).catch((response)=>{
       setloginError(response.response.data.msg)
@@ -71,10 +79,7 @@ export default function Entrance() {
   const handleRegisterSubmit = () => {
     setRegisterError('')
     authenticationService.register(enteredUname, enteredPass, enteredEmail)
-      .then(()=>{authenticationService.login(enteredUname, enteredPass)
-        .then(()=>{ 
-          setOpenRegister(false); 
-        })}).catch((response)=>{
+      .then(handleLoginSubmit).catch((response)=>{
           setRegisterError(response.response.data.msg)
         });
   };

@@ -10,7 +10,7 @@ export const authenticationService = {
     logout,
     register,
     currentUser: currentUserSubject.asObservable(),
-    get currentUserValue () { return currentUserSubject.value ? currentUserSubject.value.data:currentUserSubject.value }
+    get currentUserValue () { return currentUserSubject.value/* ? currentUserSubject.value.data:currentUserSubject.value*/ }
 };
 
 function login(username, password) {
@@ -20,7 +20,7 @@ function login(username, password) {
         password: password
     }).then(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user.data));
+        localStorage.setItem('currentUser', JSON.stringify(user/*.data*/));/////////////////////////////////////////////////////////////////////
         // console.log(user.data)
         currentUserSubject.next(user);
         return user;
