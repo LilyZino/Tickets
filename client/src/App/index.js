@@ -20,12 +20,12 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import Feed from './Components/Feed';
 import AddPost from './Components/AddPost';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
 import PersonalArea from './Components/PersonalArea';
 import Footer from './Components/Footer';
+import ConcertsFeed from './Components/ConcertsFeed';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -60,16 +60,16 @@ export default function () {
                         <FullTitle variant="h6" className={classes.title}>
                             Tickets
                         </FullTitle>
-                        <Entrance/>
+                        <Entrance />
                     </Toolbar>
                 </AppBar>
                 <Drawer open={drawerState} onClose={onDrawerClicked}>
                     <List className={classes.list}>
-                        <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
-                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
+                        <ListItemLink to="/concertsFeed" primary="Concerts" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
                         { authenticationService.currentUserValue &&
                             <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
                         }
+                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
                     </List>
                 </Drawer>
                 <Container maxWidth="md" id="main">
@@ -83,15 +83,15 @@ export default function () {
                         <Route path="/about">
                             <About />
                         </Route>
-                        <Route path="/feed">
-                            <Feed />
-                            <AddPost />
+                        <Route path="/concertsFeed">
+                            <ConcertsFeed />
+                            {/* <AddPost /> */}
                         </Route>
                         <Route path="/userProfile">
                             <PersonalArea />
                         </Route>
                         <Route path="/">
-                            <Redirect to="/feed" />
+                            <Redirect to="/concertsFeed" />
                             {/* TODO: implement that / will go to /feed if user is logged,
                             if not go to /login */}
                         </Route>

@@ -44,7 +44,7 @@ module.exports = {
         proxy: {
             '/api': serverHost,
             '/socket.io': serverHost,
-            '/sockjs-node/': serverHost
+            '/sockjs-node': serverHost
         },
         historyApiFallback: true,
     },

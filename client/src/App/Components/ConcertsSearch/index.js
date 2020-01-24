@@ -17,13 +17,13 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Search(props) {
+export default function ConcertsSearch(props) {
     const classes = useStyles();
-    const [enteredTitle, setEnteredTitle] = useState('');
+    const [enteredArtist, setEnteredArtist] = useState('');
 
     const setSearchFilter = () => {
         const filter = {
-            title: enteredTitle
+            artist: enteredArtist
         };
 
         props.setFilter(filter);
@@ -37,8 +37,8 @@ export default function Search(props) {
                 label="Search"
                 variant="outlined"
                 type="text"
-                value={enteredTitle}
-                onChange={(event) => setEnteredTitle(event.target.value)}
+                value={enteredArtist}
+                onChange={(event) => setEnteredArtist(event.target.value)}
             />
             <Button variant="contained" color="primary" onClick={setSearchFilter}>Search</Button>
         </div>
