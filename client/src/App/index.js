@@ -20,7 +20,7 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import AddPost from './Components/AddPost';
+import AddTicket from './Components/AddTicket';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
 import PersonalArea from './Components/PersonalArea';
@@ -66,7 +66,7 @@ export default function () {
                 <Drawer open={drawerState} onClose={onDrawerClicked}>
                     <List className={classes.list}>
                         <ListItemLink to="/concertsFeed" primary="Concerts" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
-                        { authenticationService.currentUserValue &&
+                        {authenticationService.currentUserValue &&
                             <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
                         }
                         <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
@@ -74,26 +74,18 @@ export default function () {
                 </Drawer>
                 <Container maxWidth="md" id="main">
                     <Switch>
-                        <Route path="/login">
-                            login form
-                        </Route>
-                        <Route path="/register">
-                            register form
-                        </Route>
                         <Route path="/about">
                             <About />
                         </Route>
                         <Route path="/concertsFeed">
                             <ConcertsFeed />
-                            {/* <AddPost /> */}
                         </Route>
                         <Route path="/userProfile">
                             <PersonalArea />
+                            <AddTicket />
                         </Route>
                         <Route path="/">
                             <Redirect to="/concertsFeed" />
-                            {/* TODO: implement that / will go to /feed if user is logged,
-                            if not go to /login */}
                         </Route>
                     </Switch>
                 </Container>
