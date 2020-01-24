@@ -1,7 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { useHistory} from 'react-router-dom';
 import axios from 'axios';
-
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -15,7 +13,6 @@ export const authenticationService = {
 
 function login(username, password) {
 
-    console.log(username)
     return axios.put('/api/Users/login', {
         name: username,
         password: password
@@ -28,7 +25,6 @@ function login(username, password) {
 }
 
 function logout() {
-
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     currentUserSubject.next(null);
@@ -40,9 +36,5 @@ function register(username, password, email) {
         name: username,
         password: password,
         email: email,
-    }).then(user =>{
-        login(username, password)
-        currentUserSubject.next(user);
-        return user;
-    });
+    })
 }

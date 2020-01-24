@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { authenticationService } from '../../_services';
 import { useHistory} from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import LogoutIcon from "@material-ui/icons/MeetingRoom";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,6 +12,10 @@ import EntryModal from './entryModal'
 const useStyles = makeStyles((theme) => ({
   button:{
     margin: '5px'
+  },
+  userNameText:{
+    float: 'left',
+    margin: '0.3em',
   }
 }));
 
@@ -23,8 +28,16 @@ export default function Entrance() {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [loginError, setloginError] = useState('');
   const [registerError, setRegisterError] = useState('');
+  const [Uname, setUname] = useState('');
   
   let history = useHistory();
+
+  useEffect(() => {
+    (async () => {
+        if(authenticationService.currentUserValue){
+          setUname(authenticationService.currentUserValue.data.name)
+    }})();
+}, []);
 
   const handleOpenLogin = () => {
     setOpenLogin(true);
@@ -43,12 +56,11 @@ export default function Entrance() {
   const handleCloseRegister = () => {
     setOpenRegister(false);
     setRegisterError('')
-    // history.replace('/')
   };
 
   const logOut = () => {
     authenticationService.logout()
-    console.log('im here')
+    setUname('')
     history.replace('/')
   };
 
@@ -56,8 +68,9 @@ export default function Entrance() {
     setloginError('')
     authenticationService.login(enteredUname, enteredPass)
     .then(()=>{ 
-      setOpenLogin(false); 
-      //history.replace('/')
+      setOpenLogin(false);
+      setOpenRegister(false);
+      setUname(enteredUname)
     }).catch((response)=>{
       setloginError(response.response.data.msg)
     });
@@ -66,19 +79,20 @@ export default function Entrance() {
   const handleRegisterSubmit = () => {
     setRegisterError('')
     authenticationService.register(enteredUname, enteredPass, enteredEmail)
-    .then(()=>{ 
-      setOpenRegister(false); 
-      console.log('im here')
-      history.replace('/')
-    }).catch((response)=>{
-      setRegisterError(response.response.data.msg)
-    });
+      .then(handleLoginSubmit).catch((response)=>{
+          setRegisterError(response.response.data.msg)
+        });
   };
 
   return (
     <div>
+      { Uname != '' &&
+      <Typography component="h1" variant="h5" className={classes.userNameText}>
+          Hello {Uname}
+        </Typography>
+      }
       { authenticationService.currentUserValue &&
-        <IconButton  className={classes.ExitToAppIcon} color="inherit" aria-label="Logout" onClick={ logOut }>
+        <IconButton className={classes.ExitToAppIcon} color="inherit" aria-label="Logout" onClick={ logOut }>
           <LogoutIcon />
         </IconButton> 
       }

@@ -88,7 +88,6 @@ export default function EntryModal(props) {
                 label="User Name"
                 name="UserName"
                 autoComplete="UserName"
-                autoFocus
                 value={props.enteredUname}
                 onChange={(event) => {
                   props.setEnteredUname(event.target.value);
@@ -129,10 +128,11 @@ export default function EntryModal(props) {
         fullWidth
         variant="contained"
         color="primary"
+        autoFocus
         className={classes.submit}
         onClick={props.handleSubmit}
       >
-        Sign In
+        { !props.isRegister ? "Sign In" : "Sign Up"}
       </Button>
               </Grid>
           </form>

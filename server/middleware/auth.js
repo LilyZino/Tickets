@@ -5,9 +5,6 @@ module.exports = (req, res, next) => {
   if(typeof header !== 'undefined') {
       const bearer = header.split(' ');
       const token = bearer[1];
-    console.log(bearer.lengh)
-    console.log(typeof header)
-    console.log(header)
     if (!token) {
       console.log("No token, authorization denied")
       return res.status(401).json({
@@ -16,9 +13,9 @@ module.exports = (req, res, next) => {
     }
 
     try {
-      console.log("there is token")
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded.user;
+      console.log("there is a valid token")
       next();
     } catch (error) {
       console.log("Token is not valid")

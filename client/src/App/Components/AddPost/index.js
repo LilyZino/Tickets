@@ -73,17 +73,19 @@ export default function AddPost(props) {
     };
 
     const handleSubmit = () => {
-        // const token = JSON.parse(localStorage.getItem('currentUser')).data.id
-        // debugger
-        // console.log("my val: " + token)
+        const token = authenticationService.currentUserValue.data.token
+        const userId = authenticationService.currentUserValue.data ? 
+                    authenticationService.currentUserValue.data._id :  authenticationService.currentUserValue._id;
+        console.log("my val: " + userId)
+        console.log("my token: " + token)
         axios.put('/api/posts', {
             title: enteredTitle,
             text: enteredDescription,
             artist: enteredArtist,
             price: enteredPrice,
             count: enteredCount,
-            userId: '5e19e11a4975240b38166237'
-        }/*, { headers: {"Authorization" : `Bearer ${token}`}}*/ );
+            userId: userId
+        }, { headers: {"Authorization" : `Bearer ${token}`}} );
     };
 
     return (

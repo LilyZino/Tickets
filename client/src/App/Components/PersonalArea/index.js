@@ -1,33 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { authenticationService } from '../../_services';
 import axios from 'axios';
 import PostsList from '../PostsList';
 
-const useStyles = makeStyles({
-});
-
 export default function PersonalArea() {
-    const classes = useStyles();
     const [posts, setPosts] = useState([]);
-    const [user, setUser] = useState([]);
 
     useEffect(() => {
         (async () => {
-            const userId = '5e19e0e24975240b38166236';
-            const getPostsResponse = await axios.get(`/api/posts/user/${userId}`);
-            const getUserResponse = await axios.get(`/api/users/${userId}`);
-
-            setPosts(getPostsResponse.data);
-            setUser(getUserResponse.data);
-
-            console.log(posts);
-            console.log(user);
-        })();
+            if(authenticationService.currentUserValue){
+                const userId = authenticationService.currentUserValue.data ? 
+                    authenticationService.currentUserValue.data._id :  authenticationService.currentUserValue._id;
+                const getPostsResponse = await axios.get('/api/posts/user/' + userId);
+                setPosts(getPostsResponse.data);
+        }})();
     }, []);
 
     return (
         <div>
-            Hello {user.name}
             <PostsList posts={posts} isEditable />
         </div>
     );
