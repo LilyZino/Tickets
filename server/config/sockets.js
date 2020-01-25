@@ -3,8 +3,13 @@ import io from 'socket.io';
 let socket = null;
 
 export const informTicketsUpdated = () => {
-    socket.emit('posts-updated');
-    console.log('Sending post was updated to all clients');
+    socket.emit('tickets-updated');
+    console.log('Sending tickets was updated to all clients');
+};
+
+export const informConcertsUpdated = () => {
+    socket.emit('concerts-updated');
+    console.log('Sending concerts was updated to all clients');
 };
 
 export const initSocket = (app) => {

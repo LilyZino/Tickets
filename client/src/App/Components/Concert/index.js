@@ -16,6 +16,7 @@ import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Collapse from '@material-ui/core/Collapse';
 import axios from 'axios';
 import MapIcon from '@material-ui/icons/Map';
+import { registerSocketEvent } from '../../_services/socketService';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -53,22 +54,29 @@ export default (props) => {
     const [expanded, setExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
 
-    useEffect(() => {
-        (async () => {
-            if (!expanded) return;
+    const getTicketForConcert = async () => {
+        if (!expanded) return;
 
-            const response = await axios.get(`/api/tickets/concert/${id}`);
-            console.log('get all ticekts of concert', response.data);
-            setConcertTickets(response.data);
-        })();
-    }, [expanded]);
+        const response = await axios.get(`/api/tickets/concert/${id}`);
+        console.log('get all ticekts of concert', response.data);
+        setConcertTickets(response.data);
+    };
+
+    useEffect(() => {
+        getTicketForConcert();
+
+        registerSocketEvent('tickets-updated', () => {
+            console.log('tickets was updated');
+            getTicketForConcert();
+        });
+    }, [expanded, id]);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     return (
-        <Card className={classes.card} elevation="2">
+        <Card className={classes.card} elevation={2}>
             <CardContent>
                 <Typography variant="h4" component="h2">
                     {artist}
@@ -99,27 +107,32 @@ export default (props) => {
                         Available tickets:
                     </Typography>
                     <List>
-                        {concertTickets
-                            .filter((ticket) => !ticket.isSold)
-                            .map((ticket) => {
-                                return (
-                                    <ListItem button key={ticket._id}>
-                                        <ListItemIcon>
-                                            <ConfirmationNumberIcon />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={`${ticket.amount} Tickets`}
-                                            secondary={ticket.user.name}
-                                        />
-                                        <Typography variant="h6">
-                                            {`${ticket.price}₪`}
-                                        </Typography>
-                                    </ListItem>
-                                );
-                            })}
+                        {concertTickets.length === 0
+                            ? (
+                                <Typography>
+                                    There are no tickets avalible for this concert :(
+                                </Typography>
+                            )
+                            : concertTickets.filter((ticket) => !ticket.isSold)
+                                .map((ticket) => {
+                                    return (
+                                        <ListItem button key={ticket._id}>
+                                            <ListItemIcon>
+                                                <ConfirmationNumberIcon />
+                                            </ListItemIcon>
+                                            <ListItemText
+                                                primary={`${ticket.amount} Tickets`}
+                                                secondary={ticket.user.name}
+                                            />
+                                            <Typography variant="h6">
+                                                {`${ticket.price}₪`}
+                                            </Typography>
+                                        </ListItem>
+                                    );
+                                })}
                     </List>
                 </CardContent>
             </Collapse>
         </Card>
     );
-}
+};

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-// import io from 'socket.io-client';
 import axios from 'axios';
 import ConcertsList from '../ConcertsList';
 import Search from '../ConcertsSearch';
+import { registerSocketEvent, initSockets } from '../../_services/socketService';
 
 export default function ConcertsFeed() {
     const [concerts, setConcerts] = useState([]);
@@ -19,11 +19,11 @@ export default function ConcertsFeed() {
     };
 
     useEffect(() => {
-        // const sockets = io();
-        // sockets.on('posts-updated', () => {
-        //     console.log('posts was updated');
-        //     getAllPosts();
-        // });
+        initSockets();
+        registerSocketEvent('concerts-updated', () => {
+            console.log('concerts was updated');
+            getAllConcerts();
+        });
 
         getAllConcerts();
     }, []);
