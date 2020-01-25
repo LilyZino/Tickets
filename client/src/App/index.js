@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { authenticationService } from './_services';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,13 +12,14 @@ import List from '@material-ui/core/List';
 import InfoIcon from '@material-ui/icons/Info';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Entrance from './Components/Users/entryButtons';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Redirect,
 } from 'react-router-dom';
+import Entrance from './Components/Users/entryButtons';
+import { authenticationService } from './_services';
 import AddTicket from './Components/AddTicket';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
@@ -66,9 +66,8 @@ export default function () {
                 <Drawer open={drawerState} onClose={onDrawerClicked}>
                     <List className={classes.list}>
                         <ListItemLink to="/concertsFeed" primary="Concerts" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
-                        {authenticationService.currentUserValue &&
-                            <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
-                        }
+                        {authenticationService.currentUserValue
+                            && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                         <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
                     </List>
                 </Drawer>
