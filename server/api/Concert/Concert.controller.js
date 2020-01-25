@@ -1,4 +1,5 @@
 import Concert from './Concert.model';
+import { informConcertsUpdated } from '../../config/sockets';
 
 export const getAllConcerts = async (req, res) => {
     const concerts = await Concert.find();
@@ -13,6 +14,8 @@ export const addConcert = async (req, res) => {
     });
 
     await concert.save();
+
+    informConcertsUpdated();
     res.send();
 };
 
