@@ -30,13 +30,25 @@ module.exports = {
             {
                 test: /\.mp4/,
                 use: {
-                  loader: 'url-loader',
-                  options: {
-                    limit: 10000,
-                    mimtetype: 'video/mp4',
-                  }
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        mimtetype: 'video/mp4',
+                    }
                 }
-              },
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/'
+                        }
+                    }
+                ]
+            }
         ],
     },
     devServer: {
