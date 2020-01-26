@@ -29,7 +29,7 @@ export default (props) => {
                     id={concert._id}
                     artist={concert.artist}
                     location={concert.location}
-                    time={concert.text}
+                    time={concert.time}
                 />
             ))}
         </div>
