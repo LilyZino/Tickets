@@ -53,25 +53,29 @@ export default function () {
     return (
         <div>
             <Router>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onDrawerClicked}>
-                            <MenuIcon />
-                        </IconButton>
-                        <FullTitle variant="h6" className={classes.title}>
-                            Tickets
-                        </FullTitle>
-                        <Entrance />
-                    </Toolbar>
-                </AppBar>
-                <Drawer open={drawerState} onClose={onDrawerClicked}>
-                    <List className={classes.list}>
-                        <ListItemLink to="/concertsFeed" primary="Concerts" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
-                        {authenticationService.currentUserValue
-                            && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
-                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
-                    </List>
-                </Drawer>
+                <header>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onDrawerClicked}>
+                                <MenuIcon />
+                            </IconButton>
+                            <FullTitle variant="h6" className={classes.title}>
+                                Tickets
+                            </FullTitle>
+                            <Entrance />
+                        </Toolbar>
+                    </AppBar>
+                </header>
+                <nav>
+                    <Drawer open={drawerState} onClose={onDrawerClicked}>
+                        <List className={classes.list}>
+                            <ListItemLink to="/concertsFeed" primary="Concerts" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
+                            <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
+                        </List>
+                    </Drawer>
+                </nav>
                 <Container maxWidth="md" id="main">
                     <Switch>
                         <Route path="/about">

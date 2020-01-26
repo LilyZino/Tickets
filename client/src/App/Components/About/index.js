@@ -20,7 +20,7 @@ export default function About() {
                     </h1>
                 </div>
             </div>
-            <div>
+            <section>
                 <h2>About us</h2>
                 <div>
                     <p>
@@ -28,18 +28,18 @@ export default function About() {
                     </p>
                     <p>
                         This is why we created the best platform for people to sell
-                        their unwanted tickets and for others to buy the tickets to 
+                        their unwanted tickets and for others to buy the tickets to
                         their favorite artists.
                     </p>
                 </div>
-            </div>
-            <div>
+            </section>
+            <aside>
                 <a href="https://twitter.com/intent/tweet?screen_name=Tickets" className="twitter-mention-button" data-show-count="false">Tweet to FriendForYou</a>
                 <br />
                 <a className="twitter-timeline" data-width="400" data-height="500" href="https://twitter.com/IoTickets">Tweets by FriendForYou</a>
                 <script>{!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs")}</script>
                 <script async src="//platform.twitter.com/widgets.js" charSet="utf-8"></script>
-            </div>
+            </aside>
         </div>
     );
 }
