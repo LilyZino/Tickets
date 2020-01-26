@@ -26,6 +26,7 @@ import ListItemLink from './Components/ListItemLink';
 import PersonalArea from './Components/PersonalArea';
 import Footer from './Components/Footer';
 import ConcertsFeed from './Components/ConcertsFeed';
+import AddConcert from './Components/AddConcert';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -78,6 +79,7 @@ export default function () {
                         </Route>
                         <Route path="/concertsFeed">
                             <ConcertsFeed />
+                            <AddConcert />
                         </Route>
                         <Route path="/userProfile">
                             <PersonalArea />
