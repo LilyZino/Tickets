@@ -16,7 +16,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
 import { authenticationService } from '../../_services';
 
@@ -26,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
+        '&:hover': {
+            transform: 'rotate(360deg)',
+            transition: theme.transitions.create('transform', {
+                duration: theme.transitions.duration.standard,
+            })
+        }
     },
     modal: {
         display: 'flex',
@@ -37,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        borderRadius: '15px'
     },
     form: {
         display: 'flex',
