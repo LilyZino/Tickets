@@ -25,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
+        '&:hover': {
+            transform: 'rotate(360deg)',
+            transition: theme.transitions.create('transform', {
+                duration: theme.transitions.duration.standard,
+            })
+        }
     },
     modal: {
         display: 'flex',
@@ -51,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         margin: 'auto',
     },
+    rotation: {
+
+    }
 }));
 
 export default function AddTicket() {

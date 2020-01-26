@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
     },
+    title: {
+        flexGrow: 1,
+        textShadow: '3px 3px #313131'
+    }
 }));
-
-const FullTitle = styled(Typography)`
-    flex-grow: 1
-`;
 
 export default function () {
     const classes = useStyles();
@@ -59,9 +59,9 @@ export default function () {
                             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onDrawerClicked}>
                                 <MenuIcon />
                             </IconButton>
-                            <FullTitle variant="h6" className={classes.title}>
+                            <Typography variant="h6" className={classes.title}>
                                 Tickets
-                            </FullTitle>
+                            </Typography>
                             <Entrance />
                         </Toolbar>
                     </AppBar>
