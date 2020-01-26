@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { authenticationService } from '../../_services';
 import EntryModal from './entryModal';
+import Smiley from '../SmileyCanvas';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -195,6 +196,7 @@ export default function Entrance() {
                         <Typography variant="h5" className={classes.title}>
                             Please check your mail to complete registration
                         </Typography>
+                        <Smiley />
                         <Button
                             className={classes.okButton}
                             variant="contained"
