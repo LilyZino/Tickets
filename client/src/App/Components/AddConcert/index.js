@@ -161,13 +161,3 @@ export default function AddTicket() {
         </div>
     );
 }
-
-
-
-
-
-function App() {
-    const [selectedDate, handleDateChange] = useState(new Date());
-
-
-}
