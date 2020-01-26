@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        borderRadius: '15px'
     },
     form: {
         display: 'flex',
