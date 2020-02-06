@@ -28,6 +28,7 @@ const TicketsList = (props) => {
                     key={ticket._id}
                     id={ticket._id}
                     price={ticket.price}
+                    sold={ticket.sold}
                     amount={ticket.amount}
                     concert={ticket.concert}
                 />

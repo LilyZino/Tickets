@@ -14,7 +14,7 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const addUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
     if (!name) {
         return res
@@ -30,6 +30,11 @@ export const addUser = async (req, res) => {
         return res
             .status(400)
             .json({ msg: 'Please enter email' });
+    }
+    if (!phone) {
+        return res
+            .status(400)
+            .json({ msg: 'Please enter phone' });
     }
 
     try {
@@ -50,7 +55,7 @@ export const addUser = async (req, res) => {
         }
 
         user = new User({
-            name, email, password
+            name, email, password, phone
         });
 
         await user.save();

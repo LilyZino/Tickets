@@ -30,11 +30,12 @@ function logout() {
     currentUserSubject.next(null);
 }
 
-function register(username, password, email) {
+function register(username, password, email, phone) {
 
     return axios.put('/api/Users', {
         name: username,
         password: password,
         email: email,
+        phone: phone,
     })
 }

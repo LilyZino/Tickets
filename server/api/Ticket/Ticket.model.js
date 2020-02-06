@@ -15,13 +15,12 @@ const TicketSchema = new Schema({
         type: Number,
         required: true
     },
-    isSold: {
-        type: Boolean,
-        default: false,
-    },
     amount: {
         type: Number,
         required: true
+    },
+    sold:{
+        type: Number
     }
 });
 

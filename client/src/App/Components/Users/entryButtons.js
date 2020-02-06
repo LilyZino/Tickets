@@ -51,6 +51,7 @@ export default function Entrance() {
     const [enteredUname, setEnteredUname] = useState('');
     const [enteredPass, setEnteredPass] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
+    const [enteredPhone, setEnteredPhone] = useState('');
     const [loginError, setloginError] = useState('');
     const [registerError, setRegisterError] = useState('');
     const [Uname, setUname] = useState('');
@@ -104,7 +105,7 @@ export default function Entrance() {
 
     const handleRegisterSubmit = () => {
         setRegisterError('');
-        authenticationService.register(enteredUname, enteredPass, enteredEmail)
+        authenticationService.register(enteredUname, enteredPass, enteredEmail, enteredPhone)
             .then(() => {
                 setOpenRegister(false);
                 setOpenAfterRegistrationMessage(true);
@@ -175,9 +176,11 @@ export default function Entrance() {
                 enteredUname={enteredUname}
                 enteredPass={enteredPass}
                 enteredEmail={enteredEmail}
+                enteredPhone={enteredPhone}
                 setEnteredUname={setEnteredUname}
                 setEnteredPass={setEnteredPass}
                 setEnteredEmail={setEnteredEmail}
+                setEnteredPhone={setEnteredPhone}
                 isRegister
             />
             <Modal

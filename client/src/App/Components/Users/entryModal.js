@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EntryModal(props) {
     const classes = useStyles();
-    const textStyles = {
-        display: props.isRegister ? 'block' : 'none'// Look at me! no image then no text
+    const registerTextBox = {
+        display: props.isRegister ? 'block' : 'none'
     };
     return (
         <div>
@@ -109,7 +109,7 @@ export default function EntryModal(props) {
                                     }}
                                 />
                                 <TextField
-                                    style={textStyles}
+                                    style={registerTextBox}
                                     variant="outlined"
                                     margin="normal"
                                     required
@@ -122,6 +122,22 @@ export default function EntryModal(props) {
                                     value={props.enteredEmail}
                                     onChange={(event) => {
                                         props.setEnteredEmail(event.target.value);
+                                    }}
+                                />
+                                <TextField
+                                    style={registerTextBox}
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="phone"
+                                    label="phone"
+                                    type="phone"
+                                    id="phone"
+                                    autoComplete="phone"
+                                    value={props.enteredPhone}
+                                    onChange={(event) => {
+                                        props.setEnteredPhone(event.target.value);
                                     }}
                                 />
                                 <Button
