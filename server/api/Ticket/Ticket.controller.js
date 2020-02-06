@@ -18,6 +18,7 @@ export const addTicket = async (req, res) => {
             concert: req.body.concertId,
             price: req.body.price,
             amount: req.body.amount,
+            sold: 0
         });
 
         const ticket = await newTicket.save();
@@ -32,7 +33,21 @@ export const addTicket = async (req, res) => {
 };
 
 export const editTicket = async (req, res) => {
-    res.status(500).send('Not Implemented');
+
+    return Ticket.updateOne(
+        { _id : req.body._id },  // <-- find stage
+        { $set: {                // <-- set stage
+           id: req.body.id,     // <-- id not _id
+           user: req.body.userId,
+            concert: req.body.concertId,
+            price: req.body.price,
+            amount: req.body.amount,
+            sold: req.body.sold
+          } 
+        }   
+      ).then(result => {
+        res.status(200).json({ message: "Update successful!" });
+      });
 }
 
 export const getTicket = async (req, res) => {

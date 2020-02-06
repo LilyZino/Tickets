@@ -91,6 +91,9 @@ export default function Ticket(props) {
                     <Typography>
                         {amount} Tickets
                     </Typography>
+                    <Typography>
+                        {sold} Sold
+                    </Typography>
                 </CardContent>
                 <Typography align="right" className={classes.price}>
                     {`${price}₪`}

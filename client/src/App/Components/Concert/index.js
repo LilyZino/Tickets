@@ -107,13 +107,13 @@ export default (props) => {
                         Available tickets:
                     </Typography>
                     <List>
-                        {concertTickets.length === 0
+                        {concertTickets.length  === 0 || concertTickets.filter((ticket) => ticket.amount - ticket.sold !=0).length === 0
                             ? (
                                 <Typography>
                                     There are no tickets avalible for this concert :(
                                 </Typography>
                             )
-                            : concertTickets.filter((ticket) => !ticket.isSold)
+                            : concertTickets.filter((ticket) => ticket.amount - ticket.sold !=0)
                                 .map((ticket) => {
                                     return (
                                         <ListItem button key={ticket._id}>
@@ -121,8 +121,8 @@ export default (props) => {
                                                 <ConfirmationNumberIcon />
                                             </ListItemIcon>
                                             <ListItemText
-                                                primary={`${ticket.amount} Tickets`}
-                                                secondary={ticket.user.name}
+                                                primary={`${ticket.amount - ticket.sold} Tickets`}
+                                                secondary={`${ticket.user.name} - ${ticket.user.phone} - ${ticket.user.email}`}
                                             />
                                             <Typography variant="h6">
                                                 {`${ticket.price}₪`}

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EntryModal(props) {
     const classes = useStyles();
-    const textStyles = {
+    const registerTextBox = {
         display: props.isRegister ? 'block' : 'none'
     };
     return (
@@ -109,7 +109,7 @@ export default function EntryModal(props) {
                                     }}
                                 />
                                 <TextField
-                                    style={textStyles}
+                                    style={registerTextBox}
                                     variant="outlined"
                                     margin="normal"
                                     required
@@ -125,7 +125,7 @@ export default function EntryModal(props) {
                                     }}
                                 />
                                 <TextField
-                                    style={textStyles}
+                                    style={registerTextBox}
                                     variant="outlined"
                                     margin="normal"
                                     required
