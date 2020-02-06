@@ -18,6 +18,11 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    phone: {
+        type: String,
+        required: true,
+        unique: true
+    },
     isAuthenticated: {
         type: Boolean,
         default: false
