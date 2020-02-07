@@ -8,8 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AddTicketFade from '../AddTicket/newTicketFade'
 import axios from 'axios';
+import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +58,7 @@ export default function Ticket(props) {
     const [enteredPrice, setEnteredPrice] = useState(price);
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredSold, setEnteredSold] = useState(sold);
-    console.log(sold)
+    console.log(sold);
 
     const handleDelete = async () => {
         await axios.delete(`api/tickets/${id}`);
@@ -100,23 +100,23 @@ export default function Ticket(props) {
                 </Typography>
             </div>
             <CardActions>
-                <IconButton onClick={()=>setOpen(true)}>
+                <IconButton onClick={() => setOpen(true)}>
                     <EditIcon />
                 </IconButton>
-                <AddTicketFade 
-                open = {open}
-                AddMode = {false}
-                submitText = {'Update Ticket'}
-                enteredAmount = {enteredAmount}
-                setEnteredAmount = {setEnteredAmount}
-                enteredSold = {enteredSold}
-                setEnteredSold = {setEnteredSold}
-                enteredPrice = {enteredPrice}
-                setEnteredPrice = {setEnteredPrice}
-                enteredConcert = { enteredConcert}
-                setEnteredConcert = {setEnteredConcert}
-                handleSubmit = {handleSubmit}
-                handleClose = {()=>setOpen(false)}
+                <AddTicketFade
+                    open={open}
+                    AddMode={false}
+                    submitText="Update Ticket"
+                    enteredAmount={enteredAmount}
+                    setEnteredAmount={setEnteredAmount}
+                    enteredSold={enteredSold}
+                    setEnteredSold={setEnteredSold}
+                    enteredPrice={enteredPrice}
+                    setEnteredPrice={setEnteredPrice}
+                    enteredConcert={enteredConcert}
+                    setEnteredConcert={setEnteredConcert}
+                    handleSubmit={handleSubmit}
+                    handleClose={() => setOpen(false)}
                 />
                 <IconButton onClick={handleDelete}>
                     <DeleteIcon />

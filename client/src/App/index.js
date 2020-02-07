@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
-import styled from 'styled-components';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import InfoIcon from '@material-ui/icons/Info';
@@ -20,6 +20,7 @@ import {
 } from 'react-router-dom';
 import Entrance from './Components/Users/entryButtons';
 import { authenticationService } from './_services';
+import theme from './theme';
 import AddTicket from './Components/AddTicket';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
@@ -28,7 +29,7 @@ import Footer from './Components/Footer';
 import ConcertsFeed from './Components/ConcertsFeed';
 import AddConcert from './Components/AddConcert';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     list: {
         width: '250px'
     },
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
-        textShadow: '3px 3px #313131'
+        textShadow: '2px 3px #313131'
     }
 }));
 
@@ -51,7 +52,7 @@ export default function () {
     };
 
     return (
-        <div>
+        <ThemeProvider theme={theme}>
             <Router>
                 <header>
                     <AppBar position="static">
@@ -94,8 +95,7 @@ export default function () {
                         </Route>
                     </Switch>
                 </Container>
-                <Footer />
             </Router>
-        </div>
+        </ThemeProvider>
     );
 }

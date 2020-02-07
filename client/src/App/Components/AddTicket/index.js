@@ -85,7 +85,7 @@ export default function AddTicket() {
 
     return (
         <div>
-            <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
+            <Fab color="secondary" aria-label="add" className={classes.fab} onClick={handleOpen}>
                 <AddIcon />
             </Fab>
 

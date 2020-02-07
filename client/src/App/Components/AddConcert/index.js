@@ -95,7 +95,7 @@ export default function AddTicket() {
 
     return (
         <div>
-            <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
+            <Fab color="secondary" aria-label="add" className={classes.fab} onClick={handleOpen}>
                 <AddIcon />
             </Fab>
             <Modal
@@ -127,11 +127,10 @@ export default function AddTicket() {
                                         ampm={false}
                                         value={enteredTime}
                                         onChange={setEnteredTime}
-                                        label="Date and time"
                                     />
                                 </MuiPickersUtilsProvider>
                                 <TextField
-                                    label="location"
+                                    label="Location"
                                     value={enteredLocation}
                                     onChange={(event) => {
                                         setEnteredLocation(event.target.value);

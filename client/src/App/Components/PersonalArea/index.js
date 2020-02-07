@@ -25,16 +25,9 @@ export default function PersonalArea() {
                 console.log(getTicketsResponse.data);
             }
         })();
-
-        console.log('personal area tickets', tickets)
     }, []);
 
     return (
-        <div>
-            <Typography variant="h6">
-                Here are your tickets:
-            </Typography>
-            <TicketsFeed tickets={tickets} />
-        </div>
+        <TicketsFeed tickets={tickets} />
     );
 }
