@@ -46,7 +46,7 @@ export default function About() {
                     <Typography>
                         This is why we created the best platform for people to sell
                         their unwanted tickets and for others to buy the tickets to
-                        their favorites.
+                        their favorites shows.
                     </Typography>
                     <Typography>
                         Our goal is to provide the best platform for selling and purchasing second hand concerts tickets

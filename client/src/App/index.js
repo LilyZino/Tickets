@@ -12,6 +12,8 @@ import List from '@material-ui/core/List';
 import InfoIcon from '@material-ui/icons/Info';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import {
     BrowserRouter as Router,
     Switch,
@@ -27,6 +29,7 @@ import PersonalArea from './Components/PersonalArea';
 import Footer from './Components/Footer';
 import ConcertsFeed from './Components/ConcertsFeed';
 import AddConcert from './Components/AddConcert';
+import Charts from './Components/Charts';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -73,6 +76,7 @@ export default function () {
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
+                            <ListItemLink to="/charts" primary="Statistics Charts" icon={<InfoIcon />} onClick={onDrawerClicked} />
                         </List>
                     </Drawer>
                 </nav>
@@ -80,6 +84,9 @@ export default function () {
                     <Switch>
                         <Route path="/about">
                             <About />
+                        </Route>
+                        <Route path="/charts">
+                            <Charts />
                         </Route>
                         <Route path="/concertsFeed">
                             <ConcertsFeed />
