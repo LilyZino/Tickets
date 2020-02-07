@@ -127,11 +127,10 @@ export default function AddTicket() {
                                         ampm={false}
                                         value={enteredTime}
                                         onChange={setEnteredTime}
-                                        label="Date and time"
                                     />
                                 </MuiPickersUtilsProvider>
                                 <TextField
-                                    label="location"
+                                    label="Location"
                                     value={enteredLocation}
                                     onChange={(event) => {
                                         setEnteredLocation(event.target.value);
