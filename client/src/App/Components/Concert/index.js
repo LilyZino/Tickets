@@ -54,15 +54,16 @@ export default (props) => {
     const [expanded, setExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
 
-    const getTicketForConcert = async () => {
-        if (!expanded) return;
-
-        const response = await axios.get(`/api/tickets/concert/${id}`);
-        console.log('get all ticekts of concert', response.data);
-        setConcertTickets(response.data);
-    };
 
     useEffect(() => {
+        const getTicketForConcert = async () => {
+            if (!expanded) return;
+
+            const response = await axios.get(`/api/tickets/concert/${id}`);
+            console.log('get all tickets of concert', response.data);
+            setConcertTickets(response.data);
+        };
+
         getTicketForConcert();
 
         registerSocketEvent('tickets-updated', () => {
@@ -107,13 +108,13 @@ export default (props) => {
                         Available tickets:
                     </Typography>
                     <List>
-                        {concertTickets.length  === 0 || concertTickets.filter((ticket) => ticket.amount - ticket.sold !=0).length === 0
+                        {concertTickets.length === 0 || concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0).length === 0
                             ? (
                                 <Typography>
                                     There are no tickets avalible for this concert :(
                                 </Typography>
                             )
-                            : concertTickets.filter((ticket) => ticket.amount - ticket.sold !=0)
+                            : concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0)
                                 .map((ticket) => {
                                     return (
                                         <ListItem button key={ticket._id}>
