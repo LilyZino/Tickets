@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 import Ticket from '../Ticket';
 
 const TicketsList = (props) => {
@@ -7,8 +6,6 @@ const TicketsList = (props) => {
     const [filteredTickets, setFilteredTickets] = useState(tickets);
 
     useEffect(() => {
-        console.log('my tickets', tickets);
-
         const ticketsToRender = filter ? tickets.filter((ticket) => {
             console.log(ticket);
 

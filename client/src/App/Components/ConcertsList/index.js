@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
+import moment from 'moment';
 import Concert from '../Concert';
 
 export default (props) => {
@@ -7,17 +7,28 @@ export default (props) => {
     const [filteredConcerts, setFilteredConcerts] = useState(concerts);
 
     useEffect(() => {
-        const consertsToRender = concerts.filter((concrt) => {
-            if (_.isEmpty(filter)) return concerts;
+        const concertsToRender = filter ? concerts.filter((concert) => {
+            console.log(concert);
 
-            if (filter.artist) {
-                return concrt.artist.toLowerCase().includes(filter.artist);
+            if (filter.artist && filter.artist !== '' && !concert.artist.toLowerCase().includes(filter.artist)) {
+                return false;
+            }
+
+            if (filter.location && filter.location !== '' && !concert.location.toLowerCase().includes(filter.location)) {
+                return false;
+            }
+
+            const concertDate = moment(concert.time);
+            const filterDate = filter.date ? moment(filter.date) : null;
+
+            if (filterDate && !concertDate.isSame(filterDate, 'day')) {
+                return false;
             }
 
             return true;
-        });
+        }) : concerts;
 
-        setFilteredConcerts(consertsToRender);
+        setFilteredConcerts(concertsToRender);
     }, [concerts, filter, props]);
 
 
