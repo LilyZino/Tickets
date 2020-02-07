@@ -7,15 +7,25 @@ const TicketsList = (props) => {
     const [filteredTickets, setFilteredTickets] = useState(tickets);
 
     useEffect(() => {
-        const ticketsToRender = tickets.filter((ticket) => {
-            if (_.isEmpty(filter)) return tickets;
+        console.log('my tickets', tickets);
 
-            if (filter.artist) {
-                return ticket.concert.artist.toLowerCase().includes(filter.artist);
+        const ticketsToRender = filter ? tickets.filter((ticket) => {
+            console.log(ticket);
+
+            if (filter.artist && filter.artist !== '' && !ticket.concert.artist.toLowerCase().includes(filter.artist)) {
+                return false;
+            }
+
+            if (filter.location && filter.location !== '' && !ticket.concert.location.toLowerCase().includes(filter.location)) {
+                return false;
+            }
+
+            if (filter.maxPrice && filter.maxPrice !== '' && ticket.price >= filter.maxPrice) {
+                return false;
             }
 
             return true;
-        });
+        }) : tickets;
 
         setFilteredTickets(ticketsToRender);
     }, [tickets, filter, props]);

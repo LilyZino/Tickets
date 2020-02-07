@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-import axios from 'axios';
+import React, { useState } from 'react';
 import TicketsList from '../TicketsList';
 import Search from '../TicketsSearch';
 

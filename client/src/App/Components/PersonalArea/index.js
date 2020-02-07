@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { authenticationService } from '../../_services';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { Typography } from '@material-ui/core';
+import { authenticationService } from '../../_services';
 import TicketsFeed from '../TicketsFeed';
 
 const useStyles = makeStyles({
@@ -17,13 +17,16 @@ export default function PersonalArea() {
 
     useEffect(() => {
         (async () => {
-            if(authenticationService.currentUserValue){
-                const userId = authenticationService.currentUserValue.data ? 
-                    authenticationService.currentUserValue.data._id :  authenticationService.currentUserValue._id;
-            const getTicketsResponse = await axios.get('/api/tickets/user/' + userId);
-            setTickets(getTicketsResponse.data);
-            console.log(getTicketsResponse.data);
-        }})();
+            if (authenticationService.currentUserValue) {
+                const userId = authenticationService.currentUserValue.data
+                    ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+                const getTicketsResponse = await axios.get(`/api/tickets/user/${userId}`);
+                setTickets(getTicketsResponse.data);
+                console.log(getTicketsResponse.data);
+            }
+        })();
+
+        console.log('personal area tickets', tickets)
     }, []);
 
     return (
