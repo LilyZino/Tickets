@@ -8,12 +8,6 @@ const useStyles = makeStyles({
         display: 'flex',
         paddingTop: 10,
         paddingBottom: 10,
-    },
-    searchInput: {
-        // width: '90%',
-    },
-    searchButton: {
-        // width: '10%'
     }
 });
 
@@ -36,7 +30,6 @@ export default function TicketsSearch(props) {
     return (
         <div className={classes.search}>
             <TextField
-                className={classes.searchInput}
                 label="Artist"
                 variant="outlined"
                 type="text"
@@ -44,7 +37,6 @@ export default function TicketsSearch(props) {
                 onChange={(event) => setEnteredArtist(event.target.value)}
             />
             <TextField
-                className={classes.searchInput}
                 label="Max Price"
                 variant="outlined"
                 type="text"
@@ -52,7 +44,6 @@ export default function TicketsSearch(props) {
                 onChange={(event) => setEnteredMaxPrice(event.target.value)}
             />
             <TextField
-                className={classes.searchInput}
                 label="Location"
                 variant="outlined"
                 type="text"

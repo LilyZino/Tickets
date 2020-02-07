@@ -32,6 +32,7 @@ module.exports = {
     "arrow-body-style": "off",
     'react/jsx-indent-props': "off",
     'no-underscore-dangle': 'off',
-    'react/jsx-one-expression-per-line': 'off'
+    'react/jsx-one-expression-per-line': 'off',
+    'react/prop-types': 'off'
   }
 };
