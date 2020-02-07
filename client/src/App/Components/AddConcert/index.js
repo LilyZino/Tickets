@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { authenticationService } from '../../_services';
 import Fab from '@material-ui/core/Fab';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
@@ -12,14 +11,26 @@ import TextField from '@material-ui/core/TextField';
 import Backdrop from '@material-ui/core/Backdrop';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import moment from 'moment';
 import Avatar from '@material-ui/core/Avatar';
+import {
+    DateTimePicker,
+    MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { authenticationService } from '../../_services';
+
 
 const useStyles = makeStyles((theme) => ({
     fab: {
         position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
+        '&:hover': {
+            transform: 'rotate(360deg)',
+            transition: theme.transitions.create('transform', {
+                duration: theme.transitions.duration.standard,
+            })
+        }
     },
     modal: {
         display: 'flex',
@@ -31,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        borderRadius: '15px'
     },
     form: {
         display: 'flex',
@@ -39,51 +51,46 @@ const useStyles = makeStyles((theme) => ({
     submitBtn: {
         marginTop: '16px'
     },
-    error:{
-        textAlign:'center',
+    error: {
+        textAlign: 'center',
         color: 'red'
     },
-    avatar:{
+    avatar: {
         margin: 'auto',
     },
+    rotation: {
+
+    }
 }));
 
-export default function AddPost(props) {
+export default function AddTicket() {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [login, setLogin] = useState(false);
-    const [enteredTitle, setEnteredTitle] = useState('');
-    const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredArtist, setEnteredArtist] = useState('');
-    const [enteredCount, setEnteredCount] = useState('');
-    const [enteredDate, setEnteredDate] = useState(moment().format('YYYY-MM-DD'));
-    const [enteredDescription, setEnteredDescription] = useState('');
-
+    const [enteredTime, setEnteredTime] = useState(new Date());
+    const [enteredLocation, setEnteredLocation] = useState('');
 
     const handleOpen = () => {
-        if (authenticationService.currentUserValue )
-            setOpen(true);
-        else 
-            setLogin(true)
+        if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
     };
 
     const handleClose = () => {
         setOpen(false);
-        setLogin(false)
+        setLogin(false);
     };
 
-    const handleSubmit = () => {
-        // const token = JSON.parse(localStorage.getItem('currentUser')).data.id
-        // debugger
-        // console.log("my val: " + token)
-        axios.put('/api/posts', {
-            title: enteredTitle,
-            text: enteredDescription,
+    const handleSubmit = async () => {
+        const { token } = authenticationService.currentUserValue.data;
+        const userId = authenticationService.currentUserValue.data
+            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+        console.log(`my val: ${userId}`);
+        console.log(`my token: ${token}`);
+        await axios.put('/api/concerts', {
             artist: enteredArtist,
-            price: enteredPrice,
-            count: enteredCount,
-            userId: '5e19e11a4975240b38166237'
-        }/*, { headers: {"Authorization" : `Bearer ${token}`}}*/ );
+            time: enteredTime,
+            location: enteredLocation,
+        }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
     return (
@@ -108,61 +115,37 @@ export default function AddPost(props) {
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
                                 <TextField
-                                    label="Title"
-                                    value={enteredTitle}
-                                    onChange={(event) => {
-                                        setEnteredTitle(event.target.value);
-                                    }}
-                                />
-                                <TextField
                                     label="Artist"
                                     value={enteredArtist}
                                     onChange={(event) => {
                                         setEnteredArtist(event.target.value);
                                     }}
-                                />                                <TextField
-                                    label="Count"
-                                    value={enteredCount}
-                                    onChange={(event) => {
-                                        setEnteredCount(event.target.value);
-                                    }}
                                 />
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <DateTimePicker
+                                        autoOk
+                                        ampm={false}
+                                        value={enteredTime}
+                                        onChange={setEnteredTime}
+                                        label="Date and time"
+                                    />
+                                </MuiPickersUtilsProvider>
                                 <TextField
-                                    id="datetime-local"
-                                    label="Date"
-                                    type="date"
-                                    className={classes.textField}
-                                    value={enteredDate}
+                                    label="location"
+                                    value={enteredLocation}
                                     onChange={(event) => {
-                                        setEnteredDate(event.target.value);
-                                    }}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                                <TextField
-                                    label="Price"
-                                    value={enteredPrice}
-                                    onChange={(event) => {
-                                        setEnteredPrice(event.target.value);
-                                    }}
-                                />
-                                <TextField
-                                    label="Description"
-                                    value={enteredDescription}
-                                    onChange={(event) => {
-                                        setEnteredDescription(event.target.value);
+                                        setEnteredLocation(event.target.value);
                                     }}
                                 />
                                 <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-                                    Add Ticket
+                                    Add Concert
                                 </Button>
                             </Grid>
                         </form>
                     </div>
                 </Fade>
-                </Modal>
-                <Modal
+            </Modal>
+            <Modal
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
                 className={classes.modal}
@@ -176,12 +159,12 @@ export default function AddPost(props) {
             >
                 <Fade in={login}>
                     <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <ErrorIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5"  className={classes.error}>
-                        you must login first
-                    </Typography> 
+                        <Avatar className={classes.avatar}>
+                            <ErrorIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5" className={classes.error}>
+                            you must login first
+                        </Typography>
                     </div>
                 </Fade>
             </Modal>

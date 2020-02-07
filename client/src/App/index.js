@@ -12,20 +12,21 @@ import List from '@material-ui/core/List';
 import InfoIcon from '@material-ui/icons/Info';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Entrance from './Components/Users/entryButtons';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Redirect,
 } from 'react-router-dom';
-import PostsList from './Components/PostsList';
-import Feed from './Components/Feed';
-import AddPost from './Components/AddPost';
+import Entrance from './Components/Users/entryButtons';
+import { authenticationService } from './_services';
+import AddTicket from './Components/AddTicket';
 import About from './Components/About';
 import ListItemLink from './Components/ListItemLink';
 import PersonalArea from './Components/PersonalArea';
 import Footer from './Components/Footer';
+import ConcertsFeed from './Components/ConcertsFeed';
+import AddConcert from './Components/AddConcert';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -34,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
     },
+    title: {
+        flexGrow: 1,
+        textShadow: '3px 3px #313131'
+    }
 }));
-
-const FullTitle = styled(Typography)`
-    flex-grow: 1
-`;
 
 export default function () {
     const classes = useStyles();
@@ -52,46 +53,44 @@ export default function () {
     return (
         <div>
             <Router>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onDrawerClicked}>
-                            <MenuIcon />
-                        </IconButton>
-                        <FullTitle variant="h6" className={classes.title}>
-                            Tickets
-                        </FullTitle>
-                        <Entrance/>
-                    </Toolbar>
-                </AppBar>
-                <Drawer open={drawerState} onClose={onDrawerClicked}>
-                    <List className={classes.list}>
-                        <ListItemLink to="/feed" primary="Feed" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
-                        <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
-                        <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />
-                    </List>
-                </Drawer>
+                <header>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={onDrawerClicked}>
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography variant="h6" className={classes.title}>
+                                Tickets
+                            </Typography>
+                            <Entrance />
+                        </Toolbar>
+                    </AppBar>
+                </header>
+                <nav>
+                    <Drawer open={drawerState} onClose={onDrawerClicked}>
+                        <List className={classes.list}>
+                            <ListItemLink to="/concertsFeed" primary="Concerts" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
+                            <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
+                        </List>
+                    </Drawer>
+                </nav>
                 <Container maxWidth="md" id="main">
                     <Switch>
-                        <Route path="/login">
-                            login form
-                        </Route>
-                        <Route path="/register">
-                            register form
-                        </Route>
                         <Route path="/about">
                             <About />
                         </Route>
-                        <Route path="/feed">
-                            <Feed />
-                            <AddPost />
+                        <Route path="/concertsFeed">
+                            <ConcertsFeed />
+                            <AddConcert />
                         </Route>
                         <Route path="/userProfile">
                             <PersonalArea />
+                            <AddTicket />
                         </Route>
                         <Route path="/">
-                            <Redirect to="/feed" />
-                            {/* TODO: implement that / will go to /feed if user is logged,
-                            if not go to /login */}
+                            <Redirect to="/concertsFeed" />
                         </Route>
                     </Switch>
                 </Container>

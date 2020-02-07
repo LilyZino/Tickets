@@ -1,6 +1,7 @@
-import User from './User.model';
-const jwt = require("jsonwebtoken");
-//const config = require("config");
+import User from './user.model';
+import { sendAuthenticationMail } from '../MailAuth/MailAuth.service';
+
+const jwt = require('jsonwebtoken');
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -13,7 +14,28 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const addUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
+
+    if (!name) {
+        return res
+            .status(400)
+            .json({ msg: 'Please enter name' });
+    }
+    if (!password) {
+        return res
+            .status(400)
+            .json({ msg: 'Please enter Password' });
+    }
+    if (!email) {
+        return res
+            .status(400)
+            .json({ msg: 'Please enter email' });
+    }
+    if (!phone) {
+        return res
+            .status(400)
+            .json({ msg: 'Please enter phone' });
+    }
 
     try {
         let user = await User.findOne({ name });
@@ -24,14 +46,24 @@ export const addUser = async (req, res) => {
                 .json({ msg: 'User already exists' });
         }
 
+        user = await User.findOne({ email });
+
+        if (user) {
+            return res
+                .status(400)
+                .json({ msg: 'Email already exists' });
+        }
+
         user = new User({
-            name, email, password
+            name, email, password, phone
         });
 
         await user.save();
+
+        await sendAuthenticationMail(email, name);
     } catch (error) {
         console.error(error.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ msg: 'Server Error' });
     }
 };
 
@@ -60,28 +92,27 @@ export const getUser = async (req, res) => {
 export const login = async (req, res) => {
     const { name, password } = req.body;
     try {
-        // console.log('name: ' + name + " pass: " + password);
-        let loggedUser = await User.findOne({ name: name, password: password});
-        console.log('user' + loggedUser)
-        if (loggedUser != null) {
-            
-              jwt.sign(
-                loggedUser.toJSON(),
-                process.env.JWT_SECRET,
-                { expiresIn: 3600 },
-                (err, token) => {
-                  if (err) throw err;
-                //   console.log(token)
-                  res.json({ token });
-                }
-              );
-              
-            return true
-        } else {
-            return res.status(404).json({ msg: 'User name or password are incorrect' });
-        }
+        const loggedUser = await User.findOne({ name, password });
+        console.log(`user${loggedUser}`);
+
+        if (loggedUser == null) return res.status(404).json({ msg: 'User name or password are incorrect' });
+
+        if (!loggedUser.isAuthenticated) return res.status(404).json({ msg: 'User was not authenticated, please check your mail' });
+
+        const token = jwt.sign(
+            loggedUser.toJSON(),
+            process.env.JWT_SECRET,
+            { expiresIn: 3600 },
+        );
+
+        return ({
+            _id: loggedUser._id,
+            name: loggedUser.name,
+            token
+        });
+
     } catch (error) {
-        console.error("my error:" + error.message);
+        console.error(`my error:${error.message}`);
         res.status(500).send('Server Error');
     }
 };

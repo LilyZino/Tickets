@@ -1,34 +1,37 @@
 import React, { useEffect, useState } from 'react';
+import { authenticationService } from '../../_services';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import PostsList from '../PostsList';
+import { Typography } from '@material-ui/core';
+import TicketsFeed from '../TicketsFeed';
 
 const useStyles = makeStyles({
+    hello: {
+        marginTop: '10px'
+    }
 });
 
 export default function PersonalArea() {
     const classes = useStyles();
-    const [posts, setPosts] = useState([]);
-    const [user, setUser] = useState([]);
+    const [tickets, setTickets] = useState([]);
 
     useEffect(() => {
         (async () => {
-            const userId = '5e19e0e24975240b38166236';
-            const getPostsResponse = await axios.get(`/api/posts/user/${userId}`);
-            const getUserResponse = await axios.get(`/api/users/${userId}`);
-
-            setPosts(getPostsResponse.data);
-            setUser(getUserResponse.data);
-
-            console.log(posts);
-            console.log(user);
-        })();
+            if(authenticationService.currentUserValue){
+                const userId = authenticationService.currentUserValue.data ? 
+                    authenticationService.currentUserValue.data._id :  authenticationService.currentUserValue._id;
+            const getTicketsResponse = await axios.get('/api/tickets/user/' + userId);
+            setTickets(getTicketsResponse.data);
+            console.log(getTicketsResponse.data);
+        }})();
     }, []);
 
     return (
         <div>
-            Hello {user.name}
-            <PostsList posts={posts} isEditable />
+            <Typography variant="h6">
+                Here are your tickets:
+            </Typography>
+            <TicketsFeed tickets={tickets} />
         </div>
     );
 }
