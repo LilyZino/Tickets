@@ -1,10 +1,11 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import 'typeface-roboto';
 
 export default createMuiTheme({
     palette: {
         primary: {
             // light: will be calculated from palette.primary.main,
-            main: '#581845',
+            main: '#581847',
             // dark: will be calculated from palette.primary.main,
             // contrastText: will be calculated to contrast with palette.primary.main
         },
@@ -13,6 +14,26 @@ export default createMuiTheme({
             main: '#0044ff',
             // dark: will be calculated from palette.secondary.main,
             contrastText: '#ffcc00',
+        },
+        typography: {
+            fontSize: 8,
+            fontFamily: [
+                '-apple-system',
+                'BlinkMacSystemFont',
+                '"Segoe UI"',
+                'Roboto',
+                'typeface-roboto',
+                '"Helvetica Neue"',
+                'Arial',
+                'sans-serif',
+                '"Apple Color Emoji"',
+                '"Segoe UI Emoji"',
+                '"Segoe UI Symbol"',
+            ].join(','),
+        },
+        h1: {
+            letterSpacing: 0,
+            fontSize: 8,
         },
         // Used by `getContrastText()` to maximize the contrast between
         // the background and the text.

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
-// import pink from '@material-ui/core/colors/';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -30,7 +29,7 @@ import Footer from './Components/Footer';
 import ConcertsFeed from './Components/ConcertsFeed';
 import AddConcert from './Components/AddConcert';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     list: {
         width: '250px'
     },

@@ -16,6 +16,10 @@ const useStyles = makeStyles({
     },
     searchButton: {
         width: '10%'
+    },
+    item: {
+        flex: 1,
+        padding: 4,
     }
 });
 
@@ -42,28 +46,28 @@ export default function ConcertsSearch(props) {
     return (
         <div className={classes.search}>
             <TextField
+                className={classes.item}
                 label="Artist"
-                variant="outlined"
                 type="text"
                 value={enteredArtist}
                 onChange={(event) => setEnteredArtist(event.target.value)}
             />
             <TextField
+                className={classes.item}
                 label="Location"
-                variant="outlined"
                 type="text"
                 value={enteredLocation}
                 onChange={(event) => setEnteredLocation(event.target.value)}
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
+                    className={classes.item}
                     disableToolbar
                     autoOk
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="normal"
                     id="date-picker-inline"
-                    label="Date"
                     value={enteredDate}
                     onChange={handleDateChange}
                     KeyboardButtonProps={{
@@ -71,7 +75,7 @@ export default function ConcertsSearch(props) {
                     }}
                 />
             </MuiPickersUtilsProvider>
-            <Button variant="contained" color="primary" onClick={setSearchFilter}>Search</Button>
+            <Button className={classes.item} variant="contained" color="primary" onClick={setSearchFilter}>Search</Button>
         </div>
     );
 }
