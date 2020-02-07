@@ -8,8 +8,8 @@ import ErrorIcon from '@material-ui/icons/Error';
 import AddIcon from '@material-ui/icons/Add';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
-import AddTicketFade from './newTicketFade'
 import Avatar from '@material-ui/core/Avatar';
+import AddTicketFade from './newTicketFade';
 
 import { authenticationService } from '../../_services';
 
@@ -17,7 +17,7 @@ import { authenticationService } from '../../_services';
 const useStyles = makeStyles((theme) => ({
     fab: {
         position: 'fixed',
-        bottom: theme.spacing(2),
+        bottom: theme.spacing(6),
         right: theme.spacing(2),
         '&:hover': {
             transform: 'rotate(360deg)',
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AddTicket(props) {
+export default function AddTicket() {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [login, setLogin] = useState(false);
@@ -88,19 +88,19 @@ export default function AddTicket(props) {
             <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
                 <AddIcon />
             </Fab>
-            
-                <AddTicketFade 
-                open = {open}
-                AddMode = {true}
-                enteredAmount = {enteredAmount}
-                setEnteredAmount = {setEnteredAmount}
-                enteredPrice = {enteredPrice}
-                setEnteredPrice = {setEnteredPrice}
-                enteredConcert = { enteredConcert}
-                setEnteredConcert = {setEnteredConcert}
-                handleSubmit = {handleSubmit}
-                handleClose = {handleClose}
-                />
+
+            <AddTicketFade
+                open={open}
+                AddMode
+                enteredAmount={enteredAmount}
+                setEnteredAmount={setEnteredAmount}
+                enteredPrice={enteredPrice}
+                setEnteredPrice={setEnteredPrice}
+                enteredConcert={enteredConcert}
+                setEnteredConcert={setEnteredConcert}
+                handleSubmit={handleSubmit}
+                handleClose={handleClose}
+            />
             <Modal
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
