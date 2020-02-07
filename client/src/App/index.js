@@ -95,7 +95,6 @@ export default function () {
                         </Route>
                     </Switch>
                 </Container>
-                <Footer />
             </Router>
         </ThemeProvider>
     );

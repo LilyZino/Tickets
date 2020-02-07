@@ -20,6 +20,9 @@ const useStyles = makeStyles({
     item: {
         flex: 1,
         padding: 4,
+    },
+    button: {
+        margin: 8
     }
 });
 
@@ -75,7 +78,7 @@ export default function ConcertsSearch(props) {
                     }}
                 />
             </MuiPickersUtilsProvider>
-            <Button className={classes.item} variant="contained" color="primary" onClick={setSearchFilter}>Search</Button>
+            <Button className={classes.button} variant="contained" color="secondary" onClick={setSearchFilter}>Search</Button>
         </div>
     );
 }

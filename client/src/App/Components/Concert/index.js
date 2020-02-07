@@ -122,10 +122,10 @@ export default (props) => {
                                                 <ConfirmationNumberIcon />
                                             </ListItemIcon>
                                             <ListItemText
-                                                primary={`${ticket.amount - ticket.sold} Tickets`}
-                                                secondary={`${ticket.user.name} - ${ticket.user.phone} - ${ticket.user.email}`}
+                                                primary={`${ticket.amount - ticket.sold} Tickets Available`}
+                                                secondary={`By ${ticket.user.name}, Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
                                             />
-                                            <Typography variant="h6">
+                                            <Typography>
                                                 {`${ticket.price}₪`}
                                             </Typography>
                                         </ListItem>
