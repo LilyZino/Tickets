@@ -12,8 +12,6 @@ import List from '@material-ui/core/List';
 import InfoIcon from '@material-ui/icons/Info';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import {
     BrowserRouter as Router,
     Switch,
