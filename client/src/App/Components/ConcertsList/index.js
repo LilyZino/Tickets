@@ -10,11 +10,11 @@ export default (props) => {
         const concertsToRender = filter ? concerts.filter((concert) => {
             console.log(concert);
 
-            if (filter.artist && filter.artist !== '' && !concert.artist.toLowerCase().includes(filter.artist)) {
+            if (filter.artist && filter.artist !== '' && !concert.artist.toLowerCase().includes(filter.artist.toLowerCase())) {
                 return false;
             }
 
-            if (filter.location && filter.location !== '' && !concert.location.toLowerCase().includes(filter.location)) {
+            if (filter.location && filter.location !== '' && !concert.location.toLowerCase().includes(filter.location.toLowerCase())) {
                 return false;
             }
 
