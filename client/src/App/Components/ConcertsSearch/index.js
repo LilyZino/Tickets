@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 export default function ConcertsSearch(props) {
     const classes = useStyles();
     const [enteredArtist, setEnteredArtist] = useState('');
-    const [enteredDate, setEnteredDate] = useState(new Date());
+    const [enteredDate, setEnteredDate] = useState('');
     const [enteredLocation, setEnteredLocation] = useState('');
 
     const setSearchFilter = () => {
@@ -67,6 +67,7 @@ export default function ConcertsSearch(props) {
                     className={classes.item}
                     disableToolbar
                     autoOk
+                    error={false}
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="normal"

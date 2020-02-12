@@ -9,11 +9,11 @@ const TicketsList = (props) => {
         const ticketsToRender = filter ? tickets.filter((ticket) => {
             console.log(ticket);
 
-            if (filter.artist && filter.artist !== '' && !ticket.concert.artist.toLowerCase().includes(filter.artist)) {
+            if (filter.artist && filter.artist !== '' && !ticket.concert.artist.toLowerCase().includes(filter.artist.toLowerCase())) {
                 return false;
             }
 
-            if (filter.location && filter.location !== '' && !ticket.concert.location.toLowerCase().includes(filter.location)) {
+            if (filter.location && filter.location !== '' && !ticket.concert.location.toLowerCase().includes(filter.location.toLowerCase())) {
                 return false;
             }
 
