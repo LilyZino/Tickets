@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import User from './user.model';
+import Ticket from '../Ticket/Ticket.model';
 import { sendAuthenticationMail } from '../MailAuth/MailAuth.service';
 
 const jwt = require('jsonwebtoken');
@@ -74,7 +76,6 @@ export const editUser = (req, res) => {
 export const getUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
-        console.log(user);
 
         // Check for ObjectId format and post
         if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !user) {
@@ -82,6 +83,35 @@ export const getUser = async (req, res) => {
         }
 
         res.json(user);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+};
+
+export const getUsersSoldTicketsCount = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        // Check for ObjectId format and post
+        if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        const soldTickets = await Ticket.aggregate([{
+            $match: { user: new mongoose.Types.ObjectId(req.params.id) }
+        },
+        {
+            $group: {
+                _id: '$id',
+                count: { $sum: 1 },
+            }
+        },
+        ]);
+
+        const soldTicketsCount = soldTickets[0].count;
+        res.json(soldTicketsCount);
     } catch (err) {
         console.error(err.message);
 
@@ -110,7 +140,6 @@ export const login = async (req, res) => {
             name: loggedUser.name,
             token
         });
-
     } catch (error) {
         console.error(`my error:${error.message}`);
         res.status(500).send('Server Error');
