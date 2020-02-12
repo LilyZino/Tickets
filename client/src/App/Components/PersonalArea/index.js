@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 export default function PersonalArea() {
     const classes = useStyles();
     const [tickets, setTickets] = useState([]);
+    const [ticketsCount, setTicketsCount] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -21,13 +22,18 @@ export default function PersonalArea() {
                 const userId = authenticationService.currentUserValue.data
                     ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
                 const getTicketsResponse = await axios.get(`/api/tickets/user/${userId}`);
+                const getTicketsCountResponse = await axios.get(`/api/users/ticketCount/${userId}`);
                 setTickets(getTicketsResponse.data);
+                setTicketsCount(getTicketsCountResponse.data);
                 console.log(getTicketsResponse.data);
             }
         })();
     }, []);
 
     return (
-        <TicketsFeed tickets={tickets} />
+        <div>
+            <Typography> Welcome to your personal area! Here you can find your {ticketsCount} posts:</Typography>
+            <TicketsFeed tickets={tickets} />
+        </div>
     );
 }
