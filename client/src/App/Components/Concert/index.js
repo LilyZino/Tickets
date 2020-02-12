@@ -17,6 +17,7 @@ import Collapse from '@material-ui/core/Collapse';
 import axios from 'axios';
 import MapIcon from '@material-ui/icons/Map';
 import { registerSocketEvent } from '../../_services/socketService';
+import Maps from '../Maps';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -47,11 +48,15 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     }
 }));
-
+const mapStyles = {
+    width: '100%',
+    height: '100%',
+  };
 export default (props) => {
     const classes = useStyles();
     const { id, artist, location, time } = props;
     const [expanded, setExpanded] = useState(false);
+    const [mapexpanded, setmapExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
 
 
@@ -75,6 +80,10 @@ export default (props) => {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+    const handlemapExpandClick = () => {
+        setmapExpanded(!mapexpanded);
+    };
+    
 
     return (
         <Card className={classes.card} elevation={2}>
@@ -87,7 +96,12 @@ export default (props) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <IconButton className={classes.iconLocation}>
+                <IconButton 
+                    className={classes.iconLocation}
+                    onClick={handlemapExpandClick}
+                    aria-expanded={mapexpanded}
+                    aria-label="show more"
+                >
                     <MapIcon />
                 </IconButton>
                 <IconButton
@@ -102,6 +116,9 @@ export default (props) => {
                 </IconButton>
 
             </CardActions>
+            <Collapse in={mapexpanded} timeout="auto" unmountOnExit>
+                <Maps location={`${location}`}/>
+            </Collapse>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography>
