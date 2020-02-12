@@ -117,7 +117,7 @@ export default (props) => {
 
             </CardActions>
             <Collapse in={mapexpanded} timeout="auto" unmountOnExit>
-                <Maps />
+                <Maps location={`${location}`}/>
             </Collapse>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
