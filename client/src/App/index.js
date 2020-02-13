@@ -28,6 +28,7 @@ import PersonalArea from './Components/PersonalArea';
 import Footer from './Components/Footer';
 import ConcertsFeed from './Components/ConcertsFeed';
 import AddConcert from './Components/AddConcert';
+import Charts from './Components/Charts';
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -74,6 +75,7 @@ export default function () {
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
+                            <ListItemLink to="/charts" primary="Statistic Charts" icon={<InfoIcon />} onClick={onDrawerClicked} />
                         </List>
                     </Drawer>
                 </nav>
@@ -81,6 +83,9 @@ export default function () {
                     <Switch>
                         <Route path="/about">
                             <About />
+                        </Route>
+                        <Route path="/charts">
+                            <Charts />
                         </Route>
                         <Route path="/concertsFeed">
                             <ConcertsFeed />
