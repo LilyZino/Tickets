@@ -126,7 +126,9 @@ export default function Charts() {
   //Pie Chart
 
   var arr = [];
-  var myid, myuser, myname = {};
+  var myid = {};
+  var myuser = {};
+  var myname = {};
   for (var i = 0; i < Tickets.length; i++) {
     myid = Tickets[i].user;
     for (var j = 0; j < Users.length; j++) {
