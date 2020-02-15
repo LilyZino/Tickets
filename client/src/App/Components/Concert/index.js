@@ -54,7 +54,7 @@ const mapStyles = {
   };
 export default (props) => {
     const classes = useStyles();
-    const { id, artist, location, time } = props;
+    const { id, artist, location, time, genre } = props;
     const [expanded, setExpanded] = useState(false);
     const [mapexpanded, setmapExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
@@ -92,7 +92,7 @@ export default (props) => {
                     {artist}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary" variant="h6">
-                    {`${location}, ${moment(time).format('DD/MM/YYYY HH:mm')}`}
+                    {`${location}, ${moment(time).format('DD/MM/YYYY HH:mm')}, ${genre}`}
                 </Typography>
             </CardContent>
             <CardActions>

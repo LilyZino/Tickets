@@ -41,6 +41,7 @@ export default (props) => {
                     artist={concert.artist}
                     location={concert.location}
                     time={concert.time}
+                    genre={concert.genre}
                 />
             ))}
         </div>

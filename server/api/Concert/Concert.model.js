@@ -15,6 +15,10 @@ const ConcertSchema = new Schema({
         type: Date,
         required: true
     },
+    genre: {
+        type: String,
+        required: true
+    },
 });
 
 export default mongoose.model('concert', ConcertSchema);

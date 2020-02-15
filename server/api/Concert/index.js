@@ -1,10 +1,11 @@
 import { AsyncRouter } from 'express-async-router';
-import { getAllConcerts, addConcert, getConcert } from './Concert.controller';
+import { getAllConcerts, addConcert, getConcert, getConcertsRecommendations } from './Concert.controller';
 
 const router = AsyncRouter();
 
 router.get('/', getAllConcerts);
 router.get('/:id', getConcert);
 router.put('/', addConcert);
+router.get('/recs/:rec', getConcertsRecommendations);
 
 export default router;

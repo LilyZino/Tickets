@@ -70,6 +70,7 @@ export default function AddTicket() {
     const [enteredArtist, setEnteredArtist] = useState('');
     const [enteredTime, setEnteredTime] = useState(new Date());
     const [enteredLocation, setEnteredLocation] = useState('');
+    const [enteredGenre, setEnteredGenre] = useState('');
 
     const handleOpen = () => {
         if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
@@ -90,6 +91,7 @@ export default function AddTicket() {
             artist: enteredArtist,
             time: enteredTime,
             location: enteredLocation,
+            genre: enteredGenre,
         }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
@@ -134,6 +136,13 @@ export default function AddTicket() {
                                     value={enteredLocation}
                                     onChange={(event) => {
                                         setEnteredLocation(event.target.value);
+                                    }}
+                                />
+                                <TextField
+                                    label="Genre"
+                                    value={enteredGenre}
+                                    onChange={(event) => {
+                                        setEnteredGenre(event.target.value);
                                     }}
                                 />
                                 <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>

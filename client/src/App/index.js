@@ -29,6 +29,7 @@ import Footer from './Components/Footer';
 import ConcertsFeed from './Components/ConcertsFeed';
 import AddConcert from './Components/AddConcert';
 import Charts from './Components/Charts';
+import Recommendations from './Components/Recommendations'; 
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -74,6 +75,8 @@ export default function () {
                             <ListItemLink to="/concertsFeed" primary="Concerts" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/recs" primary="My Reccomendations" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
                             <ListItemLink to="/charts" primary="Statistic Charts" icon={<InfoIcon />} onClick={onDrawerClicked} />
                         </List>
@@ -86,6 +89,9 @@ export default function () {
                         </Route>
                         <Route path="/charts">
                             <Charts />
+                        </Route>
+                        <Route path="/recs">
+                            <Recommendations />
                         </Route>
                         <Route path="/concertsFeed">
                             <ConcertsFeed />
