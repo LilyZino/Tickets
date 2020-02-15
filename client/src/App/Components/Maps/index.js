@@ -5,6 +5,7 @@ import {
   GoogleMap
 } from 'react-google-maps';
 import Geocode from "react-geocode";
+import {GoogleKey} from '../../../../../secrets'
 
 export default function Maps(props) {
 
@@ -14,7 +15,7 @@ export default function Maps(props) {
   useEffect(() => {
     const { location } = props;
     console.log("use eff loc : "+ location)
-    Geocode.setApiKey("AIzaSyBN1iwWntz7dFD2JW4Y3UJmYiweGeQ5VGE");
+    Geocode.setApiKey(GoogleKey);
 
     Geocode.fromAddress(location).then(
         response => {
@@ -39,13 +40,11 @@ export default function Maps(props) {
       </GoogleMap>
     );
   }
-
   const MapWrapped = withScriptjs(withGoogleMap(Map));
-
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <MapWrapped
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyBN1iwWntz7dFD2JW4Y3UJmYiweGeQ5VGE`}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${GoogleKey}`}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}
