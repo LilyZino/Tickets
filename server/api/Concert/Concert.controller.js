@@ -1,7 +1,5 @@
-import mongoose from 'mongoose';
 import Concert from './Concert.model';
 import Ticket from '../Ticket/Ticket.model';
-import User from '../User/user.model';
 import { informConcertsUpdated } from '../../config/sockets';
 
 export const getAllConcerts = async (req, res) => {
@@ -30,27 +28,35 @@ export const getConcert = async (req, res) => {
 
 export const getConcertsRecommendations = async (req, res) => {
     
-    // get the concerts I sell tickets for
-    const tickets = await Ticket.find({'user': req.params.rec}, {concert:1, _id:0}).populate('concert');
+    // get the concerts I sell tickets to
+    const myconcerts = await Ticket.find({'user': req.params.rec}, {concert:1, _id:0}).populate('concert');
     
     // get the concert ids
     var concertids = []
-    for (var i = 0; i < tickets.length; i++)
-        concertids.push(tickets[i].concert._id)
+    for (var i = 0; i < myconcerts.length; i++)
+        concertids.push(myconcerts[i].concert._id)
     
     // get the concert genres
     var concertgenres = []
-    for (var i = 0; i < tickets.length; i++)
-        concertgenres.push(tickets[i].concert.genre)
+    for (var i = 0; i < myconcerts.length; i++)
+        concertgenres.push(myconcerts[i].concert.genre)
 
     // get the concerts in this genre that I don't already sell
-    const concerts2 = await Concert.find({
+    const recConcerts = await Concert.find({
         genre:{ $exists: true },
         genre: {$in: concertgenres},
         _id: {$nin: concertids}
     });
     
-    
+    // From the recommended concerts get those that have available tickets
+    const finalconcerts = await Ticket.find({
+        concert: {$in: recConcerts}
+    },{'concert':1}).populate('concert');
 
-    res.send(concerts2);
+    // extract concerts from tickets
+    var concerts = []
+    for (var i = 0; i < finalconcerts.length; i++)
+        concerts.push(finalconcerts[i].concert)
+
+    res.send(concerts);
 };
