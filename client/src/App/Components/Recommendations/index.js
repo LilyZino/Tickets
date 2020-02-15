@@ -2,21 +2,26 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ConcertsList from '../ConcertsList';
 import { registerSocketEvent, initSockets } from '../../_services/socketService';
+import { authenticationService } from '../../_services';
 
 export default function Recommendations() {
     const rec = 'Pop';
     const [concerts, setConcerts] = useState([]);
     const [filter, setFilter] = useState({});
     const GetRecs = async () => {
-        const response = await axios.get(`/api/concerts/recs/${rec}`);
+        if (authenticationService.currentUserValue) {
+            const userId = authenticationService.currentUserValue.data
+                ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+            console.log(userId);
+            const response = await axios.get(`/api/concerts/recs/${userId}`);
         
 
-        setConcerts(response.data);
+            setConcerts(response.data);
 
-        console.log('useEffect GetRecs:', response);
+            console.log('useEffect GetRecs:', response);
+        }
     };
-    GetRecs();
-    /*useEffect(() => {
+    useEffect(() => {
         initSockets();
         registerSocketEvent('concerts-updated', () => {
             console.log('concerts was updated');
@@ -24,7 +29,7 @@ export default function Recommendations() {
         });
 
         GetRecs();
-    }, []);*/
+    }, []);
 
     return (
         <div>

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Concert from './Concert.model';
 import Ticket from '../Ticket/Ticket.model';
 import User from '../User/user.model';
@@ -28,10 +29,28 @@ export const getConcert = async (req, res) => {
 };
 
 export const getConcertsRecommendations = async (req, res) => {
-    //const users = await User.find();
-    console.log('in');
+    
+    // get the concerts I sell tickets for
+    const tickets = await Ticket.find({'user': req.params.rec}, {concert:1, _id:0}).populate('concert');
+    
+    // get the concert ids
+    var concertids = []
+    for (var i = 0; i < tickets.length; i++)
+        concertids.push(tickets[i].concert._id)
+    
+    // get the concert genres
+    var concertgenres = []
+    for (var i = 0; i < tickets.length; i++)
+        concertgenres.push(tickets[i].concert.genre)
 
-    const concerts = await Concert.find().where('genre').equals('Pop');
+    // get the concerts in this genre that I don't already sell
+    const concerts2 = await Concert.find({
+        genre:{ $exists: true },
+        genre: {$in: concertgenres},
+        _id: {$nin: concertids}
+    });
+    
+    
 
-    res.send(concerts);
+    res.send(concerts2);
 };
