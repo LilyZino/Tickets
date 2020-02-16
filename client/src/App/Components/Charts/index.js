@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Charts() {
+  const classes = useStyles();
+  
   const [Tickets, setTickets] = useState([]);
   const [Users, setUsers] = useState([]);
   const [concertTickets, setConcertTickets] = useState([]);
@@ -48,7 +50,7 @@ export default function Charts() {
 
   }, []);
   
-  const classes = useStyles();
+  
   var pointsBuild = [];
   for (var i = 0; i < concertTickets.length; i++) {
     pointsBuild.push(moment(concertTickets[i].time).format('MM'));
@@ -112,7 +114,7 @@ export default function Charts() {
       }
     },
     tooltip: {
-      headerFormat: '<span style="font-size:11px">{series.name}</span><br>'
+      enabled: false
     },
     series: [
       {
@@ -124,7 +126,7 @@ export default function Charts() {
   };
 
   //Pie Chart
-
+ console.log(Tickets);
   var arr = [];
   var myid = {};
   var myuser = {};
@@ -138,6 +140,7 @@ export default function Charts() {
     myname = myuser.name
     arr.push(myname);
   }
+  arr.sort();
 
   var names = [], count = [], prev2;
 
@@ -166,7 +169,7 @@ export default function Charts() {
       type: 'pie'
     },
     title: {
-      text: 'Tickets per User'
+      text: 'Posts per User'
     },
     accessibility: {
       point: {
@@ -185,7 +188,7 @@ export default function Charts() {
     },
     series: [
       {
-        name: 'Brands',
+        name: 'Tickets',
         colorByPoint: true,
         data: ticksperUsr
       }]
@@ -196,6 +199,8 @@ export default function Charts() {
   return (
     <div>
       <HighchartsReact highcharts={Highcharts} options={options} />
+      <br/> 
+      <br/> 
       <HighchartsReact highcharts={Highcharts} options={pieoptions} />
     </div>
   );

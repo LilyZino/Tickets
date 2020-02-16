@@ -34,8 +34,8 @@ body {
     z-index: 2;
     text-shadow: 2px 2px 2px #000000;
     color: white;
-    z-index: 99;
     font-size: 2em;
+    top: 20%;
     text-align: center;
 }
 

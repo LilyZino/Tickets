@@ -29,7 +29,9 @@ export const getConcert = async (req, res) => {
 export const getConcertsRecommendations = async (req, res) => {
     
     // get the concerts I sell tickets to
-    const myconcerts = await Ticket.find({'user': req.params.rec}, {concert:1, _id:0}).populate('concert');
+    const myconcerts = await Ticket.find(
+        {'user': req.params.id},
+        {concert:1, _id:0}).populate('concert');
     
     // get the concert ids
     var concertids = []
@@ -41,7 +43,7 @@ export const getConcertsRecommendations = async (req, res) => {
     for (var i = 0; i < myconcerts.length; i++)
         concertgenres.push(myconcerts[i].concert.genre)
 
-    // get the concerts in this genre that I don't already sell
+    // get the concerts in these genres that I don't already sell
     const recConcerts = await Concert.find({
         genre:{ $exists: true },
         genre: {$in: concertgenres},
