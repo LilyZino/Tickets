@@ -6,6 +6,6 @@ const router = AsyncRouter();
 router.get('/', getAllConcerts);
 router.get('/:id', getConcert);
 router.put('/', addConcert);
-router.get('/recs/:rec', getConcertsRecommendations);
+router.get('/recs/:id', getConcertsRecommendations);
 
 export default router;
