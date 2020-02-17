@@ -26,39 +26,99 @@ export const getConcert = async (req, res) => {
     res.send(concert);
 };
 
+export const getConcertList = async (req, res) => {
+    let i;
+
+    const myconcerts = await Ticket.find(
+        { user: req.params.id },
+        { concert: 1, _id: 0 }
+    ).populate('concert');
+
+    // get the concert ids
+    const concertids = [];
+    for (i = 0; i < myconcerts.length; i++) concertids.push(myconcerts[i].concert._id);
+
+    // get the concert genres
+    const concertgenres = [];
+    for (i = 0; i < myconcerts.length; i++) if (myconcerts[i].concert.genre) concertgenres.push(myconcerts[i].concert.genre);
+    concertgenres.sort();
+
+    const names = []; const count = []; let prev2;
+
+    for (i = 0; i < concertgenres.length; i++) {
+        if (concertgenres[i] !== prev2) {
+            names.push(concertgenres[i]);
+            count.push(1);
+        } else {
+            count[count.length - 1]++;
+        }
+        prev2 = concertgenres[i];
+    }
+    const countOfGenres = [];
+
+    for (i = 0; i < names.length; i++) {
+        countOfGenres.push({ c: count[i], name: names[i] });
+    }
+
+    const bubbleSort = (arr) => {
+        for (i = 0; i < arr.length - 1; i++) {
+            let change = false;
+            for (let j = 0; j < arr.length - (i + 1); j++) {
+                if (arr[j].c > arr[j + 1].c) {
+                    change = true;
+                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                }
+            }
+            if (!change) break;
+        }
+        return arr;
+    };
+    const sortedcountOfGenres = bubbleSort(countOfGenres);
+    const filteredGenres = [];
+
+    for (i = names.length - 1; i >= 0; i--) {
+        filteredGenres.push(sortedcountOfGenres[i].name);
+    }
+    res.send(filteredGenres);
+};
+
 export const getConcertsRecommendations = async (req, res) => {
-    
+    let i;
+
     // get the concerts I sell tickets to
     const myconcerts = await Ticket.find(
-        {'user': req.params.id},
-        {concert:1, _id:0}).populate('concert');
-    
+        { user: req.params.id },
+        { concert: 1, _id: 0 }
+    ).populate('concert');
+
     // get the concert ids
-    var concertids = []
-    for (var i = 0; i < myconcerts.length; i++)
-        concertids.push(myconcerts[i].concert._id)
-    
+    const concertids = [];
+    for (i = 0; i < myconcerts.length; i++) concertids.push(myconcerts[i].concert._id);
+
     // get the concert genres
-    var concertgenres = []
-    for (var i = 0; i < myconcerts.length; i++)
-        concertgenres.push(myconcerts[i].concert.genre)
+    const concertgenres = [];
+    for (i = 0; i < myconcerts.length; i++) {
+        if (myconcerts[i].concert.genre) {
+            concertgenres.push(myconcerts[i].concert.genre);
+        }
+    }
 
     // get the concerts in these genres that I don't already sell
     const recConcerts = await Concert.find({
-        genre:{ $exists: true },
-        genre: {$in: concertgenres},
-        _id: {$nin: concertids}
+        genre: { $exists: true },
+        // eslint-disable-next-line no-dupe-keys
+        genre: { $in: concertgenres },
+        _id: { $nin: concertids }
     });
-    
+    console.log(recConcerts);
     // From the recommended concerts get those that have available tickets
     const finalconcerts = await Ticket.find({
-        concert: {$in: recConcerts}
-    },{'concert':1}).populate('concert');
-
+        concert: { $in: recConcerts },
+    }, { concert: 1 }).populate('concert', 'artist location time genre', null, { sort: ['genre'] });
+    console.log(finalconcerts);
     // extract concerts from tickets
-    var concerts = []
-    for (var i = 0; i < finalconcerts.length; i++)
-        concerts.push(finalconcerts[i].concert)
+    const concerts = [];
+    for (i = 0; i < finalconcerts.length; i++) concerts.push(finalconcerts[i].concert);
 
     res.send(concerts);
 };

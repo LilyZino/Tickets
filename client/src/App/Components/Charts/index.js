@@ -6,203 +6,195 @@ import HighchartsReact from 'highcharts-react-official';
 import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
-  columns: {
-    columnCount: 2
-  },
-  twiterFeed: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '20px',
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
+    columns: {
+        columnCount: 2
+    },
+    twiterFeed: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '20px',
+        flexDirection: 'column',
+        alignItems: 'center'
+    }
 }));
 
 export default function Charts() {
-  const classes = useStyles();
-  
-  const [Tickets, setTickets] = useState([]);
-  const [Users, setUsers] = useState([]);
-  const [concertTickets, setConcertTickets] = useState([]);
-  useEffect(() => {
-    const getTicketForConcert = async () => {
+    const classes = useStyles();
 
-      const response = await axios.get(`/api/concerts/`);
-      setConcertTickets(response.data);
-    };
+    const [Tickets, setTickets] = useState([]);
+    const [Users, setUsers] = useState([]);
+    const [concertTickets, setConcertTickets] = useState([]);
+    useEffect(() => {
+        const getTicketForConcert = async () => {
+            const response = await axios.get('/api/concerts/');
+            setConcertTickets(response.data);
+        };
 
-    getTicketForConcert();
-    const getTicket = async () => {
+        getTicketForConcert();
+        const getTicket = async () => {
+            const response = await axios.get('/api/tickets/');
+            setTickets(response.data);
+        };
 
-      const response = await axios.get(`/api/tickets/`);
-      setTickets(response.data);
-    };
+        getTicket();
 
-    getTicket();
+        const getUsers = async () => {
+            const response = await axios.get('/api/users/');
+            setUsers(response.data);
+        };
 
-    const getUsers = async () => {
+        getUsers();
+    }, []);
 
-      const response = await axios.get(`/api/users/`);
-      setUsers(response.data);
-    };
 
-    getUsers();
-
-  }, []);
-  
-  
-  var pointsBuild = [];
-  for (var i = 0; i < concertTickets.length; i++) {
-    pointsBuild.push(moment(concertTickets[i].time).format('MM'));
-  }
-
-  var a = [], b = [], prev;
-
-  pointsBuild.sort();
-  for (var i = 0; i < pointsBuild.length; i++) {
-    if (pointsBuild[i] !== prev) {
-      a.push(pointsBuild[i]);
-      b.push(1);
-    } else {
-      b[b.length - 1]++;
+    const pointsBuild = [];
+    for (var i = 0; i < concertTickets.length; i++) {
+        pointsBuild.push(moment(concertTickets[i].time).format('MM'));
     }
-    prev = pointsBuild[i];
-  }
-  var months = [
-    'January', 'February', 'March', 'April', 'May',
-    'June', 'July', 'August', 'September',
-    'October', 'November', 'December'
-  ];
 
-  function monthNumToName(monthnum) {
-    return months[monthnum - 1] || '';
-  }
-  for (i = 0; i < a.length; i++) {
+    const a = []; const b = []; let
+        prev;
 
-    a[i] = monthNumToName(a[i]);
-  }
-
-  var r = [];
-
-  for (i = 0; i < a.length; i++) {
-
-    r.push({ name: a[i], y: b[i] });
-  }
-
-  const options = {
-    chart: {
-      type: 'column'
-    },
-    title: {
-      text: 'Concerts per month'
-    },
-    legend: {
-      enabled: false
-    },
-    xAxis: {
-      type: 'category'
-    },
-    plotOptions: {
-      column: {
-        pointPadding: 0.2,
-        borderWidth: 0
-      }
-    },
-    accessibility: {
-      announceNewData: {
-        enabled: true
-      }
-    },
-    tooltip: {
-      enabled: false
-    },
-    series: [
-      {
-        colorByPoint: true,
-        type: 'column',
-        data: r
-      }
-    ]
-  };
-
-  //Pie Chart
- console.log(Tickets);
-  var arr = [];
-  var myid = {};
-  var myuser = {};
-  var myname = {};
-  for (var i = 0; i < Tickets.length; i++) {
-    myid = Tickets[i].user;
-    for (var j = 0; j < Users.length; j++) {
-      if (Users[j]._id == myid)
-        myuser = Users[j]
+    pointsBuild.sort();
+    for (var i = 0; i < pointsBuild.length; i++) {
+        if (pointsBuild[i] !== prev) {
+            a.push(pointsBuild[i]);
+            b.push(1);
+        } else {
+            b[b.length - 1]++;
+        }
+        prev = pointsBuild[i];
     }
-    myname = myuser.name
-    arr.push(myname);
-  }
-  arr.sort();
+    const months = [
+        'January', 'February', 'March', 'April', 'May',
+        'June', 'July', 'August', 'September',
+        'October', 'November', 'December'
+    ];
 
-  var names = [], count = [], prev2;
-
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i] !== prev2) {
-      names.push(arr[i]);
-      count.push(1);
-    } else {
-      count[count.length - 1]++;
+    function monthNumToName(monthnum) {
+        return months[monthnum - 1] || '';
     }
-    prev2 = arr[i];
-  }
+    for (i = 0; i < a.length; i++) {
+        a[i] = monthNumToName(a[i]);
+    }
 
-  var ticksperUsr = [];
+    const r = [];
 
-  for (i = 0; i < names.length; i++) {
+    for (i = 0; i < a.length; i++) {
+        r.push({ name: a[i], y: b[i] });
+    }
 
-    ticksperUsr.push({ name: names[i], y: count[i] });
-  }
-
-  const pieoptions = {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie'
-    },
-    title: {
-      text: 'Posts per User'
-    },
-    accessibility: {
-      point: {
-        valueSuffix: '%'
-      }
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: false
+    const options = {
+        chart: {
+            type: 'column'
         },
-        showInLegend: true
-      }
-    },
-    series: [
-      {
-        name: 'Tickets',
-        colorByPoint: true,
-        data: ticksperUsr
-      }]
-  };
+        title: {
+            text: 'Concerts per month'
+        },
+        legend: {
+            enabled: false
+        },
+        xAxis: {
+            type: 'category'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        tooltip: {
+            enabled: false
+        },
+        series: [
+            {
+                colorByPoint: true,
+                type: 'column',
+                data: r
+            }
+        ]
+    };
+
+    // Pie Chart
+    console.log(Tickets);
+    const arr = [];
+    let myid = {};
+    let myuser = {};
+    let myname = {};
+    for (var i = 0; i < Tickets.length; i++) {
+        myid = Tickets[i].user;
+        for (let j = 0; j < Users.length; j++) {
+            if (Users[j]._id == myid) myuser = Users[j];
+        }
+        myname = myuser.name;
+        arr.push(myname);
+    }
+    arr.sort();
+
+    const names = []; const count = []; let
+        prev2;
+
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] !== prev2) {
+            names.push(arr[i]);
+            count.push(1);
+        } else {
+            count[count.length - 1]++;
+        }
+        prev2 = arr[i];
+    }
+
+    const ticksperUsr = [];
+
+    for (i = 0; i < names.length; i++) {
+        ticksperUsr.push({ name: names[i], y: count[i] });
+    }
+
+    const pieoptions = {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Posts per User'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [
+            {
+                name: 'Tickets',
+                colorByPoint: true,
+                data: ticksperUsr
+            }]
+    };
 
 
-
-  return (
-    <div>
-      <HighchartsReact highcharts={Highcharts} options={options} />
-      <br/> 
-      <br/> 
-      <HighchartsReact highcharts={Highcharts} options={pieoptions} />
-    </div>
-  );
+    return (
+        <div>
+            <HighchartsReact highcharts={Highcharts} options={options} />
+            <br />
+            <br />
+            <HighchartsReact highcharts={Highcharts} options={pieoptions} />
+        </div>
+    );
 }
-
