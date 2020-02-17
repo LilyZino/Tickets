@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const mapStyles = {
     width: '100%',
     height: '100%',
-  };
+};
 export default (props) => {
     const classes = useStyles();
     const { id, artist, location, time, genre } = props;
@@ -83,7 +83,7 @@ export default (props) => {
     const handlemapExpandClick = () => {
         setmapExpanded(!mapexpanded);
     };
-    
+
 
     return (
         <Card className={classes.card} elevation={2}>
@@ -92,11 +92,11 @@ export default (props) => {
                     {artist}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary" variant="h6">
-                    {`${location}, ${moment(time).format('DD/MM/YYYY HH:mm')}, ${genre}`}
+                    {`${location}, ${moment(time).format('DD/MM/YYYY HH:mm')}${genre ? `, ${genre}` : ''}`  }
                 </Typography>
             </CardContent>
             <CardActions>
-                <IconButton 
+                <IconButton
                     className={classes.iconLocation}
                     onClick={handlemapExpandClick}
                     aria-expanded={mapexpanded}
@@ -117,7 +117,7 @@ export default (props) => {
 
             </CardActions>
             <Collapse in={mapexpanded} timeout="auto" unmountOnExit>
-                <Maps location={`${location}`}/>
+                <Maps location={`${location}`} />
             </Collapse>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
