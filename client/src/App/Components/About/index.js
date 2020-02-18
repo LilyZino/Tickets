@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Video from '../../../Assets/Vids/tomorrowland.mp4';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     columns: {
         columnCount: 2
     },
@@ -57,10 +57,13 @@ export default function About() {
                 <a href="https://twitter.com/intent/tweet?screen_name=Tickets" className="twitter-mention-button" data-show-count="false">Tweet to FriendForYou</a>
                 <br />
                 <a className="twitter-timeline" data-width="800" data-height="500" href="https://twitter.com/IoTickets">Tweets by FriendForYou</a>
-                <script>{!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs")}</script>
-                <script async src="//platform.twitter.com/widgets.js" charSet="utf-8"></script>
+                <script>{!(function (d, s, id) {
+                    let js; const fjs = d.getElementsByTagName(s)[0]; const
+                        p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = `${p}://platform.twitter.com/widgets.js`; fjs.parentNode.insertBefore(js, fjs); }
+                }(document, 'script', 'twitter-wjs'))}
+                </script>
+                <script async src="//platform.twitter.com/widgets.js" charSet="utf-8" />
             </aside>
         </div>
     );
 }
-

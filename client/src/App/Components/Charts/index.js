@@ -34,23 +34,19 @@ export default function Charts() {
 
 
     const pointsBuild = [];
-    for (i = 0; i < concertTickets.length; i++) {
-        pointsBuild.push(moment(concertTickets[i].time).format('MM'));
-    }
-
-    const a = []; const b = []; let
-        prev;
-
+    concertTickets.forEach((x) => { pointsBuild.push(moment(x.time).format('MM')); });
     pointsBuild.sort();
-    for (i = 0; i < pointsBuild.length; i++) {
-        if (pointsBuild[i] !== prev) {
-            a.push(pointsBuild[i]);
+
+    const a = []; const b = []; let prev;
+    pointsBuild.forEach((x) => {
+        if (x !== prev) {
+            a.push(x);
             b.push(1);
         } else {
             b[b.length - 1]++;
         }
-        prev = pointsBuild[i];
-    }
+        prev = x;
+    });
     const months = [
         'January', 'February', 'March', 'April', 'May',
         'June', 'July', 'August', 'September',
@@ -112,28 +108,25 @@ export default function Charts() {
     let myid = {};
     let myuser = {};
     let myname = {};
-    for (i = 0; i < Tickets.length; i++) {
-        myid = Tickets[i].user;
-        for (let j = 0; j < Users.length; j++) {
-            if (Users[j]._id === myid) myuser = Users[j];
-        }
+    Tickets.forEach((x) => {
+        myid = x.user;
+        Users.forEach((y) => { if (y._id === myid) myuser = y; });
         myname = myuser.name;
         arr.push(myname);
-    }
+    });
     arr.sort();
 
-    const names = []; const count = []; let
-        prev2;
+    const names = []; const count = []; let prev2;
 
-    for (i = 0; i < arr.length; i++) {
-        if (arr[i] !== prev2) {
-            names.push(arr[i]);
+    arr.forEach((x) => {
+        if (x !== prev2) {
+            names.push(x);
             count.push(1);
         } else {
             count[count.length - 1]++;
         }
-        prev2 = arr[i];
-    }
+        prev2 = x;
+    });
 
     const ticksperUsr = [];
 
