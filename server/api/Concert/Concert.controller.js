@@ -45,6 +45,7 @@ export const getConcertList = async (req, res) => {
 
     const names = []; const count = []; let prev2;
 
+    // count distincts genres
     concertgenres.forEach((x) => {
         if (x !== prev2) {
             names.push(x);
@@ -56,10 +57,12 @@ export const getConcertList = async (req, res) => {
     });
     const countOfGenres = [];
 
+    // make an array of genre and count
     for (i = 0; i < names.length; i++) {
         countOfGenres.push({ c: count[i], name: names[i] });
     }
 
+    // Sort the genre list by count
     const bubbleSort = (arr) => {
         for (i = 0; i < arr.length - 1; i++) {
             let change = false;
@@ -76,6 +79,7 @@ export const getConcertList = async (req, res) => {
     const sortedcountOfGenres = bubbleSort(countOfGenres);
     const filteredGenres = [];
 
+    // extract the genres by ascending order
     for (i = names.length - 1; i >= 0; i--) {
         filteredGenres.push(sortedcountOfGenres[i].name);
     }
@@ -83,8 +87,6 @@ export const getConcertList = async (req, res) => {
 };
 
 export const getConcertsRecommendations = async (req, res) => {
-    let i;
-
     // get the concerts I sell tickets to
     const myconcerts = await Ticket.find(
         { user: req.params.id },
@@ -101,16 +103,16 @@ export const getConcertsRecommendations = async (req, res) => {
 
     // get the concerts in these genres that I don't already sell
     const recConcerts = await Concert.find({
-        genre: { $exists: true },
-        // eslint-disable-next-line no-dupe-keys
-        genre: { $in: concertgenres },
-        _id: { $nin: concertids }
+        $and: [
+            { genre: { $exists: true } },
+            { genre: { $in: concertgenres } },
+            { _id: { $nin: concertids } }]
     });
 
     // From the recommended concerts get those that have available tickets
     const finalconcerts = await Ticket.find({
         concert: { $in: recConcerts },
-    }, { concert: 1 }).populate('concert', 'artist location time genre', null, { sort: ['genre'] });
+    }, { concert: 1 }).populate('concert');
 
     // extract concerts from tickets
     const concerts = [];
@@ -118,3 +120,4 @@ export const getConcertsRecommendations = async (req, res) => {
 
     res.send(concerts);
 };
+

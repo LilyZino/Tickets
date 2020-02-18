@@ -13,6 +13,7 @@ const useStyles = makeStyles({
 });
 
 export default function Recommendations() {
+    const classes = useStyles();
     const [concerts, setConcerts] = useState([]);
     const [genreList, setGenreList] = useState([]);
     const [filter] = useState({});
@@ -54,13 +55,13 @@ export default function Recommendations() {
     genreList.forEach((x) => {
         concertsToShow.push(...concerts.filter((concert) => { return x === concert.genre; }));
     });
+    concertsToShow.slice(0, 6);
 
     return (
         <div>
-            <ConcertsList filter={filter} concerts={concertsToShow} />
             <Typography variant="h4" className={classes.title}>Recommended for you</Typography>
             <Typography>Here are some concerts we think you might be interested in</Typography>
-            <ConcertsList filter={filter} concerts={concerts} />
+            <ConcertsList filter={filter} concerts={concertsToShow} />
         </div>
     );
 }
