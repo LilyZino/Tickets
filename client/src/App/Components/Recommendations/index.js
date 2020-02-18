@@ -13,6 +13,7 @@ const useStyles = makeStyles({
 });
 
 export default function Recommendations() {
+    const classes = useStyles();
     const [concerts, setConcerts] = useState([]);
     const [genreList, setGenreList] = useState([]);
     const [filter] = useState({});
