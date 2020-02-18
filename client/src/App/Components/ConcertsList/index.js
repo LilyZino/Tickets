@@ -34,7 +34,7 @@ export default (props) => {
 
     return (
         <div>
-            {filteredConcerts.map((concert) => (
+            {filteredConcerts.sort((a, b) => moment(a.time).isAfter(b.time)).map((concert) => (
                 <Concert
                     key={concert._id}
                     id={concert._id}
