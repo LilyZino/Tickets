@@ -1,25 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import moment from 'moment';
 
-const useStyles = makeStyles((theme) => ({
-    columns: {
-        columnCount: 2
-    },
-    twiterFeed: {
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '20px',
-        flexDirection: 'column',
-        alignItems: 'center'
-    }
-}));
-
 export default function Charts() {
-    const classes = useStyles();
+    let i;
 
     const [Tickets, setTickets] = useState([]);
     const [Users, setUsers] = useState([]);
@@ -48,7 +34,7 @@ export default function Charts() {
 
 
     const pointsBuild = [];
-    for (var i = 0; i < concertTickets.length; i++) {
+    for (i = 0; i < concertTickets.length; i++) {
         pointsBuild.push(moment(concertTickets[i].time).format('MM'));
     }
 
@@ -56,7 +42,7 @@ export default function Charts() {
         prev;
 
     pointsBuild.sort();
-    for (var i = 0; i < pointsBuild.length; i++) {
+    for (i = 0; i < pointsBuild.length; i++) {
         if (pointsBuild[i] !== prev) {
             a.push(pointsBuild[i]);
             b.push(1);
@@ -126,10 +112,10 @@ export default function Charts() {
     let myid = {};
     let myuser = {};
     let myname = {};
-    for (var i = 0; i < Tickets.length; i++) {
+    for (i = 0; i < Tickets.length; i++) {
         myid = Tickets[i].user;
         for (let j = 0; j < Users.length; j++) {
-            if (Users[j]._id == myid) myuser = Users[j];
+            if (Users[j]._id === myid) myuser = Users[j];
         }
         myname = myuser.name;
         arr.push(myname);
@@ -139,7 +125,7 @@ export default function Charts() {
     const names = []; const count = []; let
         prev2;
 
-    for (var i = 0; i < arr.length; i++) {
+    for (i = 0; i < arr.length; i++) {
         if (arr[i] !== prev2) {
             names.push(arr[i]);
             count.push(1);

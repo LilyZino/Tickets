@@ -36,24 +36,24 @@ export const getConcertList = async (req, res) => {
 
     // get the concert ids
     const concertids = [];
-    for (i = 0; i < myconcerts.length; i++) concertids.push(myconcerts[i].concert._id);
+    myconcerts.forEach((x) => { concertids.push(x.concert._id); });
 
     // get the concert genres
     const concertgenres = [];
-    for (i = 0; i < myconcerts.length; i++) if (myconcerts[i].concert.genre) concertgenres.push(myconcerts[i].concert.genre);
+    myconcerts.forEach((x) => { if (x.concert.genre) concertgenres.push(x.concert.genre); });
     concertgenres.sort();
 
     const names = []; const count = []; let prev2;
 
-    for (i = 0; i < concertgenres.length; i++) {
-        if (concertgenres[i] !== prev2) {
-            names.push(concertgenres[i]);
+    concertgenres.forEach((x) => {
+        if (x !== prev2) {
+            names.push(x);
             count.push(1);
         } else {
             count[count.length - 1]++;
         }
-        prev2 = concertgenres[i];
-    }
+        prev2 = x;
+    });
     const countOfGenres = [];
 
     for (i = 0; i < names.length; i++) {
@@ -93,15 +93,11 @@ export const getConcertsRecommendations = async (req, res) => {
 
     // get the concert ids
     const concertids = [];
-    for (i = 0; i < myconcerts.length; i++) concertids.push(myconcerts[i].concert._id);
+    myconcerts.forEach((x) => { concertids.push(x.concert._id); });
 
     // get the concert genres
     const concertgenres = [];
-    for (i = 0; i < myconcerts.length; i++) {
-        if (myconcerts[i].concert.genre) {
-            concertgenres.push(myconcerts[i].concert.genre);
-        }
-    }
+    myconcerts.forEach((x) => { if (x.concert.genre) concertgenres.push(x.concert.genre); });
 
     // get the concerts in these genres that I don't already sell
     const recConcerts = await Concert.find({
@@ -110,15 +106,15 @@ export const getConcertsRecommendations = async (req, res) => {
         genre: { $in: concertgenres },
         _id: { $nin: concertids }
     });
-    console.log(recConcerts);
+
     // From the recommended concerts get those that have available tickets
     const finalconcerts = await Ticket.find({
         concert: { $in: recConcerts },
     }, { concert: 1 }).populate('concert', 'artist location time genre', null, { sort: ['genre'] });
-    console.log(finalconcerts);
+
     // extract concerts from tickets
     const concerts = [];
-    for (i = 0; i < finalconcerts.length; i++) concerts.push(finalconcerts[i].concert);
+    finalconcerts.forEach((x) => { concerts.push(x.concert); });
 
     res.send(concerts);
 };

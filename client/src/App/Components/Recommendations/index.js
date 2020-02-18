@@ -42,7 +42,9 @@ export default function Recommendations() {
 
     const concertsToShow = [];
 
-    genreList.forEach((x) => { concertsToShow.push(...concerts.filter((concert) => { return x === concert.genre; })); });
+    genreList.forEach((x) => {
+        concertsToShow.push(...concerts.filter((concert) => { return x === concert.genre; }));
+    });
 
     return (
         <div>
