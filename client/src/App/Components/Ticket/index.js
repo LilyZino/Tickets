@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -52,17 +52,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Ticket(props) {
     const classes = useStyles();
-    const { id, price, amount, concert, sold } = props;
+    const { id, price, amount, concert, sold, onDelete } = props;
     const [open, setOpen] = useState(false);
+    const [isDeleted, setIsDeleted] = useState(false);
     const [enteredConcert, setEnteredConcert] = useState(concert._id);
     const [enteredPrice, setEnteredPrice] = useState(price);
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredSold, setEnteredSold] = useState(sold);
     console.log(sold);
-
-    const handleDelete = async () => {
-        await axios.delete(`api/tickets/${id}`);
-    };
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
@@ -79,7 +76,7 @@ export default function Ticket(props) {
     };
 
     return (
-        <Card className={classes.card} elavation="2">
+        <Card className={classes.card} elavation="2" hidden={isDeleted}>
             <div className={classes.cardContent}>
                 <CardContent>
                     <Typography variant="h5" component="h2">
@@ -118,7 +115,11 @@ export default function Ticket(props) {
                     handleSubmit={handleSubmit}
                     handleClose={() => setOpen(false)}
                 />
-                <IconButton onClick={handleDelete}>
+
+                <IconButton onClick={() => {
+                    setIsDeleted(true);
+                    onDelete(id);
+                }}>
                     <DeleteIcon />
                 </IconButton>
             </CardActions>
