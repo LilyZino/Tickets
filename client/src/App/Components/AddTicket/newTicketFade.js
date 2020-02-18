@@ -118,7 +118,10 @@ export default function AddTicketFade(props) {
                                 label="Sold"
                                 value={props.enteredSold}
                                 onChange={(event) => {
-                                    props.setEnteredSold(event.target.value);
+                                    if(event.target.value >= props.enteredAmount)
+                                        props.setEnteredSold(props.enteredAmount);
+                                    else 
+                                        props.setEnteredSold(event.target.value);
                                 }}
                             />
                             <TextField
