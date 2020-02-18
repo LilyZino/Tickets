@@ -50,12 +50,12 @@ export default function Recommendations() {
         GetList();
     }, []);
 
-    const concertsToShow = [];
+    let concertsToShow = [];
 
     genreList.forEach((x) => {
         concertsToShow.push(...concerts.filter((concert) => { return x === concert.genre; }));
     });
-    concertsToShow.slice(0, 6);
+    concertsToShow = concertsToShow.slice(0, 5);
 
     return (
         <div>
