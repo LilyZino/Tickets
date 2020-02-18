@@ -48,10 +48,7 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     }
 }));
-const mapStyles = {
-    width: '100%',
-    height: '100%',
-};
+
 export default (props) => {
     const classes = useStyles();
     const { id, artist, location, time, genre } = props;
@@ -92,7 +89,7 @@ export default (props) => {
                     {artist}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary" variant="h6">
-                    {`${location}, ${moment(time).format('DD/MM/YYYY HH:mm')}${genre ? `, ${genre}` : ''}`  }
+                    {`${location}, ${moment(time).format('DD/MM/YYYY HH:mm')}${genre ? `, ${genre}` : ''}`}
                 </Typography>
             </CardContent>
             <CardActions>

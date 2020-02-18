@@ -32,15 +32,15 @@ export default function Maps(props) {
     const Map = () => {
         return (
             <GoogleMap
-                defaultZoom={10}
+                defaultZoom={18}
                 defaultCenter={{ lat: mylat, lng: mylng }}
-                zoom={20}
+                zoom={18}
             />
         );
     };
     const MapWrapped = withScriptjs(withGoogleMap(Map));
     return (
-        <div style={{ width: '100vw', height: '100vh' }}>
+        <div style={{ height: '100vh' }}>
             <MapWrapped
                 googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${GoogleKey}`}
                 loadingElement={<div style={{ height: '100%' }} />}

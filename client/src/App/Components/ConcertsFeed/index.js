@@ -21,7 +21,6 @@ export default function ConcertsFeed() {
     useEffect(() => {
         initSockets();
         registerSocketEvent('concerts-updated', () => {
-            console.log('concerts was updated');
             getAllConcerts();
         });
 
