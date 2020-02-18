@@ -6,7 +6,7 @@ import { authenticationService } from '../../_services';
 import TicketsFeed from '../TicketsFeed';
 
 const useStyles = makeStyles({
-    hello: {
+    title: {
         marginTop: '10px'
     }
 });
@@ -32,7 +32,8 @@ export default function PersonalArea() {
 
     return (
         <div>
-            <Typography> Welcome to your personal area! Here you can find your {ticketsCount} posts:</Typography>
+            <Typography variant="h4" className={classes.title}> Welcome to your personal area</Typography>
+            <Typography>Here you can find the {ticketsCount} tickets, you putted up for sale</Typography>
             <TicketsFeed tickets={tickets} />
         </div>
     );

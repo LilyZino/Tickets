@@ -18,6 +18,8 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import Entrance from './Components/Users/entryButtons';
 import { authenticationService } from './_services';
 import theme from './theme';
@@ -29,11 +31,13 @@ import Footer from './Components/Footer';
 import ConcertsFeed from './Components/ConcertsFeed';
 import AddConcert from './Components/AddConcert';
 import Charts from './Components/Charts';
-import Recommendations from './Components/Recommendations'; 
+import Recommendations from './Components/Recommendations';
+
+
 
 const useStyles = makeStyles(() => ({
     list: {
-        width: '250px'
+        width: '275px'
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -76,9 +80,9 @@ export default function () {
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
-                                && <ListItemLink to="/recs" primary="My Reccomendations" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
+                                && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
-                            <ListItemLink to="/charts" primary="Statistic Charts" icon={<InfoIcon />} onClick={onDrawerClicked} />
+                            <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />
                         </List>
                     </Drawer>
                 </nav>
