@@ -32,9 +32,9 @@ export default function Maps(props) {
     const Map = () => {
         return (
             <GoogleMap
-                defaultZoom={10}
+                defaultZoom={18}
                 defaultCenter={{ lat: mylat, lng: mylng }}
-                zoom={20}
+                zoom={18}
             />
         );
     };
