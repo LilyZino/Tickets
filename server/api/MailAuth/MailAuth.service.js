@@ -3,8 +3,6 @@ import uuid from 'uuid/v4';
 import MailAuth from './MailAuth.model';
 
 export const sendAuthenticationMail = async (userMail, userFullName) => {
-    console.log('im blue');
-
     const userUuid = uuid();
     const serverLink = `http://${process.env.SERVER_HOST}:${process.env.HOST_PORT}/api/mailAuth/verify/${userMail}/${userUuid}`;
     const mailTemplate = `<h2>Hi ${userFullName}</h2>

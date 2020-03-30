@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Ticket from '../Ticket';
 
 const TicketsList = (props) => {
     const { tickets, filter } = props;
     const [filteredTickets, setFilteredTickets] = useState(tickets);
+
+    const handleDelete = async (id) => {
+        await axios.delete(`api/tickets/${id}`);
+    };
 
     useEffect(() => {
         const ticketsToRender = filter ? tickets.filter((ticket) => {
@@ -38,6 +43,7 @@ const TicketsList = (props) => {
                     sold={ticket.sold}
                     amount={ticket.amount}
                     concert={ticket.concert}
+                    onDelete={handleDelete}
                 />
             ))}
         </div>
