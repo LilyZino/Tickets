@@ -26,6 +26,10 @@ const userSchema = new Schema({
     isAuthenticated: {
         type: Boolean,
         default: false
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 });
 

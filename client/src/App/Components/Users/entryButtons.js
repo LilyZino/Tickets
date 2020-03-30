@@ -94,9 +94,10 @@ export default function Entrance() {
     const handleLoginSubmit = () => {
         setloginError('');
         authenticationService.login(enteredUname, enteredPass)
-            .then(() => {
+            .then((res) => {
                 setOpenLogin(false);
                 setOpenRegister(false);
+                console.log(res.data)
                 setUname(enteredUname);
             }).catch((response) => {
                 setloginError(response.response.data.msg);

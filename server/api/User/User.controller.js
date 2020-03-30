@@ -138,6 +138,7 @@ export const login = async (req, res) => {
         return ({
             _id: loggedUser._id,
             name: loggedUser.name,
+            isAdmin: loggedUser.isAdmin,
             token
         });
     } catch (error) {
