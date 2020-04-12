@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -7,10 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import axios from 'axios';
-import AddTicketFade from '../AddTicket/newTicketFade';
-import { authenticationService } from '../../_services';
+import BlockIcon from '@material-ui/icons/Block';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -52,16 +48,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function User(props) {
     const classes = useStyles();
-    const { id, name, email, phone } = props;
-    const [open, setOpen] = useState(false);
-    const [isDeleted, setIsDeleted] = useState(false);
-
-    const onDelete = (idToDelete) => {
-        console.log('delete', idToDelete);
-    };
+    const { name, email, phone } = props;
 
     return (
-        <Card className={classes.card} elavation="2" hidden={isDeleted}>
+        <Card className={classes.card} elavation="2">
             <div className={classes.cardContent}>
                 <CardContent>
                     <Typography variant="h5" component="h2">
@@ -76,21 +66,11 @@ export default function User(props) {
                 </CardContent>
             </div>
             <CardActions>
-                <IconButton onClick={() => setOpen(true)}>
+                <IconButton>
                     <EditIcon />
                 </IconButton>
-                <AddTicketFade
-                    open={open}
-                    AddMode={false}
-                    submitText="Update Ticket"
-                    handleClose={() => setOpen(false)}
-                />
-                <IconButton onClick={() => {
-                    setIsDeleted(true);
-                    onDelete(id);
-                }}
-                >
-                    <DeleteIcon />
+                <IconButton>
+                    <BlockIcon />
                 </IconButton>
             </CardActions>
         </Card>

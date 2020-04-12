@@ -11,6 +11,12 @@ const UsersList = () => {
         console.log(users);
     };
 
+    const onDelete = async () => {
+        const response = await axios.delete('/api/users/');
+        setUsers(response.data);
+        console.log(users);
+    }
+
     useEffect(() => {
         getUsers();
     }, [users]);
