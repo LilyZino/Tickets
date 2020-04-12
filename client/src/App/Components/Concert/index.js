@@ -62,14 +62,12 @@ export default (props) => {
             if (!expanded) return;
 
             const response = await axios.get(`/api/tickets/concert/${id}`);
-            console.log('get all tickets of concert', response.data);
             setConcertTickets(response.data);
         };
 
         getTicketForConcert();
 
         registerSocketEvent('tickets-updated', () => {
-            console.log('tickets was updated');
             getTicketForConcert();
         });
     }, [expanded, id]);

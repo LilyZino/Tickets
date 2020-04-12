@@ -118,7 +118,7 @@ export default function Entrance() {
 
     return (
         <div>
-            {Uname != ''
+            {Uname !== ''
                 && (
                     <Typography component="h1" variant="h5" className={classes.userNameText}>
                         Hello {Uname}

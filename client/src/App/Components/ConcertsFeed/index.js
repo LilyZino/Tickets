@@ -11,7 +11,6 @@ export default function ConcertsFeed() {
     const getAllConcerts = async () => {
         const response = await axios.get('/api/concerts');
         setConcerts(response.data);
-        console.log('useEffect getAllConcerts:', response);
     };
 
     const handleFilter = (searchFilter) => {

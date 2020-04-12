@@ -1,7 +1,7 @@
+import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
 import TicketsList from '../TicketsList';
 import Search from '../TicketsSearch';
-import Typography from '@material-ui/core/Typography';
 
 export default function TicketsFeed(props) {
     const { tickets } = props;

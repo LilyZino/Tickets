@@ -103,7 +103,6 @@ export default function Charts() {
     };
 
     // Pie Chart
-    console.log(Tickets);
     const arr = [];
     let myid = {};
     let myuser = {};
