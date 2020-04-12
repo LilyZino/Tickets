@@ -33,8 +33,6 @@ import AddConcert from './Components/AddConcert';
 import Charts from './Components/Charts';
 import Recommendations from './Components/Recommendations';
 
-
-
 const useStyles = makeStyles(() => ({
     list: {
         width: '275px'
@@ -81,8 +79,9 @@ export default function () {
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
-                            <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />
                         </List>
                     </Drawer>
                 </nav>
