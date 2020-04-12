@@ -85,8 +85,6 @@ export default function AddTicket() {
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        console.log(`my val: ${userId}`);
-        console.log(`my token: ${token}`);
         await axios.put('/api/concerts', {
             artist: enteredArtist,
             time: enteredTime,

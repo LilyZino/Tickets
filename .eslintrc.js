@@ -33,6 +33,7 @@ module.exports = {
     'react/jsx-indent-props': "off",
     'no-underscore-dangle': 'off',
     'react/jsx-one-expression-per-line': 'off',
-    'react/prop-types': 'off'
+    'react/prop-types': 'off',
+    'arrow-parens': 'off'
   }
 };

@@ -25,7 +25,6 @@ export default function PersonalArea() {
                 const getTicketsCountResponse = await axios.get(`/api/users/ticketCount/${userId}`);
                 setTickets(getTicketsResponse.data);
                 setTicketsCount(getTicketsCountResponse.data);
-                console.log(getTicketsResponse.data);
             }
         })();
     }, []);

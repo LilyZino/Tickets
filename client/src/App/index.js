@@ -32,8 +32,7 @@ import ConcertsFeed from './Components/ConcertsFeed';
 import AddConcert from './Components/AddConcert';
 import Charts from './Components/Charts';
 import Recommendations from './Components/Recommendations';
-
-
+import UsersList from './Components/UsersList';
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -81,8 +80,11 @@ export default function () {
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/users" primary="Users" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
-                            <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />
                         </List>
                     </Drawer>
                 </nav>
@@ -104,6 +106,9 @@ export default function () {
                         <Route path="/userProfile">
                             <PersonalArea />
                             <AddTicket />
+                        </Route>
+                        <Route path="/users">
+                            <UsersList />
                         </Route>
                         <Route path="/">
                             <Redirect to="/concertsFeed" />
