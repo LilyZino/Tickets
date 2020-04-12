@@ -67,9 +67,6 @@ export default function User(props) {
             </div>
             <CardActions>
                 <IconButton>
-                    <EditIcon />
-                </IconButton>
-                <IconButton>
                     <BlockIcon />
                 </IconButton>
             </CardActions>
