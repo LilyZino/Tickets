@@ -1,4 +1,3 @@
-// here we will configure the ExampleModel's router
 import { AsyncRouter } from 'express-async-router';
 import { verifyCode } from './MailAuth.controller';
 

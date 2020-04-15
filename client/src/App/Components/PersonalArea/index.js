@@ -32,7 +32,7 @@ export default function PersonalArea() {
     return (
         <div>
             <Typography variant="h4" className={classes.title}> Welcome to your personal area</Typography>
-            <Typography>Here you can find the {ticketsCount} tickets, you putted up for sale</Typography>
+            <Typography>Here you can find the {ticketsCount} concert, you putted up tickets for sale</Typography>
             <TicketsFeed tickets={tickets} />
         </div>
     );
