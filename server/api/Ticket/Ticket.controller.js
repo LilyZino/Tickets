@@ -13,11 +13,18 @@ export const getAllTickets = async (req, res) => {
 
 export const addTicket = async (req, res) => {
     try {
+        //let filePath;
+        console.log(req.body.file)
+        //if((req.body.file).match('fakepath')) {
+            // update the file-path text using case-insensitive regex
+          //  filePath = req.body.file.replace('C:\\fakepath\\', '');
+        //}
         const newTicket = new Ticket({
             user: req.body.userId,
             concert: req.body.concertId,
             price: req.body.price,
             amount: req.body.amount,
+            file: req.body.file,
             sold: 0
         });
 

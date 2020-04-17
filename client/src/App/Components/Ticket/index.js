@@ -8,9 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
+//import FileImage from '../../../Assets/Images/1.png';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -52,13 +54,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Ticket(props) {
     const classes = useStyles();
-    const { id, price, amount, concert, sold, onDelete } = props;
+    const { id, price, amount, concert, sold, file, onDelete } = props;
     const [open, setOpen] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const [enteredConcert, setEnteredConcert] = useState(concert._id);
     const [enteredPrice, setEnteredPrice] = useState(price);
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredSold, setEnteredSold] = useState(sold);
+    const [enteredFile, setEnteredFile] = useState(file);
     console.log(sold);
 
     const handleSubmit = async () => {
@@ -71,6 +74,7 @@ export default function Ticket(props) {
             price: enteredPrice,
             amount: enteredAmount,
             sold: enteredSold,
+            file: enteredFile,
             userId
         }, { headers: { Authorization: `Bearer ${token}` } });
     };
@@ -91,6 +95,12 @@ export default function Ticket(props) {
                     <Typography>
                         {sold} Sold
                     </Typography>
+                    
+                        <img
+                            src={file}
+                            
+                        />
+                    
                 </CardContent>
                 <Typography align="right" className={classes.price}>
                     {`${price}₪`}
@@ -112,6 +122,8 @@ export default function Ticket(props) {
                     setEnteredPrice={setEnteredPrice}
                     enteredConcert={enteredConcert}
                     setEnteredConcert={setEnteredConcert}
+                    enteredFile={enteredFile}
+                    setEnteredFile={setEnteredFile}
                     handleSubmit={handleSubmit}
                     handleClose={() => setOpen(false)}
                 />

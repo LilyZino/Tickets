@@ -61,6 +61,8 @@ export default function AddTicket() {
     const [enteredConcert, setEnteredConcert] = useState('');
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
+    const [ticketFile, setEnteredFile] = useState({});
+    
 
     const handleOpen = () => {
         if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
@@ -73,12 +75,14 @@ export default function AddTicket() {
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
+        console.log("file before adding", ticketFile);
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         await axios.put('/api/tickets', {
             concertId: enteredConcert,
             price: enteredPrice,
             amount: enteredAmount,
+            file: ticketFile,
             userId
         }, { headers: { Authorization: `Bearer ${token}` } });
     };
@@ -98,6 +102,8 @@ export default function AddTicket() {
                 setEnteredPrice={setEnteredPrice}
                 enteredConcert={enteredConcert}
                 setEnteredConcert={setEnteredConcert}
+                ticketFile={ticketFile}
+                setEnteredFile={setEnteredFile}
                 handleSubmit={handleSubmit}
                 handleClose={handleClose}
             />

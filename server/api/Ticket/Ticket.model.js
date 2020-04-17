@@ -21,6 +21,9 @@ const TicketSchema = new Schema({
     },
     sold:{
         type: Number
+    },
+    file:{
+        type: Buffer
     }
 });
 

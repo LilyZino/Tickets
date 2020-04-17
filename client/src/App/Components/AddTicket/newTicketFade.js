@@ -71,6 +71,7 @@ export default function AddTicketFade(props) {
         (async () => {
             const response = await axios.get('/api/concerts');
             setConcerts(response.data);
+            console.log('type', typeof event.target.value);
         })();
     }, []);
 
@@ -131,6 +132,19 @@ export default function AddTicketFade(props) {
                                     props.setEnteredPrice(event.target.value);
                                 }}
                             />
+                            <br />
+                            <div className="form-group files">
+                                <InputLabel>Upload Your File </InputLabel>
+                                <br />
+                                <input type="file" className="form-control" multiple="" 
+                                    accept="image/png, image/jpeg"
+                                    //value={props.ticketFile}
+                                    onChange={(event) => {
+                                        props.setEnteredFile(event.target.files[0]);
+                                        //props.setEnteredFile(event.target.value);
+                                        console.log('target', event.target.files[0]);
+                                    }} />
+                            </div>
                             <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={props.handleSubmit}>
                                 {props.AddMode ? 'Add Ticket' : 'Edit Ticket'}
                             </Button>

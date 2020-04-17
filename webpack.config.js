@@ -28,12 +28,12 @@ module.exports = {
                 use: 'html-loader'
             },
             {
-                test: /\.mp4/,
+                test: /\.(mp4|png)$/,
                 use: {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        mimtetype: 'video/mp4',
+                        mimtetype: ['video/mp4', 'image/png'],
                     }
                 }
             },
