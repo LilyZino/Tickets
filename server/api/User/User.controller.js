@@ -165,14 +165,16 @@ export const getUsersRank = async (req, res) => {
 };
 
 export const setUserRank = async (req, res) => {
-    console.log(req.body.id)
-    console.log(req.body.rank)
+    console.log(req.body.id);
+    console.log(req.body.rank);
     return User.updateOne(
-        { _id : req.body.id },  // <-- find stage
-        { 
+        {
+            _id: req.body.id// <-- find stage
+        },
+        {
             $inc: { rank: req.body.rank }
-        }   
-      ).then(result => {
-        res.status(200).json({ message: "Update successful!" });
-      });
+        }
+    ).then(result => {
+        res.status(200).json({ message: 'Update successful!' });
+    });
 };
