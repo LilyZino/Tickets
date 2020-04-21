@@ -146,3 +146,33 @@ export const login = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+export const getUsersRank = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        // Check for ObjectId format and post
+        if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        res.json(user.rank);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+};
+
+export const setUserRank = async (req, res) => {
+    console.log(req.body.id)
+    console.log(req.body.rank)
+    return User.updateOne(
+        { _id : req.body.id },  // <-- find stage
+        { 
+            $inc: { rank: req.body.rank }
+        }   
+      ).then(result => {
+        res.status(200).json({ message: "Update successful!" });
+      });
+};

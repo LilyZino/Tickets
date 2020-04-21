@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function User(props) {
     const classes = useStyles();
-    const { name, email, phone } = props;
+    const { name, email, phone, rank } = props;
 
     return (
         <Card className={classes.card} elavation="2">
@@ -62,6 +62,9 @@ export default function User(props) {
                     </Typography>
                     <Typography>
                         {phone}
+                    </Typography>
+                    <Typography>
+                        Rank: {rank}
                     </Typography>
                 </CardContent>
             </div>

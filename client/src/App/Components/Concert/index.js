@@ -16,6 +16,8 @@ import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Collapse from '@material-ui/core/Collapse';
 import axios from 'axios';
 import MapIcon from '@material-ui/icons/Map';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { registerSocketEvent } from '../../_services/socketService';
 import Maps from '../Maps';
 
@@ -63,6 +65,7 @@ export default (props) => {
 
             const response = await axios.get(`/api/tickets/concert/${id}`);
             setConcertTickets(response.data);
+            console.log(response.data)
         };
 
         getTicketForConcert();
@@ -77,6 +80,16 @@ export default (props) => {
     };
     const handlemapExpandClick = () => {
         setmapExpanded(!mapexpanded);
+    };
+
+    const changeRank = async (a, b) => {
+        console.log(a)
+        console.log(b)
+
+        await axios.post('/api/users/rank', {
+            id: a,
+            rank: b
+        });
     };
 
 
@@ -133,9 +146,21 @@ export default (props) => {
                                             <ListItemIcon>
                                                 <ConfirmationNumberIcon />
                                             </ListItemIcon>
+                                            <ListItemIcon>
+                                                <div>
+                                                    <div>
+                                                    <IconButton onClick={() => changeRank(ticket.user._id, 1)}>
+                                                        <ArrowDropUpIcon />
+                                                        </IconButton>
+                                                    </div>
+                                                    <IconButton onClick={() => changeRank(ticket.user._id, -1)}>
+                                                        <ArrowDropDownIcon />
+                                                        </IconButton> 
+                                                </div>
+                                            </ListItemIcon>
                                             <ListItemText
                                                 primary={`${ticket.amount - ticket.sold} Tickets Available`}
-                                                secondary={`By ${ticket.user.name}, Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
+                                                secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
                                             />
                                             <Typography>
                                                 {`${ticket.price}₪`}
