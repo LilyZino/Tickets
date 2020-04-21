@@ -151,7 +151,7 @@ export default (props) => {
                                                     <div>
                                                     <IconButton onClick={() => changeRank(ticket.user._id, 1)}>
                                                         <ArrowDropUpIcon />
-                                                        </IconButton>
+                                                    </IconButton>
                                                     </div>
                                                     <IconButton onClick={() => changeRank(ticket.user._id, -1)}>
                                                         <ArrowDropDownIcon />
