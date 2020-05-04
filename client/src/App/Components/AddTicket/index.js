@@ -10,8 +10,11 @@ import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
 import Avatar from '@material-ui/core/Avatar';
 import AddTicketFade from './newTicketFade';
+import base64 from 'base-64';
+//import fs from 'fs';
 
 import { authenticationService } from '../../_services';
+import FormData from 'form-data';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +64,7 @@ export default function AddTicket() {
     const [enteredConcert, setEnteredConcert] = useState('');
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
-    const [ticketFile, setEnteredFile] = useState({});
+    const [ticketFile, setEnteredFile] = useState('');
     
 
     const handleOpen = () => {
@@ -73,18 +76,34 @@ export default function AddTicket() {
         setLogin(false);
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit =  async (e) => {
+        e.preventDefault();
+
         const { token } = authenticationService.currentUserValue.data;
-        console.log("file before adding", ticketFile);
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        await axios.put('/api/tickets', {
-            concertId: enteredConcert,
-            price: enteredPrice,
-            amount: enteredAmount,
-            file: ticketFile,
-            userId
-        }, { headers: { Authorization: `Bearer ${token}` } });
+        const formData = new FormData();
+        formData.append('file', ticketFile, ticketFile.name);
+        formData.append('concertId', enteredConcert);
+        formData.append('price', enteredPrice);
+        formData.append('amount', enteredAmount);
+        formData.append('userId', userId);
+
+        axios.post('api/tickets/upload', formData, {
+            headers: {
+                'Content-Type': 'undefined'
+        }}).then(res => { // then print response status
+                console.log("file uploded ", res.statusText)
+        }).catch(err => {
+            console.log("file not uploaded", err.response);
+        })
+        
+        // await axios.put('/api/tickets', {
+        //     concertId: enteredConcert,
+        //     price: enteredPrice,
+        //     amount: enteredAmount,
+        //     userId
+        // }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
     return (

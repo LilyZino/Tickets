@@ -91,7 +91,7 @@ export default function AddTicketFade(props) {
         <div>
             <Fade in={props.open}>
                 <div className={classes.paper}>
-                    <form noValidate autoComplete="off">
+                    <form noValidate autoComplete="off" >
                         <Grid className={classes.form}>
                             <InputLabel id="concertLabel">Concert</InputLabel>
                             <Select
@@ -136,10 +136,12 @@ export default function AddTicketFade(props) {
                             <div className="form-group files">
                                 <InputLabel>Upload Your File </InputLabel>
                                 <br />
-                                <input type="file" className="form-control" multiple="" 
+                                <input type="file" className="form-control" multiple="" name="MyFile"
                                     accept="image/png, image/jpeg"
                                     //value={props.ticketFile}
                                     onChange={(event) => {
+                                        //const formData = new FormData();
+                                        //formData.append('file', event.target.files[0], ticketFile.name);
                                         props.setEnteredFile(event.target.files[0]);
                                         //props.setEnteredFile(event.target.value);
                                         console.log('target', event.target.files[0]);

@@ -11,14 +11,19 @@ export const getAllTickets = async (req, res) => {
     }
 };
 
+export const addFile = async (req, res) => {
+    console.log("inside addfile",req.files);
+    console.log("inside addfile",req.body);
+
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+        console.log("No files");
+      return res.status(400).send('No files were uploaded.');
+    }
+}
 export const addTicket = async (req, res) => {
     try {
-        //let filePath;
-        console.log(req.body.file)
-        //if((req.body.file).match('fakepath')) {
-            // update the file-path text using case-insensitive regex
-          //  filePath = req.body.file.replace('C:\\fakepath\\', '');
-        //}
+        console.log(req.body);
         const newTicket = new Ticket({
             user: req.body.userId,
             concert: req.body.concertId,
