@@ -76,69 +76,67 @@ export default function AddTicketFade(props) {
 
     return (
         <Modal
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-                className={classes.modal}
-                open={props.open}
-                onClose={props.handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+            className={classes.modal}
+            open={props.open}
+            onClose={props.handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+                timeout: 500,
+            }}
         >
-        <div>
-            <Fade in={props.open}>
-                <div className={classes.paper}>
-                    <form noValidate autoComplete="off">
-                        <Grid className={classes.form}>
-                            <InputLabel id="concertLabel">Concert</InputLabel>
-                            <Select
-                                labelId="concertLabel"
-                                label="Concert"
-                                id="concert"
-                                value={props.enteredConcert}
-                                onChange={(event) => { props.setEnteredConcert(event.target.value); }}
-                            >
-                                {concerts.map((concert) => (
-                                    <MenuItem key={concert._id} value={concert._id}>
-                                        {`${concert.artist} - ${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            <TextField
-                                label="Amount"
-                                value={props.enteredAmount}
-                                onChange={(event) => {
-                                    props.setEnteredAmount(event.target.value);
-                                }}
-                            />
-                            <TextField
-                                style={updateTextBox}
-                                label="Sold"
-                                value={props.enteredSold}
-                                onChange={(event) => {
-                                    if(event.target.value >= props.enteredAmount)
-                                        props.setEnteredSold(props.enteredAmount);
-                                    else 
-                                        props.setEnteredSold(event.target.value);
-                                }}
-                            />
-                            <TextField
-                                label="Price"
-                                value={props.enteredPrice}
-                                onChange={(event) => {
-                                    props.setEnteredPrice(event.target.value);
-                                }}
-                            />
-                            <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={props.handleSubmit}>
-                                {props.AddMode ? 'Add Ticket' : 'Edit Ticket'}
-                            </Button>
-                        </Grid>
-                    </form>
-                </div>
-            </Fade>
-        </div>
-    </Modal>
+            <div>
+                <Fade in={props.open}>
+                    <div className={classes.paper}>
+                        <form noValidate autoComplete="off">
+                            <Grid className={classes.form}>
+                                <InputLabel id="concertLabel">Concert</InputLabel>
+                                <Select
+                                    labelId="concertLabel"
+                                    label="Concert"
+                                    id="concert"
+                                    value={props.enteredConcert}
+                                    onChange={(event) => { props.setEnteredConcert(event.target.value); }}
+                                >
+                                    {concerts.map((concert) => (
+                                        <MenuItem key={concert._id} value={concert._id}>
+                                            {`${concert.artist} - ${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                                <TextField
+                                    label="Amount"
+                                    value={props.enteredAmount}
+                                    onChange={(event) => {
+                                        props.setEnteredAmount(event.target.value);
+                                    }}
+                                />
+                                <TextField
+                                    style={updateTextBox}
+                                    label="Sold"
+                                    value={props.enteredSold}
+                                    onChange={(event) => {
+                                        if (event.target.value >= props.enteredAmount) props.setEnteredSold(props.enteredAmount);
+                                        else props.setEnteredSold(event.target.value);
+                                    }}
+                                />
+                                <TextField
+                                    label="Price"
+                                    value={props.enteredPrice}
+                                    onChange={(event) => {
+                                        props.setEnteredPrice(event.target.value);
+                                    }}
+                                />
+                                <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={props.handleSubmit}>
+                                    {props.AddMode ? 'Add Ticket' : 'Edit Ticket'}
+                                </Button>
+                            </Grid>
+                        </form>
+                    </div>
+                </Fade>
+            </div>
+        </Modal>
     );
 }

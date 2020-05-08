@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AddTicket() {
+export default function AddConcert() {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [login, setLogin] = useState(false);
