@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
     const classes = useStyles();
-    const { id, artist, location, time, genre } = props;
+    const { id, artist, location, time, genre, editable } = props;
     const [expanded, setExpanded] = useState(false);
     const [mapexpanded, setmapExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
@@ -65,7 +66,7 @@ export default (props) => {
 
             const response = await axios.get(`/api/tickets/concert/${id}`);
             setConcertTickets(response.data);
-            console.log(response.data)
+            console.log(response.data);
         };
 
         getTicketForConcert();
@@ -83,8 +84,8 @@ export default (props) => {
     };
 
     const changeRank = async (a, b) => {
-        console.log(a)
-        console.log(b)
+        console.log(a);
+        console.log(b);
 
         await axios.post('/api/users/rank', {
             id: a,
@@ -123,6 +124,21 @@ export default (props) => {
                     <ExpandMoreIcon />
                 </IconButton>
 
+                {
+                    editable
+                        ? (
+                            <IconButton
+                                className={clsx(classes.expand, {
+                                    [classes.expandOpen]: expanded,
+                                })}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="Edit"
+                            >
+                                <EditIcon />
+                            </IconButton>
+                        ) : null
+                }
             </CardActions>
             <Collapse in={mapexpanded} timeout="auto" unmountOnExit>
                 <Maps location={`${location}`} />
@@ -149,13 +165,13 @@ export default (props) => {
                                             <ListItemIcon>
                                                 <div>
                                                     <div>
-                                                    <IconButton onClick={() => changeRank(ticket.user._id, 1)}>
-                                                        <ArrowDropUpIcon />
-                                                    </IconButton>
+                                                        <IconButton onClick={() => changeRank(ticket.user._id, 1)}>
+                                                            <ArrowDropUpIcon />
+                                                        </IconButton>
                                                     </div>
                                                     <IconButton onClick={() => changeRank(ticket.user._id, -1)}>
                                                         <ArrowDropDownIcon />
-                                                        </IconButton> 
+                                                    </IconButton>
                                                 </div>
                                             </ListItemIcon>
                                             <ListItemText

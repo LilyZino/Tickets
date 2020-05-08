@@ -84,6 +84,8 @@ export default function () {
                                 && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/users" primary="Users" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/edit-concerts" primary="Edit Concerts" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
                         </List>
                     </Drawer>
@@ -109,6 +111,9 @@ export default function () {
                         </Route>
                         <Route path="/users">
                             <UsersList />
+                        </Route>
+                        <Route path="/edit-concerts">
+                            <ConcertsFeed editable />
                         </Route>
                         <Route path="/">
                             <Redirect to="/concertsFeed" />
