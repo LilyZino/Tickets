@@ -3,7 +3,7 @@ import ticketRouter from './Ticket';
 import userRouter from './User';
 import mailAuthRouter from './MailAuth';
 import concertRouter from './Concert';
-import exchangeCycleRouter from './ExchangeCycle'
+import exchangeCycleRouter from './ExchangeCycle';
 
 const router = express.Router();
 

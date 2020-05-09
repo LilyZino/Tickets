@@ -6,10 +6,15 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Collapse from '@material-ui/core/Collapse';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RepeatIcon from '@material-ui/icons/Repeat';
 import axios from 'axios';
 import SoldImage from '../../../Assets/Images/sold.png';
+import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
 
@@ -40,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     },
     price: {
-        fontSize: '2rem'
+        fontSize: '2rem',
+        marginRight: '15px'
     },
     cardContent: {
         display: 'flex',
@@ -63,10 +69,14 @@ export default function Ticket(props) {
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredSold, setEnteredSold] = useState(sold);
     const [enteredFile, setEnteredFile] = useState(file);
-    const { token } = authenticationService.currentUserValue.data;
-    const userId = authenticationService.currentUserValue.data
-        ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+    const [expanded, setExpanded] = useState(false);
+    const [selectedGenre, setSelectedGenre] = useState();
+    const [genres, setGenres] = useState([]);
+
     const handleSubmit = async () => {
+        const { token } = authenticationService.currentUserValue.data;
+        const userId = authenticationService.currentUserValue.data
+            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         await axios.post('/api/tickets', {
             _id: id,
             concertId: enteredConcert,
@@ -77,6 +87,27 @@ export default function Ticket(props) {
             userId
         }, { headers: { Authorization: `Bearer ${token}` } });
     };
+
+    const setAsExchangeTicket = async () => {
+        const { token } = authenticationService.currentUserValue.data;
+        const userId = authenticationService.currentUserValue.data
+            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+        axios.put('/api/exchangecycles/tickets', {
+            ticket: {
+                id,
+                artist: concert.artist,
+                genre: concert.genre
+            },
+            requestedGenre: selectedGenre
+        }, { headers: { Authorization: `Bearer ${token}` } });
+    };
+
+    useEffect(() => {
+        (async () => {
+            const serverGenres = await axios.get('/api/concerts/genres');
+            setGenres(serverGenres.data);
+        })();
+    }, [expanded]);
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
@@ -138,7 +169,36 @@ export default function Ticket(props) {
                 >
                     <DeleteIcon />
                 </IconButton>
+                <IconButton onClick={() => {
+                    setExpanded(true);
+                }}
+                >
+                    <RepeatIcon />
+                </IconButton>
             </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <Typography>
+                        For what ticket's genre you would like to exchange this ticket:
+                        <Select
+                            labelId="genreLabel"
+                            label="Genres"
+                            id="Genres"
+                            value={selectedGenre}
+                            onChange={(event) => { setSelectedGenre(event.target.value); }}
+                        >
+                            {genres.map((genre) => (
+                                <MenuItem key={genre} value={genre}>
+                                    {genre}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </Typography>
+                    <Button onClick={() => { setAsExchangeTicket(); }}>
+                        Exchange
+                    </Button>
+                </CardContent>
+            </Collapse>
         </Card>
     );
 }

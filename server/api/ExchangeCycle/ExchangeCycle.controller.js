@@ -7,15 +7,17 @@ export const addTicket = async (req, res) => {
         const addingNodeResult = await session.run(`CREATE (p:Ticket {
             id:"${req.body.ticket.id}",
             artist:"${req.body.ticket.artist}",
-            ganre:"${req.body.ticket.ganre}"
+            genre:"${req.body.ticket.genre}"
         }) return p`);
 
         const addingRelationshipsResult = await session.run(`
             MATCH (n:Ticket), (p:Ticket)
-            WHERE n.ganre="${req.body.requestedGanre}" AND p.id="${req.body.ticket.id}"
+            WHERE n.genre="${req.body.requestedGenre}" AND p.id="${req.body.ticket.id}"
             CREATE (p)<-[:CAN_SWITCH_WITH]-(n)
             RETURN p
         `);
+        
+        console.log(addingRelationshipsResult);
 
         res.send('ticket was added successfully');
     } catch (err) {
