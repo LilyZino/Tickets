@@ -139,30 +139,12 @@ export const login = async (req, res) => {
             _id: loggedUser._id,
             name: loggedUser.name,
             isAdmin: loggedUser.isAdmin,
-            credits: loggedUser.credits,
             token
         });
     } catch (error) {
         console.error(`my error:${error.message}`);
         res.status(500).send('Server Error');
     }
-};
-
-export const getUsersRank = async (req, res) => {
-    // try {
-    //     const user = await User.findById(req.params.id);
-
-    //     // Check for ObjectId format and post
-    //     if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !user) {
-    //         return res.status(404).json({ msg: 'User not found' });
-    //     }
-
-    //     res.json(100)//user.rank);
-    // } catch (err) {
-    //     console.error(err.message);
-
-    //     res.status(500).send('Server Error');
-    // }
 };
 
 export const setUserRank = async (req, res) => {
@@ -178,4 +160,35 @@ export const setUserRank = async (req, res) => {
     ).then(result => {
         res.status(200).json({ message: 'Update successful!' });
     });
+};
+
+export const setUserCredits = async (req, res) => {
+    return User.updateOne(
+        {
+            _id: req.body.id// <-- find stage
+        },
+        {
+            $inc: { credits: req.body.credits }
+        }
+    ).then(result => {
+        res.status(200).json({ message: 'Update successful!' });
+    });
+};
+
+export const getUserCredits = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const user = await User.findById(id);
+
+        // Check for ObjectId format and post
+        if (!id.match(/^[0-9a-fA-F]{24}$/) || !user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        res.json(user.credits);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
 };

@@ -7,11 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import LogoutIcon from '@material-ui/icons/MeetingRoom';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import { authenticationService } from '../../_services';
 import EntryModal from './entryModal';
 import Smiley from '../SmileyCanvas';
-import Credits from '../credits'
-
+import Credits from '../credits';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    div:{
-        display:'inline',
+    div: {
+        display: 'inline',
     }
 }));
 
@@ -59,6 +59,7 @@ export default function Entrance() {
     const [loginError, setloginError] = useState('');
     const [registerError, setRegisterError] = useState('');
     const [Uname, setUname] = useState('');
+    const [UId, setUId] = useState('');
     const [credits, setCredits] = useState('');
 
     const history = useHistory();
@@ -67,7 +68,13 @@ export default function Entrance() {
         (async () => {
             if (authenticationService.currentUserValue) {
                 setUname(authenticationService.currentUserValue.data.name);
-                setCredits(authenticationService.currentUserValue.data.credits)
+                setUId(authenticationService.currentUserValue.data._id);
+
+                await axios.put('/api/users/credits', {
+                    id: authenticationService.currentUserValue.data._id,
+                }).then((credit) => {
+                    setCredits(credit.data);
+                });
             }
         })();
     }, []);
@@ -103,9 +110,10 @@ export default function Entrance() {
             .then((res) => {
                 setOpenLogin(false);
                 setOpenRegister(false);
-                console.log(res.data)
+                console.log(res.data);
                 setUname(enteredUname);
-                setCredits(res.data.credits)
+                setUId(res.data._id);
+                setCredits(res.data.credits);
             }).catch((response) => {
                 setloginError(response.response.data.msg);
             });
@@ -131,8 +139,9 @@ export default function Entrance() {
                         <Typography component="h1" variant="h5" className={classes.userNameText}>
                             Hello {Uname}
                         </Typography>
-                        <Credits 
-                            Credits ={credits}
+                        <Credits
+                            uId={UId}
+                            Credits={credits}
                             setCredits={setCredits}
                         />
                     </div>
