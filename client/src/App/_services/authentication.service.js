@@ -35,5 +35,6 @@ export const authenticationService = {
     logout,
     register,
     currentUser: currentUserSubject.asObservable(),
+    currentUser2: currentUserSubject,
     get currentUserValue() { return currentUserSubject.value; }
 };

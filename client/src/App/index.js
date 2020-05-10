@@ -80,8 +80,8 @@ export default function () {
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
-                            {authenticationService.currentUserValue
-                                && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
+                            { authenticationService.currentUserValue &&  authenticationService.currentUser2.value.data.isAdmin
+                                &&<ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/users" primary="Users" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
