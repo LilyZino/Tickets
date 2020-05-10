@@ -139,6 +139,7 @@ export const login = async (req, res) => {
             _id: loggedUser._id,
             name: loggedUser.name,
             isAdmin: loggedUser.isAdmin,
+            credits: loggedUser.credits,
             token
         });
     } catch (error) {
@@ -148,20 +149,20 @@ export const login = async (req, res) => {
 };
 
 export const getUsersRank = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id);
+    // try {
+    //     const user = await User.findById(req.params.id);
 
-        // Check for ObjectId format and post
-        if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !user) {
-            return res.status(404).json({ msg: 'User not found' });
-        }
+    //     // Check for ObjectId format and post
+    //     if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !user) {
+    //         return res.status(404).json({ msg: 'User not found' });
+    //     }
 
-        res.json(user.rank);
-    } catch (err) {
-        console.error(err.message);
+    //     res.json(100)//user.rank);
+    // } catch (err) {
+    //     console.error(err.message);
 
-        res.status(500).send('Server Error');
-    }
+    //     res.status(500).send('Server Error');
+    // }
 };
 
 export const setUserRank = async (req, res) => {

@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import { authenticationService } from '../../_services';
 import EntryModal from './entryModal';
 import Smiley from '../SmileyCanvas';
+import Credits from '../credits'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    div:{
+        display:'inline',
+    }
 }));
 
 export default function Entrance() {
@@ -55,6 +59,7 @@ export default function Entrance() {
     const [loginError, setloginError] = useState('');
     const [registerError, setRegisterError] = useState('');
     const [Uname, setUname] = useState('');
+    const [credits, setCredits] = useState('');
 
     const history = useHistory();
 
@@ -62,6 +67,7 @@ export default function Entrance() {
         (async () => {
             if (authenticationService.currentUserValue) {
                 setUname(authenticationService.currentUserValue.data.name);
+                setCredits(authenticationService.currentUserValue.data.credits)
             }
         })();
     }, []);
@@ -99,6 +105,7 @@ export default function Entrance() {
                 setOpenRegister(false);
                 console.log(res.data)
                 setUname(enteredUname);
+                setCredits(res.data.credits)
             }).catch((response) => {
                 setloginError(response.response.data.msg);
             });
@@ -120,9 +127,15 @@ export default function Entrance() {
         <div>
             {Uname !== ''
                 && (
-                    <Typography component="h1" variant="h5" className={classes.userNameText}>
-                        Hello {Uname}
-                    </Typography>
+                    <div className={classes.div}>
+                        <Typography component="h1" variant="h5" className={classes.userNameText}>
+                            Hello {Uname}
+                        </Typography>
+                        <Credits 
+                            Credits ={credits}
+                            setCredits={setCredits}
+                        />
+                    </div>
                 )}
             {authenticationService.currentUserValue
                 && (
