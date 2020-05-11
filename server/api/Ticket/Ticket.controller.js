@@ -31,7 +31,7 @@ export const addFile = async (req, res) => {
             price: req.body.price,
             amount: req.body.amount,
             isPhysical: req.body.isPhysical,
-            file: newFile[0].filename,
+            file: newFile[0].filename+'.file',
             sold: 0
         });
         saveAfter(newTicket);

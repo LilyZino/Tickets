@@ -13,7 +13,7 @@ import axios from 'axios';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
 import base64 from 'base-64';
-import FileImage from 'file-loader!../../../../../public/uploads/file-1589132863394.file';
+import FileImage from 'file-loader!../../../../../public/uploads/file-1589182687731.file';
 
 const useStyles = makeStyles((theme) => ({
     card: {
