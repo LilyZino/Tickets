@@ -17,6 +17,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 //import InputSpinner from "react-native-input-spinner";
+//import NumberInput from 'material-ui-number-input';
 import { authenticationService } from '../../_services';
 
 
@@ -66,6 +67,11 @@ export default function AddTicketFade(props) {
         display: props.AddMode ? 'block' : 'none'
     };
     const [concerts, setConcerts] = useState([]);
+    const [value, setValue] = useState(0);
+
+    const onChange = () => {
+        setValue(1);
+    }
 
     useEffect(() => {
         (async () => {
@@ -114,7 +120,7 @@ export default function AddTicketFade(props) {
                                 }}
                             /> */}
                             <InputLabel id="concertLabel">How many tickets would you like to buy?</InputLabel>
-                            <TextField
+                            {/* <TextField
                                 style={updateTextBox}
                                 //label="How many tickets do you want to buy?"
                                 value={props.enteredSold}
@@ -124,20 +130,19 @@ export default function AddTicketFade(props) {
                                     else 
                                         props.setEnteredSold(event.target.value);
                                 }}
-                            />
-                            {/* <InputSpinner
-                                max={props.enteredAmount}
-                                min={1}
-                                step={1}
-                                colorMax={"#f04048"}
-                                colorMin={"#40c5f4"}
-                                value={this.state.number}
-                                onChange={(num) => {
-                                    console.log(num);
-                                }}
-                            />; */}
+                            /> */}
+                            <TextField type="number" 
+                                inputProps={{ min: "0", max: props.enteredAmount, step: "1" }}
+                                onChange={(event) => {
+                                    setValue(event.target.value);
+                                    if(event.target.value >= props.enteredAmount)
+                                        props.setEnteredSold(props.enteredAmount);
+                                    else 
+                                        props.setEnteredSold(event.target.value);
+                                }} />
+                            
                             <br/>
-                            <InputLabel id="concertLabel">Total amount: {(props.enteredSold * props.enteredPrice)}</InputLabel>
+                            <InputLabel id="concertLabel">Total amount: {(value * props.enteredPrice)}</InputLabel>
                             {/* <TextField
                                 label="Price"
                                 value={props.enteredPrice}

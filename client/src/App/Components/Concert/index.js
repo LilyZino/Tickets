@@ -119,17 +119,17 @@ export default (props) => {
     };
 
     const buyTicket = async () => {
-        // const { token } = authenticationService.currentUserValue.data;
-        // const userId = authenticationService.currentUserValue.data
-        //     ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        // await axios.post('/api/tickets/', {
-        //     _id: id,
-        //     concertId: enteredConcert,
-        //     price: enteredPrice,
-        //     amount: enteredAmount,
-        //     sold: enteredSold,
-        //     userId
-        // }, { headers: { Authorization: `Bearer ${token}` } });
+        const { token } = authenticationService.currentUserValue.data;
+        const userId = authenticationService.currentUserValue.data
+            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+        await axios.post('/api/tickets/', {
+            _id: id,
+            concertId: enteredConcert,
+            price: enteredPrice,
+            amount: enteredAmount,
+            sold: enteredSold,
+            userId
+        }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
     return (
@@ -175,7 +175,7 @@ export default (props) => {
                         {concertTickets.length === 0 || concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0).length === 0
                             ? (
                                 <Typography>
-                                    There are no tickets avalible for this concert :(
+                                    There are no tickets available for this concert :(
                                 </Typography>
                             )
                             : concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0)
@@ -217,9 +217,6 @@ export default (props) => {
                                                 enteredSold={ticket.sold}
                                                 setEnteredSold={setEnteredSold}
                                                 enteredPrice={ticket.price}
-                                                setEnteredPrice={setEnteredPrice}
-                                                enteredConcert={enteredConcert}
-                                                setEnteredConcert={setEnteredConcert}
                                                 buyTicket={buyTicket}
                                                 handleClose={handleClose}
                                             />
