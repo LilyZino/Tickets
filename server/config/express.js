@@ -19,13 +19,13 @@ export default () => {
 
     app.use('/static', express.static('../bundle'));
     app.use('/assets', express.static('assets'));
-    //app.use('/public', express.static('public/uploads'));
+    app.use('/uploads', express.static('uploads'));
     app.use(morgan('dev', { immediate: true }));
     app.use(express.json());
 
     app.use('/api', router);
 
-    app.use('/public', express.static(path.join(__dirname, '..', '..', 'public/uploads'))); //to access the files in public folder
+    //app.use('/public', express.static(path.join(__dirname, '..', '..', 'public/uploads'))); //to access the files in public folder
     app.use(cors()); // it enables all cors requests
     app.use(fileUpload());
     app.use(busboy()); 

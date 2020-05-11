@@ -13,7 +13,7 @@ import axios from 'axios';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
 import base64 from 'base-64';
-import FileImage from 'file-loader!../../../../../public/uploads/file-1589182346652.file';
+import FileImage from '!!file-loader!../../../../../public/uploads/file-1589182346652.file';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -105,7 +105,7 @@ export default function Ticket(props) {
                     </Typography>
                     {file ? (
                         <embed
-                            src={`/public/${file}`} //width="65" height="65"
+                            src={`!!file-loader!../../../../../public/uploads/${file}`} //width="65" height="65"
                             //{`../../../../../public/uploads/${file}`}{FileImage}
                         />
                     ) : null}
