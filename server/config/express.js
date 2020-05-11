@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import http from 'http';
 import router from '../api';
 import { initSocket } from './sockets';
+import path from 'path';
 const cors = require('cors')
 var methodOverride = require('method-override')
 const fileUpload = require('express-fileupload');
@@ -18,14 +19,13 @@ export default () => {
 
     app.use('/static', express.static('../bundle'));
     app.use('/assets', express.static('assets'));
+    //app.use('/public', express.static('public/uploads'));
     app.use(morgan('dev', { immediate: true }));
     app.use(express.json());
 
-    
-
     app.use('/api', router);
 
-    //app.use(express.static(path.join(__dirname, '..', '..', 'public'))); //to access the files in public folder
+    app.use('/public', express.static(path.join(__dirname, '..', '..', 'public/uploads'))); //to access the files in public folder
     app.use(cors()); // it enables all cors requests
     app.use(fileUpload());
     app.use(busboy()); 
