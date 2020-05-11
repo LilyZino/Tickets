@@ -41,7 +41,7 @@
     "style-loader": "^1.1.2",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "@date-io/core": "^2.0.0",
@@ -73,6 +73,7 @@
     "react-geocode": "^0.2.1",
     "react-google-maps": "^9.4.5",
     "react-native-geolocation-service": "^4.0.0",
+    "react-native-input-spinner": "^1.2.10",
     "react-router-dom": "^5.1.2",
     "rxjs": "^6.5.4",
     "socket.io": "^2.3.0",
