@@ -12,7 +12,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
-//import FileImage from '../../../Assets/Images/1.png';
+import base64 from 'base-64';
+import FileImage from 'file-loader!../../../../../public/uploads/file-1589132863394.file';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -62,7 +63,7 @@ export default function Ticket(props) {
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredSold, setEnteredSold] = useState(sold);
     const [enteredFile, setEnteredFile] = useState(file);
-    console.log(sold);
+    //console.log(sold);
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
@@ -78,6 +79,13 @@ export default function Ticket(props) {
             userId
         }, { headers: { Authorization: `Bearer ${token}` } });
     };
+
+    function filedata(afile) {
+        if (afile) {
+            return afile.data
+        }
+        return {}
+    }
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
@@ -95,12 +103,12 @@ export default function Ticket(props) {
                     <Typography>
                         {sold} Sold
                     </Typography>
-                    
-                        <img
-                            src={file}
-                            
+                    {file ? (
+                        <img 
+                            src={`file-loader!../../../../../public/uploads/${file}`} width="65" height="65"
+                            //{`../../../../../public/uploads/${file}`}{FileImage}
                         />
-                    
+                    ) : null}
                 </CardContent>
                 <Typography align="right" className={classes.price}>
                     {`${price}₪`}

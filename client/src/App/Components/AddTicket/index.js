@@ -65,7 +65,7 @@ export default function AddTicket() {
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
     const [ticketFile, setEnteredFile] = useState('');
-    
+    const [isTicketPhysical, setTicketPhysical] = useState(false);
 
     const handleOpen = () => {
         if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
@@ -78,20 +78,25 @@ export default function AddTicket() {
 
     const handleSubmit =  async (e) => {
         e.preventDefault();
+        console.log(ticketFile);
 
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         const formData = new FormData();
-        formData.append('file', ticketFile, ticketFile.name);
+        if(!isTicketPhysical){
+            formData.append('file', ticketFile, ticketFile.name);
+        }
         formData.append('concertId', enteredConcert);
         formData.append('price', enteredPrice);
         formData.append('amount', enteredAmount);
         formData.append('userId', userId);
+        formData.append('isPhysical', isTicketPhysical);
 
         axios.post('api/tickets/upload', formData, {
             headers: {
-                'Content-Type': 'undefined'
+                'Content-Type': 'undefined',
+                Authorization: `Bearer ${token}`
         }}).then(res => { // then print response status
                 console.log("file uploded ", res.statusText)
         }).catch(err => {
@@ -121,6 +126,8 @@ export default function AddTicket() {
                 setEnteredPrice={setEnteredPrice}
                 enteredConcert={enteredConcert}
                 setEnteredConcert={setEnteredConcert}
+                isTicketPhysical={isTicketPhysical}
+                setTicketPhysical={setTicketPhysical}
                 ticketFile={ticketFile}
                 setEnteredFile={setEnteredFile}
                 handleSubmit={handleSubmit}

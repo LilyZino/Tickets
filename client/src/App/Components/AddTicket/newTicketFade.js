@@ -16,6 +16,10 @@ import Avatar from '@material-ui/core/Avatar';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import clsx from 'clsx';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { authenticationService } from '../../_services';
 
@@ -58,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         margin: 'auto',
     },
+    expandOpen: {
+        background: 'gray',
+    }
 }));
 
 export default function AddTicketFade(props) {
@@ -66,6 +73,18 @@ export default function AddTicketFade(props) {
         display: props.AddMode ? 'none' : 'block'
     };
     const [concerts, setConcerts] = useState([]);
+    const [expanded, setExpanded] = useState(false);
+    const [isTicketPhysical, setTicketPhysical] = useState(false);
+
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+        setTicketPhysical(false);
+    };
+    const handlePhysicalTicket = () => {
+        setTicketPhysical(!isTicketPhysical);
+        setExpanded(false);
+    };
 
     useEffect(() => {
         (async () => {
@@ -133,20 +152,38 @@ export default function AddTicketFade(props) {
                                 }}
                             />
                             <br />
+                            <IconButton
+                            className={clsx(classes.expand, {
+                                    [classes.expandOpen]: isTicketPhysical,
+                                })}
+                                onClick={() => {
+                                    handlePhysicalTicket();
+                                    props.setTicketPhysical(!isTicketPhysical);
+                                }}
+                            >
+                                <InputLabel>My ticket is physical </InputLabel>
+                            </IconButton>
+                            <IconButton
+                                className={clsx(classes.expand, {
+                                    [classes.expandOpen]: expanded,
+                                })}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="show more"
+                            >
+                                <InputLabel>My ticket is digital </InputLabel>
+                            </IconButton>
+                            <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <div className="form-group files">
                                 <InputLabel>Upload Your File </InputLabel>
                                 <br />
                                 <input type="file" className="form-control" multiple="" name="MyFile"
                                     accept="image/png, image/jpeg"
-                                    //value={props.ticketFile}
                                     onChange={(event) => {
-                                        //const formData = new FormData();
-                                        //formData.append('file', event.target.files[0], ticketFile.name);
                                         props.setEnteredFile(event.target.files[0]);
-                                        //props.setEnteredFile(event.target.value);
-                                        console.log('target', event.target.files[0]);
                                     }} />
                             </div>
+                            </Collapse>
                             <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={props.handleSubmit}>
                                 {props.AddMode ? 'Add Ticket' : 'Edit Ticket'}
                             </Button>

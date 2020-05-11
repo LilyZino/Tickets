@@ -22,8 +22,12 @@ const TicketSchema = new Schema({
     sold:{
         type: Number
     },
+    isPhysical:{
+        type: Boolean,
+        required: true
+    },
     file:{
-        type: Buffer
+        type: String
     }
 });
 

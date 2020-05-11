@@ -2,9 +2,18 @@
 // here we will configure the ExampleModel's router
 import { AsyncRouter } from 'express-async-router';
 var multer  = require('multer');
+import path from "path";
 import { getAllTickets, addTicket, addFile, getTicketsByUser, getTicket, editTicket, deleteTicket, getTicketsByConcert } from './Ticket.controller';
-
-var upload = multer({ dest: '../../../public/uploads' });
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.resolve(__dirname, '../../../public/uploads/'))
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+    }
+  });
+   
+var upload = multer({ storage: storage });
 const router = AsyncRouter();
 
 router.get('/', getAllTickets);

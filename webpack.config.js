@@ -28,22 +28,22 @@ module.exports = {
                 use: 'html-loader'
             },
             {
-                test: /\.(mp4|png)$/,
+                test: /\.(mp4|png|jpg|pdf)$/,
                 use: {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        mimtetype: ['video/mp4', 'image/png'],
+                        mimtetype: ['video/mp4', 'image/png', 'image/jpg'],
                     }
                 }
             },
             {
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /\.(woff(2)?|ttf|eot|svg|file)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
-                            name: '[name].[ext]',
+                            name: '[contenthash].[ext]',
                             outputPath: 'fonts/'
                         }
                     }
