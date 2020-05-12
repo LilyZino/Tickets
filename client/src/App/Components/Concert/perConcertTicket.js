@@ -30,6 +30,21 @@ import BuyTicketFade from './buyTicketFade';
 import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
+    button: {
+        margin: '5px'
+    },
+    okButton: {
+        marginTop: '20px'
+    },
+    userNameText: {
+        float: 'left',
+        margin: '0.3em',
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     card: {
         minWidth: 275,
         marginTop: 15
@@ -120,7 +135,7 @@ export default (props) => {
             });
         };
         GetCredits();
-        
+
     }, [expanded, id]);
 
     const changeRank = async (a, b) => {
@@ -133,13 +148,12 @@ export default (props) => {
         });
     };
 
-    const handleOpen = (ticket) => {
-        if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
+    const handleOpen = () => {
+        setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
-        setLogin(false);
     };
 
     const buyTicket = async () => {
@@ -156,10 +170,6 @@ export default (props) => {
                 newcredit: userCredits.data-enteredTotal,
                 userId
             }, { headers: { Authorization: `Bearer ${token}` } });
-            
-                
-            
-            
             // .then((response) => {
             //     console.log(response);
             //     console.log('approved');
