@@ -20,6 +20,14 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { registerSocketEvent } from '../../_services/socketService';
 import Maps from '../Maps';
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import Avatar from '@material-ui/core/Avatar';
+import ErrorIcon from '@material-ui/icons/Error';
+import TicketinList from './perConcertTicket';
+import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -48,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
     },
     expandOpen: {
         transform: 'rotate(180deg)',
+    },
+    submitBtn: {
+        marginTop: '16px'
     }
 }));
 
@@ -57,7 +68,14 @@ export default (props) => {
     const [expanded, setExpanded] = useState(false);
     const [mapexpanded, setmapExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
-
+    
+    const [open, setOpen] = useState(false);
+    const [login, setLogin] = useState(false);
+    const [enteredConcert, setEnteredConcert] = useState('');
+    const [enteredPrice, setEnteredPrice] = useState('');
+    const [sellerUser, setsellerUser] = useState('');
+    const [enteredAmount, setEnteredAmount] = useState('');
+    const [enteredSold, setEnteredSold] = useState('');
 
     useEffect(() => {
         const getTicketForConcert = async () => {
@@ -82,16 +100,11 @@ export default (props) => {
         setmapExpanded(!mapexpanded);
     };
 
-    const changeRank = async (a, b) => {
-        console.log(a)
-        console.log(b)
 
-        await axios.post('/api/users/rank', {
-            id: a,
-            rank: b
-        });
+    const handleClose = () => {
+        setOpen(false);
+        setLogin(false);
     };
-
 
     return (
         <Card className={classes.card} elevation={2}>
@@ -136,41 +149,47 @@ export default (props) => {
                         {concertTickets.length === 0 || concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0).length === 0
                             ? (
                                 <Typography>
-                                    There are no tickets avalible for this concert :(
+                                    There are no tickets available for this concert :(
                                 </Typography>
                             )
                             : concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0)
                                 .map((ticket) => {
+                                    //console.log(concertTickets)
                                     return (
-                                        <ListItem button key={ticket._id}>
-                                            <ListItemIcon>
-                                                <ConfirmationNumberIcon />
-                                            </ListItemIcon>
-                                            <ListItemIcon>
-                                                <div>
-                                                    <div>
-                                                    <IconButton onClick={() => changeRank(ticket.user._id, 1)}>
-                                                        <ArrowDropUpIcon />
-                                                    </IconButton>
-                                                    </div>
-                                                    <IconButton onClick={() => changeRank(ticket.user._id, -1)}>
-                                                        <ArrowDropDownIcon />
-                                                        </IconButton> 
-                                                </div>
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                primary={`${ticket.amount - ticket.sold} Tickets Available`}
-                                                secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
-                                            />
-                                            <Typography>
-                                                {`${ticket.price}₪`}
-                                            </Typography>
-                                        </ListItem>
+                                        <TicketinList
+                                            key={ticket._id}
+                                            id={ticket._id}
+                                            ticket={ticket}>
+                                        </TicketinList>
                                     );
                                 })}
                     </List>
                 </CardContent>
             </Collapse>
+            <Modal
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                className={classes.modal}
+                open={login}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={login}>
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                            <ErrorIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5" className={classes.error}>
+                            you must login first
+                        </Typography>
+                    </div>
+                </Fade>
+            </Modal>
         </Card>
+        
     );
 };
