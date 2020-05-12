@@ -108,6 +108,19 @@ export default (props) => {
         registerSocketEvent('tickets-updated', () => {
             getTicketForConcert();
         });
+
+        const GetCredits = async () => {
+            const userId = authenticationService.currentUserValue.data
+                ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+            
+            await axios.put('/api/users/credits', {
+                id: userId,
+            }).then((credit) => {
+                setuserCredits(credit);
+            });
+        };
+        GetCredits();
+        
     }, [expanded, id]);
 
     const changeRank = async (a, b) => {
@@ -128,20 +141,6 @@ export default (props) => {
         setOpen(false);
         setLogin(false);
     };
-    const GetCredits = async () => {
-        const userId = authenticationService.currentUserValue.data
-            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        
-        await axios.put('/api/users/credits', {
-            id: userId,
-        }).then((credit) => {
-            setuserCredits(credit);
-        });
-    };
-    if(!userCredits){
-        GetCredits();
-    }
-    
 
     const buyTicket = async () => {
         const { token } = authenticationService.currentUserValue.data;
