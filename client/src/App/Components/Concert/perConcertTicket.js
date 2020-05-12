@@ -148,12 +148,12 @@ export default (props) => {
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         if(userCredits.data >= enteredTotal) {
-            console.log('approved');
             setOpenAfterPurchaseMessage(true);
             await axios.post('/api/tickets/buy', {
                 _id: props.id,
                 sold: enteredSold,
                 seller: props.ticket.user._id,
+                totalPrice: enteredTotal,
                 newcredit: userCredits.data-enteredTotal,
                 userId
             }, { headers: { Authorization: `Bearer ${token}` } });

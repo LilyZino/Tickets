@@ -49,15 +49,17 @@ export const sendAuthenticationMail = async (userMail, userFullName) => {
     }
 };
 
-export const sendConfirmationMail = async (userMail, userFullName, ticket) => {
+export const sendConfirmationMail = async (userMail, userFullName, artist, time, location, price, amount) => {
     const userUuid = uuid();
-    const serverLink = `http://${process.env.SERVER_HOST}:${process.env.HOST_PORT}/api/mailAuth/verify/${userMail}/${userUuid}`;
     const mailTemplate = `<h2>Hi ${userFullName}</h2>
     Thank you so much for your purchase <br/>
-    Here is your ticket for ${ticket.concert}' <br/>
-    ${ticket.file}
-    ${ticket}
+    Here is your ticket for <b>${artist}</b> <br/>
+    date: ${time} <br/>
+    location: ${location} <br/>
+    amount: ${amount} tickets <br/>
+    price: ${price} ₪ <br/>
     <br/>
+    Enjoy!<br/>
     Tickets App Team`;
 
     const mailjetHost = mailjet
@@ -98,12 +100,13 @@ export const sendConfirmationMail = async (userMail, userFullName, ticket) => {
     }
 };
 
-export const sendConfirmationOfSaleMail = async (userMail, userFullName, ticket) => {
+export const sendConfirmationOfSaleMail = async (userMail, userFullName, artist, time, amount, price, user) => {
+    console.log(typeof ticket);
     const userUuid = uuid();
-    const serverLink = `http://${process.env.SERVER_HOST}:${process.env.HOST_PORT}/api/mailAuth/verify/${userMail}/${userUuid}`;
     const mailTemplate = `<h2>Hi ${userFullName}</h2>
     Your ticket has been sold! Hurray <br/>
-    ${ticket}<br/>
+    <b>${amount} tickets for ${artist} on ${time}, bought by ${user}</b><br/>
+    You received ${price}₪ in credits</br>
     <br/>
     Tickets App Team`;
 
