@@ -74,17 +74,12 @@ export default function AddTicketFade(props) {
     };
     const [concerts, setConcerts] = useState([]);
     const [expanded, setExpanded] = useState(false);
-    const [isTicketPhysical, setTicketPhysical] = useState(false);
-
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
         setTicketPhysical(false);
     };
-    const handlePhysicalTicket = () => {
-        setTicketPhysical(!isTicketPhysical);
-        setExpanded(false);
-    };
+    
 
     useEffect(() => {
         (async () => {
@@ -154,11 +149,12 @@ export default function AddTicketFade(props) {
                             <br />
                             <IconButton
                             className={clsx(classes.expand, {
-                                    [classes.expandOpen]: isTicketPhysical,
+                                    [classes.expandOpen]: props.isTicketPhysical,
                                 })}
                                 onClick={() => {
-                                    handlePhysicalTicket();
-                                    props.setTicketPhysical(!isTicketPhysical);
+                                    setExpanded(false);
+                                    props.setTicketPhysical(!props.isTicketPhysical);
+                                    console.log('physical ',props.isTicketPhysical);
                                 }}
                             >
                                 <InputLabel>My ticket is physical </InputLabel>
@@ -167,7 +163,11 @@ export default function AddTicketFade(props) {
                                 className={clsx(classes.expand, {
                                     [classes.expandOpen]: expanded,
                                 })}
-                                onClick={handleExpandClick}
+                                onClick={() => {
+                                    setExpanded(!expanded);
+                                    props.setTicketPhysical(false);
+                                    console.log('digital ',props.isTicketPhysical);
+                                }}
                                 aria-expanded={expanded}
                                 aria-label="show more"
                             >

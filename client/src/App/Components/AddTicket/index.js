@@ -76,9 +76,9 @@ export default function AddTicket() {
         setLogin(false);
     };
 
-    const handleSubmit =  async (e) => {
-        e.preventDefault();
+    const handleSubmit =  async () => {
         console.log(ticketFile);
+        console.log(isTicketPhysical);
 
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
@@ -97,18 +97,11 @@ export default function AddTicket() {
             headers: {
                 'Content-Type': 'undefined',
                 Authorization: `Bearer ${token}`
-        }}).then(res => { // then print response status
+        }}).then(res => { 
                 console.log("file uploded ", res.statusText)
         }).catch(err => {
-            console.log("file not uploaded", err.response);
+            console.log("file not uploaded ", err.response);
         })
-        
-        // await axios.put('/api/tickets', {
-        //     concertId: enteredConcert,
-        //     price: enteredPrice,
-        //     amount: enteredAmount,
-        //     userId
-        // }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
     return (

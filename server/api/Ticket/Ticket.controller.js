@@ -14,34 +14,40 @@ export const getAllTickets = async (req, res) => {
 };
 
 export const addFile = async (req, res) => {
-    var newFile;
     try {
         console.log(req.body);
-        console.log(req.files);
-        if(!req.body.isPhysical){
-            newFile ={}
+        if(req.body.isPhysical == 'true'){
+            var newTicket = new Ticket({
+                    user: req.body.userId,
+                    concert: req.body.concertId,
+                    price: req.body.price,
+                    amount: req.body.amount,
+                    isPhysical: req.body.isPhysical,
+                    sold: 0
+                });
+            saveAfter(newTicket);
+        } else {
+            console.log(req.files);
+            var newFile = req.files;
+            var newTicket;
+            fs.readFile(newFile[0].path, function (err, buffer) {
+                newTicket = new Ticket({
+                    user: req.body.userId,
+                    concert: req.body.concertId,
+                    price: req.body.price,
+                    amount: req.body.amount,
+                    isPhysical: req.body.isPhysical,
+                    file: newFile[0].filename,
+                    sold: 0
+                });
+                saveAfter(newTicket);
+            });
         }
-        newFile = req.files;
-        
-        var newTicket;
-        fs.readFile(newFile[0].path, function (err, buffer) {
-            newTicket = new Ticket({
-            user: req.body.userId,
-            concert: req.body.concertId,
-            price: req.body.price,
-            amount: req.body.amount,
-            isPhysical: req.body.isPhysical,
-            file: newFile[0].filename,
-            sold: 0
-        });
-        saveAfter(newTicket);
-        
-        });
         async function saveAfter(newTicket) {
             try{
-            const ticket = await newTicket.save();
-            informTicketsUpdated();
-            //res.json(ticket);
+                const ticket = await newTicket.save();
+                informTicketsUpdated();
+                //res.json(ticket);
             } catch(err) {
                 console.error(err.message);
                 res.status(500).send('Server Error');
