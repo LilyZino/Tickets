@@ -48,3 +48,99 @@ export const sendAuthenticationMail = async (userMail, userFullName) => {
         console.log(error.statusCode);
     }
 };
+
+export const sendConfirmationMail = async (userMail, userFullName, ticket) => {
+    const userUuid = uuid();
+    const serverLink = `http://${process.env.SERVER_HOST}:${process.env.HOST_PORT}/api/mailAuth/verify/${userMail}/${userUuid}`;
+    const mailTemplate = `<h2>Hi ${userFullName}</h2>
+    Thank you so much for your purchase <br/>
+    Here is your ticket for ${ticket.concert}' <br/>
+    ${ticket.file}
+    ${ticket}
+    <br/>
+    Tickets App Team`;
+
+    const mailjetHost = mailjet
+        .connect('187b0a32d7380a84deaeb1ded861eb68', 'e02c897e8da191f92fbb6d61393972a1');
+
+    try {
+        const result = await mailjetHost
+            .post('send', { version: 'v3.1' })
+            .request({
+                Messages: [
+                    {
+                        From: {
+                            Email: 'shakedh100@cs.colman.ac.il',
+                            Name: 'Tickets App'
+                        },
+                        To: [
+                            {
+                                Email: userMail,
+                                Name: userFullName
+                            }
+                        ],
+                        Subject: 'Here is your new ticket!',
+                        HTMLPart: mailTemplate
+                    }
+                ]
+            });
+
+        console.log(result.body);
+
+        const newMailAuth = new MailAuth({
+            userMail,
+            uuid: userUuid
+        });
+
+        await newMailAuth.save();
+    } catch (error) {
+        console.log(error.statusCode);
+    }
+};
+
+export const sendConfirmationOfSaleMail = async (userMail, userFullName, ticket) => {
+    const userUuid = uuid();
+    const serverLink = `http://${process.env.SERVER_HOST}:${process.env.HOST_PORT}/api/mailAuth/verify/${userMail}/${userUuid}`;
+    const mailTemplate = `<h2>Hi ${userFullName}</h2>
+    Your ticket has been sold! Hurray <br/>
+    ${ticket}<br/>
+    <br/>
+    Tickets App Team`;
+
+    const mailjetHost = mailjet
+        .connect('187b0a32d7380a84deaeb1ded861eb68', 'e02c897e8da191f92fbb6d61393972a1');
+
+    try {
+        const result = await mailjetHost
+            .post('send', { version: 'v3.1' })
+            .request({
+                Messages: [
+                    {
+                        From: {
+                            Email: 'shakedh100@cs.colman.ac.il',
+                            Name: 'Tickets App'
+                        },
+                        To: [
+                            {
+                                Email: userMail,
+                                Name: userFullName
+                            }
+                        ],
+                        Subject: 'Ticket has been sold',
+                        HTMLPart: mailTemplate
+                    }
+                ]
+            });
+
+        console.log(result.body);
+
+        const newMailAuth = new MailAuth({
+            userMail,
+            uuid: userUuid
+        });
+
+        await newMailAuth.save();
+    } catch (error) {
+        console.log(error.statusCode);
+    }
+};

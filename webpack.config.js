@@ -16,8 +16,6 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules(?!\/react-native-input-spinner)/,
-                include: [path.resolve(__dirname, "node_modules/react-native-input-spinner")],
                 use: {
                     loader:'babel-loader'
                 }

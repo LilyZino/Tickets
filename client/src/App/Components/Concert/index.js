@@ -26,7 +26,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import ErrorIcon from '@material-ui/icons/Error';
-import BuyTicketFade from './buyTicketFade';
+import TicketinList from './perConcertTicket';
 import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +73,7 @@ export default (props) => {
     const [login, setLogin] = useState(false);
     const [enteredConcert, setEnteredConcert] = useState('');
     const [enteredPrice, setEnteredPrice] = useState('');
+    const [sellerUser, setsellerUser] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredSold, setEnteredSold] = useState('');
 
@@ -99,37 +100,10 @@ export default (props) => {
         setmapExpanded(!mapexpanded);
     };
 
-    const changeRank = async (a, b) => {
-        console.log(a)
-        console.log(b)
-
-        await axios.post('/api/users/rank', {
-            id: a,
-            rank: b
-        });
-    };
-
-    const handleOpen = () => {
-        if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
-    };
 
     const handleClose = () => {
         setOpen(false);
         setLogin(false);
-    };
-
-    const buyTicket = async () => {
-        const { token } = authenticationService.currentUserValue.data;
-        const userId = authenticationService.currentUserValue.data
-            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        await axios.post('/api/tickets/', {
-            _id: id,
-            concertId: enteredConcert,
-            price: enteredPrice,
-            amount: enteredAmount,
-            sold: enteredSold,
-            userId
-        }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
     return (
@@ -180,47 +154,13 @@ export default (props) => {
                             )
                             : concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0)
                                 .map((ticket) => {
+                                    //console.log(concertTickets)
                                     return (
-                                        <ListItem button key={ticket._id}>
-                                            <ListItemIcon>
-                                                <ConfirmationNumberIcon />
-                                            </ListItemIcon>
-                                            <ListItemIcon>
-                                                <div>
-                                                    <div>
-                                                    <IconButton onClick={() => changeRank(ticket.user._id, 1)}>
-                                                        <ArrowDropUpIcon />
-                                                    </IconButton>
-                                                    </div>
-                                                    <IconButton onClick={() => changeRank(ticket.user._id, -1)}>
-                                                        <ArrowDropDownIcon />
-                                                        </IconButton> 
-                                                </div>
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                primary={`${ticket.amount - ticket.sold} Tickets Available`}
-                                                secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
-                                            />
-                                            <Typography>
-                                                {`${ticket.price}₪`}
-                                            </Typography>
-                                            <Button 
-                                                className={classes.submitBtn} type="submit" color="primary" 
-                                                onClick={handleOpen}>
-                                                    Buy
-                                            </Button>
-                                            <BuyTicketFade
-                                                open={open}
-                                                AddMode
-                                                enteredAmount={ticket.amount}
-                                                setEnteredAmount={setEnteredAmount}
-                                                enteredSold={ticket.sold}
-                                                setEnteredSold={setEnteredSold}
-                                                enteredPrice={ticket.price}
-                                                buyTicket={buyTicket}
-                                                handleClose={handleClose}
-                                            />
-                                        </ListItem>
+                                        <TicketinList
+                                            key={ticket._id}
+                                            id={ticket._id}
+                                            ticket={ticket}>
+                                        </TicketinList>
                                     );
                                 })}
                     </List>

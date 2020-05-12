@@ -1,5 +1,7 @@
 import Ticket from './Ticket.model';
+import User from '../User/user.model';
 import { informTicketsUpdated } from '../../config/sockets';
+import { sendConfirmationMail, sendConfirmationOfSaleMail } from '../MailAuth/MailAuth.service';
 
 export const getAllTickets = async (req, res) => {
     try {
@@ -33,7 +35,6 @@ export const addTicket = async (req, res) => {
 };
 
 export const editTicket = async (req, res) => {
-
     return Ticket.updateOne(
         { _id : req.body._id },  // <-- find stage
         { $set: {                // <-- set stage
@@ -43,6 +44,43 @@ export const editTicket = async (req, res) => {
             price: req.body.price,
             amount: req.body.amount,
             sold: req.body.sold
+          } 
+        }   
+      ).then(result => {
+        res.status(200).json({ message: "Update successful!" });
+      });
+}
+
+export const buyTicket = async (req, res) => {
+    //console.log(req.body);
+    const { _id, sold, seller, userId } = req.body;
+    const ticket = await Ticket.find().where('_id').equals(_id).populate('concert').then(result => {
+        console.log('ticket: ',result);
+        if(result){
+        func(result);}
+        
+    });
+    async function func(ticket){
+    try {
+        //console.log(ticket);
+        var user = await User.findById(seller);
+        if (user) {
+            await sendConfirmationOfSaleMail(user.email, user.name, ticket);
+        }
+        var buyer = await User.findById(userId);
+        if (buyer) {
+            await sendConfirmationMail(buyer.email, buyer.name, ticket);
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ msg: 'Server Error' });
+    }
+    }
+    
+    return Ticket.updateOne(
+        { _id : _id },  // <-- find stage
+        { $set: {                // <-- set stage
+            sold: sold
           } 
         }   
       ).then(result => {
