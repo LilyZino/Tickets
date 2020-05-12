@@ -52,34 +52,36 @@ export const editTicket = async (req, res) => {
 }
 
 export const buyTicket = async (req, res) => {
-    //console.log(req.body);
-    const { _id, sold, seller, userId } = req.body;
+    const { _id, sold, seller, userId, newcredit } = req.body;
     const ticket = await Ticket.find().where('_id').equals(_id).populate('concert').then(result => {
-        console.log('ticket: ',result);
         if(result){
-        func(result);}
-        
-    });
+            func(result);}
+        });
     async function func(ticket){
-    try {
-        //console.log(ticket);
-        var user = await User.findById(seller);
-        if (user) {
-            await sendConfirmationOfSaleMail(user.email, user.name, ticket);
+        try {
+            var user = await User.findById(seller);
+            if (user) {
+                await sendConfirmationOfSaleMail(user.email, user.name, ticket);
+            }
+            var buyer = await User.findById(userId);
+            if (buyer) {
+                await sendConfirmationMail(buyer.email, buyer.name, ticket);
+            }
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).json({ msg: 'Server Error' });
         }
-        var buyer = await User.findById(userId);
-        if (buyer) {
-            await sendConfirmationMail(buyer.email, buyer.name, ticket);
-        }
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ msg: 'Server Error' });
     }
-    }
-    
+    const mycredit = await User.updateOne(
+        { _id : userId },  
+        { $set: {               
+            credits: newcredit
+          } 
+        }   
+      );
     return Ticket.updateOne(
-        { _id : _id },  // <-- find stage
-        { $set: {                // <-- set stage
+        { _id : _id },  
+        { $set: {               
             sold: sold
           } 
         }   

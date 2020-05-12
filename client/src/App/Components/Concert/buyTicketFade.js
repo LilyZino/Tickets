@@ -142,7 +142,10 @@ export default function AddTicketFade(props) {
                                 }} />
                             
                             <br/>
-                            <InputLabel id="concertLabel">Total amount: {(value * props.enteredPrice)}</InputLabel>
+                            {
+                                props.setEnteredTotal(value * props.enteredPrice)
+                            }
+                            <InputLabel id="concertLabel">Total amount: {props.enteredTotal}</InputLabel>
                             {/* <TextField
                                 label="Price"
                                 value={props.enteredPrice}

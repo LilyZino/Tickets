@@ -59,6 +59,19 @@ const useStyles = makeStyles((theme) => ({
     },
     submitBtn: {
         marginTop: '16px'
+    },
+    title: {
+        textAlign: 'center'
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 }));
 
@@ -76,6 +89,10 @@ export default (props) => {
     const [sellerUser, setsellerUser] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredSold, setEnteredSold] = useState('');
+    const [enteredTotal, setEnteredTotal] = useState('');
+    const [userCredits, setuserCredits] = useState('');
+    const [openAfterPurchaseMessage, setOpenAfterPurchaseMessage] = useState(false);
+    const [PurchaseFailedMessage, setPurchaseFailedMessage] = useState(false);
 
     useEffect(() => {
         const getTicketForConcert = async () => {
@@ -111,19 +128,40 @@ export default (props) => {
         setOpen(false);
         setLogin(false);
     };
+    const GetCredits = async () => {
+        const userId = authenticationService.currentUserValue.data
+            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+        
+        await axios.put('/api/users/credits', {
+            id: userId,
+        }).then((credit) => {
+            setuserCredits(credit);
+        });
+    };
+    if(!userCredits){
+        GetCredits();
+    }
+    
 
     const buyTicket = async () => {
-        console.log('seller', sellerUser);
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        await axios.post('/api/tickets/buy', {
-            _id: props.id,
-            sold: enteredSold,
-            seller: props.ticket.user._id,
-            userId
-        }, { headers: { Authorization: `Bearer ${token}` } });
-        
+        if(userCredits.data >= enteredTotal) {
+            await axios.post('/api/tickets/buy', {
+                _id: props.id,
+                sold: enteredSold,
+                seller: props.ticket.user._id,
+                newcredit: userCredits.data-enteredTotal,
+                userId
+            }, { headers: { Authorization: `Bearer ${token}` } }).then((res) => {
+                console.log('approved');
+                setOpenAfterPurchaseMessage(true);
+            });
+        }
+        else{
+            setPurchaseFailedMessage(true);
+        }
     };
 
     return (
@@ -167,10 +205,66 @@ export default (props) => {
                 setEnteredAmount={setEnteredAmount}
                 enteredSold={props.ticket.sold}
                 setEnteredSold={setEnteredSold}
+                enteredTotal={enteredTotal}
+                setEnteredTotal={setEnteredTotal}
                 enteredPrice={props.ticket.price}
                 buyTicket={buyTicket}
                 handleClose={handleClose}
             />
+            <Modal
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                className={classes.modal}
+                open={openAfterPurchaseMessage}
+                onClose={() => setOpenAfterPurchaseMessage(false)}
+                closeAfterTransition
+            >
+                <Fade in={openAfterPurchaseMessage}>
+                    <div className={classes.paper}>
+                        <Typography variant="h4" className={classes.title}>
+                            Your purchase was successful!
+                        </Typography>
+                        <Typography variant="h5" className={classes.title}>
+                            Please check your mail for confirmation
+                        </Typography>
+                        <Button
+                            className={classes.okButton}
+                            variant="contained"
+                            color="primary"
+                            onClick={() => setOpenAfterPurchaseMessage(false)}
+                        >
+                            OK
+                        </Button>
+                    </div>
+                </Fade>
+            </Modal>
+            <Modal
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                className={classes.modal}
+                open={PurchaseFailedMessage}
+                onClose={() => setPurchaseFailedMessage(false)}
+                closeAfterTransition
+            >
+                <Fade in={PurchaseFailedMessage}>
+                    <div className={classes.paper}>
+                        <Typography variant="h4" className={classes.title}>
+                            Your don't have sufficient credits to complete this transaction.
+                        </Typography>
+                        <Typography variant="h5" className={classes.title}>
+                            Please update your credit balance.
+                        </Typography>
+                        <Button
+                            className={classes.okButton}
+                            variant="contained"
+                            color="primary"
+                            onClick={() => setPurchaseFailedMessage(false)}
+                        >
+                            OK
+                        </Button>
+                    </div>
+                </Fade>
+            </Modal>
         </ListItem>
     );
 };
