@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { AsyncRouter } from 'express-async-router';
-import { getAllTickets, addTicket, getTicketsByUser, getTicket, editTicket, deleteTicket, getTicketsByConcert } from './Ticket.controller';
+import { getAllTickets, addTicket, getTicketsByUser, getTicket, editTicket, deleteTicket, getTicketsByConcert, buyTicket } from './Ticket.controller';
 import upload from '../middlewares/upload';
 
 const router = AsyncRouter();
