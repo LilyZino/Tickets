@@ -105,7 +105,7 @@ export default function Ticket(props) {
                     </Typography>
                     {file ? (
                         <embed
-                            src={`!!file-loader!../../../../../public/uploads/${file}`} //width="65" height="65"
+                            src={'/uploads/' + file}//{`!!file-loader!../../../../../public/uploads/${file}`} //width="65" height="65"
                             //{`../../../../../public/uploads/${file}`}{FileImage}
                         />
                     ) : null}
