@@ -9,6 +9,7 @@ router.get('/', getAllTickets);
 router.get('/:id', getTicket);
 router.put('/', upload.any(), addTicket);
 router.post('/', editTicket);
+router.post('/buy', buyTicket);
 router.get('/user/:userId', getTicketsByUser);
 router.get('/concert/:concertId', getTicketsByConcert);
 router.delete('/:id', deleteTicket);

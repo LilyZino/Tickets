@@ -9,8 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
+import SoldImage from '!!file-loader!../../../Assets/Images/sold.png';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
+
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -98,6 +100,11 @@ export default function Ticket(props) {
                 <Typography align="right" className={classes.price}>
                     {`${price}₪`}
                 </Typography>
+                {amount-sold == 0 ? (
+                        <Typography>
+                            <img src={SoldImage} height="40px" width="40px"/>
+                        </Typography>
+                    ) : null}
             </div>
             <CardActions>
                 <IconButton onClick={() => setOpen(true)}>

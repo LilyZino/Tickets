@@ -146,3 +146,49 @@ export const login = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+export const setUserRank = async (req, res) => {
+    console.log(req.body.id);
+    console.log(req.body.rank);
+    return User.updateOne(
+        {
+            _id: req.body.id// <-- find stage
+        },
+        {
+            $inc: { rank: req.body.rank }
+        }
+    ).then(result => {
+        res.status(200).json({ message: 'Update successful!' });
+    });
+};
+
+export const setUserCredits = async (req, res) => {
+    return User.updateOne(
+        {
+            _id: req.body.id// <-- find stage
+        },
+        {
+            $inc: { credits: req.body.credits }
+        }
+    ).then(result => {
+        res.status(200).json({ message: 'Update successful!' });
+    });
+};
+
+export const getUserCredits = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const user = await User.findById(id);
+
+        // Check for ObjectId format and post
+        if (!id.match(/^[0-9a-fA-F]{24}$/) || !user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        res.json(user.credits);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+};

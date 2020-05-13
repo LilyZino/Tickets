@@ -30,6 +30,14 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    rank: {
+        type: Number,
+        default: 0
+    },
+    credits: {
+        type: Number,
+        default: 0
     }
 });
 

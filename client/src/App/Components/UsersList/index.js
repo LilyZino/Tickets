@@ -24,6 +24,7 @@ const UsersList = () => {
                     name={user.name}
                     email={user.email}
                     phone={user.phone}
+                    rank={user.rank}
                 />
             ))}
         </div>
