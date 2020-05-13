@@ -43,6 +43,7 @@ const TicketsList = (props) => {
                     sold={ticket.sold}
                     amount={ticket.amount}
                     concert={ticket.concert}
+                    file={ticket.file}
                     onDelete={handleDelete}
                 />
             ))}

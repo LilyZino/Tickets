@@ -6,10 +6,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import PeopleIcon from '@material-ui/icons/People';
+import InfoIcon from '@material-ui/icons/Info';
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import InfoIcon from '@material-ui/icons/Info';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {
@@ -80,6 +81,8 @@ export default function () {
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
+                            { authenticationService.currentUserValue &&  authenticationService.currentUser2.value.data.isAdmin
+                                &&<ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue

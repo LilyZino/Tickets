@@ -9,10 +9,10 @@ import AddIcon from '@material-ui/icons/Add';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
 import Avatar from '@material-ui/core/Avatar';
+import FormData from 'form-data';
 import AddTicketFade from './newTicketFade';
 
 import { authenticationService } from '../../_services';
-
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -61,6 +61,8 @@ export default function AddTicket() {
     const [enteredConcert, setEnteredConcert] = useState('');
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
+    const [file, setEnteredFile] = useState('');
+    const [isTicketPhysical, setTicketPhysical] = useState(false);
 
     const handleOpen = () => {
         if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
@@ -75,12 +77,22 @@ export default function AddTicket() {
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        await axios.put('/api/tickets', {
-            concertId: enteredConcert,
-            price: enteredPrice,
-            amount: enteredAmount,
-            userId
-        }, { headers: { Authorization: `Bearer ${token}` } });
+        const formData = new FormData();
+
+        if (!isTicketPhysical) {
+            formData.append('file', file, file.name);
+        }
+        formData.append('concertId', enteredConcert);
+        formData.append('price', enteredPrice);
+        formData.append('amount', enteredAmount);
+        formData.append('userId', userId);
+        formData.append('isPhysical', isTicketPhysical);
+
+        await axios.put('api/tickets/', formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
     };
 
     return (
@@ -98,6 +110,10 @@ export default function AddTicket() {
                 setEnteredPrice={setEnteredPrice}
                 enteredConcert={enteredConcert}
                 setEnteredConcert={setEnteredConcert}
+                isTicketPhysical={isTicketPhysical}
+                setTicketPhysical={setTicketPhysical}
+                ticketFile={file}
+                setEnteredFile={setEnteredFile}
                 handleSubmit={handleSubmit}
                 handleClose={handleClose}
             />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -9,8 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
+import SoldImage from '!!file-loader!../../../Assets/Images/sold.png';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
+
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -52,14 +54,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Ticket(props) {
     const classes = useStyles();
-    const { id, price, amount, concert, sold, onDelete } = props;
+    const { id, price, amount, concert, sold, file, onDelete } = props;
     const [open, setOpen] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const [enteredConcert, setEnteredConcert] = useState(concert._id);
     const [enteredPrice, setEnteredPrice] = useState(price);
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredSold, setEnteredSold] = useState(sold);
-    console.log(sold);
+    const [enteredFile, setEnteredFile] = useState(file);
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
@@ -71,6 +73,7 @@ export default function Ticket(props) {
             price: enteredPrice,
             amount: enteredAmount,
             sold: enteredSold,
+            file: enteredFile,
             userId
         }, { headers: { Authorization: `Bearer ${token}` } });
     };
@@ -90,11 +93,17 @@ export default function Ticket(props) {
                     </Typography>
                     <Typography>
                         {sold} Sold
-                    </Typography>
+                        {file ? (<img src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
+                        </Typography>
                 </CardContent>
                 <Typography align="right" className={classes.price}>
                     {`${price}₪`}
                 </Typography>
+                {amount - sold === 0 ? (
+                    <Typography>
+                        <img src={SoldImage} height="40px" width="40px" alt="sold" />
+                    </Typography>
+                ) : null}
             </div>
             <CardActions>
                 <IconButton onClick={() => setOpen(true)}>
@@ -112,6 +121,8 @@ export default function Ticket(props) {
                     setEnteredPrice={setEnteredPrice}
                     enteredConcert={enteredConcert}
                     setEnteredConcert={setEnteredConcert}
+                    enteredFile={enteredFile}
+                    setEnteredFile={setEnteredFile}
                     handleSubmit={handleSubmit}
                     handleClose={() => setOpen(false)}
                 />
@@ -119,7 +130,8 @@ export default function Ticket(props) {
                 <IconButton onClick={() => {
                     setIsDeleted(true);
                     onDelete(id);
-                }}>
+                }}
+                >
                     <DeleteIcon />
                 </IconButton>
             </CardActions>

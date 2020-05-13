@@ -16,8 +16,9 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
-                use: 'babel-loader'
+                use: {
+                    loader:'babel-loader'
+                }
             },
             {
                 test: /\.css$/,
@@ -28,12 +29,12 @@ module.exports = {
                 use: 'html-loader'
             },
             {
-                test: /\.mp4/,
+                test: /\.(mp4|png|jpg|pdf)$/,
                 use: {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        mimtetype: 'video/mp4',
+                        mimtetype: ['video/mp4', 'image/png', 'image/jpg'],
                     }
                 }
             },
