@@ -9,13 +9,10 @@ import AddIcon from '@material-ui/icons/Add';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
 import Avatar from '@material-ui/core/Avatar';
+import FormData from 'form-data';
 import AddTicketFade from './newTicketFade';
-import base64 from 'base-64';
-//import fs from 'fs';
 
 import { authenticationService } from '../../_services';
-import FormData from 'form-data';
-
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -76,14 +73,12 @@ export default function AddTicket() {
         setLogin(false);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(file);
-
+    const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         const formData = new FormData();
+
         if (!isTicketPhysical) {
             formData.append('file', file, file.name);
         }
@@ -93,23 +88,11 @@ export default function AddTicket() {
         formData.append('userId', userId);
         formData.append('isPhysical', isTicketPhysical);
 
-        const result = await axios.put('api/tickets/', formData, {
+        await axios.put('api/tickets/', formData, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
         });
-
-        console.log(result);
-
-        console.log(file);
-
-        // await axios.put('/api/tickets', {
-        //     concertId: enteredConcert,
-        //     price: enteredPrice,
-        //     amount: enteredAmount,
-        //     userId,
-        //     file
-        // }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
     return (
