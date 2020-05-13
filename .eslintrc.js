@@ -34,6 +34,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/prop-types': 'off',
-    'arrow-parens': 'off'
+    'arrow-parens': 'off',
+    'max-len': 'off'
   }
 };

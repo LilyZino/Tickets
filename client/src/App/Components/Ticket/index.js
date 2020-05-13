@@ -99,11 +99,11 @@ export default function Ticket(props) {
                 <Typography align="right" className={classes.price}>
                     {`${price}₪`}
                 </Typography>
-                {amount-sold == 0 ? (
-                        <Typography>
-                            <img src={SoldImage} height="40px" width="40px"/>
-                        </Typography>
-                    ) : null}
+                {amount - sold === 0 ? (
+                    <Typography>
+                        <img src={SoldImage} height="40px" width="40px" alt="sold" />
+                    </Typography>
+                ) : null}
             </div>
             <CardActions>
                 <IconButton onClick={() => setOpen(true)}>
