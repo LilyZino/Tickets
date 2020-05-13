@@ -14,13 +14,17 @@ export const getAllTickets = async (req, res) => {
 };
 
 export const addTicket = async (req, res) => {
+    console.log(req.files[0].filename);
+
     try {
         const newTicket = new Ticket({
             user: req.body.userId,
             concert: req.body.concertId,
             price: req.body.price,
             amount: req.body.amount,
-            sold: 0
+            file: req.files[0].filename,
+            sold: 0,
+            isPhysical: false
         });
 
         const ticket = await newTicket.save();
@@ -36,20 +40,21 @@ export const addTicket = async (req, res) => {
 
 export const editTicket = async (req, res) => {
     return Ticket.updateOne(
-        { _id : req.body._id },  // <-- find stage
-        { $set: {                // <-- set stage
-           id: req.body.id,     // <-- id not _id
-           user: req.body.userId,
-            concert: req.body.concertId,
-            price: req.body.price,
-            amount: req.body.amount,
-            sold: req.body.sold
-          } 
-        }   
-      ).then(result => {
-        res.status(200).json({ message: "Update successful!" });
-      });
-}
+        { _id: req.body._id }, // <-- find stage
+        {
+            $set: { // <-- set stage
+                id: req.body.id, // <-- id not _id
+                user: req.body.userId,
+                concert: req.body.concertId,
+                price: req.body.price,
+                amount: req.body.amount,
+                sold: req.body.sold
+            }
+        }
+    ).then(result => {
+        res.status(200).json({ message: 'Update successful!' });
+    });
+};
 
 export const buyTicket = async (req, res) => {
     const { _id, sold, seller, userId, newcredit, totalPrice } = req.body;

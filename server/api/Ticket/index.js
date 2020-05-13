@@ -1,13 +1,13 @@
 /* eslint-disable object-curly-newline */
-// here we will configure the ExampleModel's router
 import { AsyncRouter } from 'express-async-router';
-import { getAllTickets, addTicket, getTicketsByUser, buyTicket, getTicket, editTicket, deleteTicket, getTicketsByConcert } from './Ticket.controller';
+import { getAllTickets, addTicket, getTicketsByUser, getTicket, editTicket, deleteTicket, getTicketsByConcert, buyTicket } from './Ticket.controller';
+import upload from '../middlewares/upload';
 
 const router = AsyncRouter();
 
 router.get('/', getAllTickets);
 router.get('/:id', getTicket);
-router.put('/', addTicket);
+router.put('/', upload.any(), addTicket);
 router.post('/', editTicket);
 router.post('/buy', buyTicket);
 router.get('/user/:userId', getTicketsByUser);

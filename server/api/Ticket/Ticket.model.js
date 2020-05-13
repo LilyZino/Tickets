@@ -19,8 +19,18 @@ const TicketSchema = new Schema({
         type: Number,
         required: true
     },
-    sold:{
+    sold: {
         type: Number
+    },
+    isPhysical: {
+        type: Boolean,
+        required: true
+    },
+    file: {
+        type: String
+    },
+    image: {
+        type: String
     }
 });
 
