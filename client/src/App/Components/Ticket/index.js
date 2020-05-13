@@ -93,9 +93,7 @@ export default function Ticket(props) {
                     </Typography>
                     <Typography>
                         {sold} Sold
-                    </Typography>{
                         file ? (<img src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null
-                    }
                 </CardContent>
                 <Typography align="right" className={classes.price}>
                     {`${price}₪`}
