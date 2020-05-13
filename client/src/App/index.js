@@ -81,10 +81,12 @@ export default function () {
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
-                            { authenticationService.currentUserValue &&  authenticationService.currentUser2.value.data.isAdmin
-                                &&<ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
-                            {authenticationService.currentUserValue
-                                && <ListItemLink to="/users" primary="Users" icon={<PeopleIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
+                                && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
+                                && <ListItemLink to="/users" primary="Users" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
+                                && <ListItemLink to="/edit-concerts" primary="Edit Concerts" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
                         </List>
                     </Drawer>
@@ -110,6 +112,9 @@ export default function () {
                         </Route>
                         <Route path="/users">
                             <UsersList />
+                        </Route>
+                        <Route path="/edit-concerts">
+                            <ConcertsFeed editable />
                         </Route>
                         <Route path="/">
                             <Redirect to="/concertsFeed" />

@@ -3,7 +3,7 @@ import moment from 'moment';
 import Concert from '../Concert';
 
 export default (props) => {
-    const { concerts, filter } = props;
+    const { concerts, filter, editable } = props;
     const [filteredConcerts, setFilteredConcerts] = useState(concerts);
 
     useEffect(() => {
@@ -40,6 +40,7 @@ export default (props) => {
                     location={concert.location}
                     time={concert.time}
                     genre={concert.genre}
+                    editable={editable}
                 />
             ))}
         </div>
