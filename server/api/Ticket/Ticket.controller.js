@@ -1,6 +1,3 @@
-import path from 'path';
-import fs from 'fs';
-import multer from 'multer';
 import Ticket from './Ticket.model';
 import { informTicketsUpdated } from '../../config/sockets';
 
@@ -14,21 +11,8 @@ export const getAllTickets = async (req, res) => {
     }
 };
 
-const storage = multer.diskStorage({
-    destination: './public/uploads/',
-    filename(req, file, cb) {
-        cb(null, `IMAGE-${Date.now()}${path.extname(file.originalname)}`);
-    }
-});
-
-const upload = multer({
-    storage,
-    limits: { fileSize: 1000000 },
-}).single('myImage');
-
 export const addTicket = async (req, res) => {
-    // console.log(fileUploaded);
-    console.log(req);
+    console.log(req.files[0].filename);
 
     try {
         const newTicket = new Ticket({
@@ -36,7 +20,7 @@ export const addTicket = async (req, res) => {
             concert: req.body.concertId,
             price: req.body.price,
             amount: req.body.amount,
-            file: req.files[0].path,
+            file: req.files[0].filename,
             sold: 0,
             isPhysical: false
         });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -8,12 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import CardMedia from '@material-ui/core/CardMedia';
 import axios from 'axios';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
-import base64 from 'base-64';
-import FileImage from '!!file-loader!../../../../../public/uploads/file-1589182346652.file';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -63,7 +60,6 @@ export default function Ticket(props) {
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredSold, setEnteredSold] = useState(sold);
     const [enteredFile, setEnteredFile] = useState(file);
-    //console.log(sold);
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
@@ -79,13 +75,6 @@ export default function Ticket(props) {
             userId
         }, { headers: { Authorization: `Bearer ${token}` } });
     };
-
-    function filedata(afile) {
-        if (afile) {
-            return afile.data
-        }
-        return {}
-    }
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
@@ -103,12 +92,7 @@ export default function Ticket(props) {
                     <Typography>
                         {sold} Sold
                     </Typography>
-                    {file ? (
-                        <embed
-                            src={`!!file-loader!../../../../../public/uploads/${file}`} //width="65" height="65"
-                            //{`../../../../../public/uploads/${file}`}{FileImage}
-                        />
-                    ) : null}
+                    <img src={`http://localhost:9000/public/${file}`} alt="img" height="50" width="50" />
                 </CardContent>
                 <Typography align="right" className={classes.price}>
                     {`${price}₪`}
@@ -139,7 +123,8 @@ export default function Ticket(props) {
                 <IconButton onClick={() => {
                     setIsDeleted(true);
                     onDelete(id);
-                }}>
+                }}
+                >
                     <DeleteIcon />
                 </IconButton>
             </CardActions>
