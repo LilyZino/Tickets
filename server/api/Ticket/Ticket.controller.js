@@ -1,7 +1,8 @@
+import path from 'path';
+import fs from 'fs';
+import multer from 'multer';
 import Ticket from './Ticket.model';
 import { informTicketsUpdated } from '../../config/sockets';
-import path from "path";
-import fs from "fs"; 
 
 export const getAllTickets = async (req, res) => {
     try {
@@ -13,59 +14,31 @@ export const getAllTickets = async (req, res) => {
     }
 };
 
-export const addFile = async (req, res) => {
-    var newFile;
-    try {
-        console.log(req.body);
-        console.log(req.files);
-        if(!req.body.isPhysical){
-            newFile ={}
-        }
-        newFile = req.files;
-        
-        var newTicket;
-        fs.readFile(newFile[0].path, function (err, buffer) {
-            newTicket = new Ticket({
-            user: req.body.userId,
-            concert: req.body.concertId,
-            price: req.body.price,
-            amount: req.body.amount,
-            isPhysical: req.body.isPhysical,
-            file: newFile[0].filename,
-            sold: 0
-        });
-        saveAfter(newTicket);
-        
-        });
-        async function saveAfter(newTicket) {
-            try{
-            const ticket = await newTicket.save();
-            informTicketsUpdated();
-            //res.json(ticket);
-            } catch(err) {
-                console.error(err.message);
-                res.status(500).send('Server Error');
-            }
-        }
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-        // if (!req.files || Object.keys(req.files).length === 0) {
-        //     console.log("No files");
-        //   return res.status(400).send('No files were uploaded.');
-        // }
+const storage = multer.diskStorage({
+    destination: './public/uploads/',
+    filename(req, file, cb) {
+        cb(null, `IMAGE-${Date.now()}${path.extname(file.originalname)}`);
     }
-}
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 1000000 },
+}).single('myImage');
+
 export const addTicket = async (req, res) => {
+    // console.log(fileUploaded);
+    console.log(req);
+
     try {
-        console.log(req.body);
         const newTicket = new Ticket({
             user: req.body.userId,
             concert: req.body.concertId,
             price: req.body.price,
             amount: req.body.amount,
-            file: req.body.file,
-            sold: 0
+            file: req.files[0].path,
+            sold: 0,
+            isPhysical: false
         });
 
         const ticket = await newTicket.save();
@@ -80,22 +53,22 @@ export const addTicket = async (req, res) => {
 };
 
 export const editTicket = async (req, res) => {
-
     return Ticket.updateOne(
-        { _id : req.body._id },  // <-- find stage
-        { $set: {                // <-- set stage
-           id: req.body.id,     // <-- id not _id
-           user: req.body.userId,
-            concert: req.body.concertId,
-            price: req.body.price,
-            amount: req.body.amount,
-            sold: req.body.sold
-          } 
-        }   
-      ).then(result => {
-        res.status(200).json({ message: "Update successful!" });
-      });
-}
+        { _id: req.body._id }, // <-- find stage
+        {
+            $set: { // <-- set stage
+                id: req.body.id, // <-- id not _id
+                user: req.body.userId,
+                concert: req.body.concertId,
+                price: req.body.price,
+                amount: req.body.amount,
+                sold: req.body.sold
+            }
+        }
+    ).then(result => {
+        res.status(200).json({ message: 'Update successful!' });
+    });
+};
 
 export const getTicket = async (req, res) => {
     try {

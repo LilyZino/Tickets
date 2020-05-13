@@ -64,7 +64,7 @@ export default function AddTicket() {
     const [enteredConcert, setEnteredConcert] = useState('');
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
-    const [ticketFile, setEnteredFile] = useState('');
+    const [file, setEnteredFile] = useState('');
     const [isTicketPhysical, setTicketPhysical] = useState(false);
 
     const handleOpen = () => {
@@ -76,16 +76,16 @@ export default function AddTicket() {
         setLogin(false);
     };
 
-    const handleSubmit =  async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(ticketFile);
+        console.log(file);
 
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         const formData = new FormData();
-        if(!isTicketPhysical){
-            formData.append('file', ticketFile, ticketFile.name);
+        if (!isTicketPhysical) {
+            formData.append('file', file, file.name);
         }
         formData.append('concertId', enteredConcert);
         formData.append('price', enteredPrice);
@@ -93,21 +93,22 @@ export default function AddTicket() {
         formData.append('userId', userId);
         formData.append('isPhysical', isTicketPhysical);
 
-        axios.post('api/tickets/upload', formData, {
+        const result = await axios.put('api/tickets/', formData, {
             headers: {
-                'Content-Type': 'undefined',
-                Authorization: `Bearer ${token}`
-        }}).then(res => { // then print response status
-                console.log("file uploded ", res.statusText)
-        }).catch(err => {
-            console.log("file not uploaded", err.response);
-        })
-        
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        console.log(result);
+
+        console.log(file);
+
         // await axios.put('/api/tickets', {
         //     concertId: enteredConcert,
         //     price: enteredPrice,
         //     amount: enteredAmount,
-        //     userId
+        //     userId,
+        //     file
         // }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
@@ -128,7 +129,7 @@ export default function AddTicket() {
                 setEnteredConcert={setEnteredConcert}
                 isTicketPhysical={isTicketPhysical}
                 setTicketPhysical={setTicketPhysical}
-                ticketFile={ticketFile}
+                ticketFile={file}
                 setEnteredFile={setEnteredFile}
                 handleSubmit={handleSubmit}
                 handleClose={handleClose}
