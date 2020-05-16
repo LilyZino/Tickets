@@ -15,8 +15,6 @@ export const getAllTickets = async (req, res) => {
 };
 
 export const addTicket = async (req, res) => {
-    console.log(req.files[0].filename);
-
     try {
         const newTicket = new Ticket({
             user: req.body.userId,

@@ -92,7 +92,6 @@ export default (props) => {
             await axios.put('/api/users/credits', {
                 id: userId,
             }).then((credit) => {
-                console.log('in');
                 setuserCredits(credit);
             });
         };
