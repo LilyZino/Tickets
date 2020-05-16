@@ -1,25 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
 import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
-import ErrorIcon from '@material-ui/icons/Error';
-import AddIcon from '@material-ui/icons/Add';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import Backdrop from '@material-ui/core/Backdrop';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import moment from 'moment';
-import Avatar from '@material-ui/core/Avatar';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-//import InputSpinner from "react-native-input-spinner";
-//import NumberInput from 'material-ui-number-input';
-import { authenticationService } from '../../_services';
-
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -62,43 +49,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddTicketFade(props) {
+    const { open, AddMode, enteredAmount, setEnteredSold, enteredTotal, setEnteredTotal, enteredPrice, buyTicket, handleClose } = props;
     const classes = useStyles();
-    const updateTextBox = {
-        display: props.AddMode ? 'block' : 'none'
-    };
-    const [concerts, setConcerts] = useState([]);
     const [value, setValue] = useState(0);
-
-    const onChange = () => {
-        setValue(1);
-    }
-
-    useEffect(() => {
-        (async () => {
-            const response = await axios.get('/api/concerts');
-            setConcerts(response.data);
-        })();
-    }, []);
 
     return (
         <Modal
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-                className={classes.modal}
-                open={props.open}
-                onClose={props.handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+            className={classes.modal}
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+                timeout: 500,
+            }}
         >
-        <div>
-            <Fade in={props.open}>
-                <div className={classes.paper}>
-                    <form noValidate autoComplete="off">
-                        <Grid className={classes.form}>
-                            {/* <InputLabel id="concertLabel">Concert</InputLabel>
+            <div>
+                <Fade in={open}>
+                    <div className={classes.paper}>
+                        <form noValidate autoComplete="off">
+                            <Grid className={classes.form}>
+                                {/* <InputLabel id="concertLabel">Concert</InputLabel>
                             <Select
                                 labelId="concertLabel"
                                 label="Concert"
@@ -119,48 +92,48 @@ export default function AddTicketFade(props) {
                                     props.setEnteredAmount(event.target.value);
                                 }}
                             /> */}
-                            <InputLabel id="concertLabel">How many tickets would you like to buy?</InputLabel>
-                            {/* <TextField
+                                <InputLabel id="concertLabel">How many tickets would you like to buy?</InputLabel>
+                                {/* <TextField
                                 style={updateTextBox}
                                 //label="How many tickets do you want to buy?"
                                 value={props.enteredSold}
                                 onChange={(event) => {
                                     if(event.target.value >= props.enteredAmount)
                                         props.setEnteredSold(props.enteredAmount);
-                                    else 
+                                    else
                                         props.setEnteredSold(event.target.value);
                                 }}
                             /> */}
-                            <TextField type="number" 
-                                inputProps={{ min: "0", max: props.enteredAmount, step: "1" }}
-                                onChange={(event) => {
-                                    setValue(event.target.value);
-                                    if(event.target.value >= props.enteredAmount)
-                                        props.setEnteredSold(props.enteredAmount);
-                                    else 
-                                        props.setEnteredSold(event.target.value);
-                                }} />
-                            
-                            <br/>
-                            {
-                                props.setEnteredTotal(value * props.enteredPrice)
-                            }
-                            <InputLabel id="concertLabel">Total amount: {props.enteredTotal}</InputLabel>
-                            {/* <TextField
+                                <TextField
+                                    type="number"
+                                    inputProps={{ min: '0', max: enteredAmount, step: '1' }}
+                                    onChange={(event) => {
+                                        setValue(event.target.value);
+                                        if (event.target.value >= enteredAmount) setEnteredSold(enteredAmount);
+                                        else setEnteredSold(event.target.value);
+                                    }}
+                                />
+
+                                <br />
+                                {
+                                    setEnteredTotal(value * enteredPrice)
+                                }
+                                <InputLabel id="concertLabel">Total amount: {enteredTotal}</InputLabel>
+                                {/* <TextField
                                 label="Price"
                                 value={props.enteredPrice}
                                 onChange={(event) => {
                                     props.setEnteredPrice(event.target.value);
                                 }}
                             /> */}
-                            <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={props.buyTicket}>
-                                {props.AddMode ? 'Buy Ticket' : 'Buy Ticket'}
-                            </Button>
-                        </Grid>
-                    </form>
-                </div>
-            </Fade>
-        </div>
-    </Modal>
+                                <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={buyTicket}>
+                                    {AddMode ? 'Buy Ticket' : 'Buy Ticket'}
+                                </Button>
+                            </Grid>
+                        </form>
+                    </div>
+                </Fade>
+            </div>
+        </Modal>
     );
 }

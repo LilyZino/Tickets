@@ -9,26 +9,18 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Collapse from '@material-ui/core/Collapse';
 import axios from 'axios';
 import MapIcon from '@material-ui/icons/Map';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import { registerSocketEvent } from '../../_services/socketService';
-import Maps from '../Maps';
-import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import ErrorIcon from '@material-ui/icons/Error';
+import { registerSocketEvent } from '../../_services/socketService';
+import Maps from '../Maps';
 import TicketinList from './perConcertTicket';
-import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -69,14 +61,7 @@ export default (props) => {
     const [expanded, setExpanded] = useState(false);
     const [mapexpanded, setmapExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
-    
-    const [open, setOpen] = useState(false);
     const [login, setLogin] = useState(false);
-    const [enteredConcert, setEnteredConcert] = useState('');
-    const [enteredPrice, setEnteredPrice] = useState('');
-    const [sellerUser, setsellerUser] = useState('');
-    const [enteredAmount, setEnteredAmount] = useState('');
-    const [enteredSold, setEnteredSold] = useState('');
 
     useEffect(() => {
         const getTicketForConcert = async () => {
@@ -101,9 +86,7 @@ export default (props) => {
         setmapExpanded(!mapexpanded);
     };
 
-
     const handleClose = () => {
-        setOpen(false);
         setLogin(false);
     };
 
@@ -170,13 +153,12 @@ export default (props) => {
                             )
                             : concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0)
                                 .map((ticket) => {
-                                    //console.log(concertTickets)
                                     return (
                                         <TicketinList
                                             key={ticket._id}
                                             id={ticket._id}
-                                            ticket={ticket}>
-                                        </TicketinList>
+                                            ticket={ticket}
+                                        />
                                     );
                                 })}
                     </List>
@@ -206,6 +188,5 @@ export default (props) => {
                 </Fade>
             </Modal>
         </Card>
-        
     );
 };

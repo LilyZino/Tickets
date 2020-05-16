@@ -9,10 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
-import SoldImage from '!!file-loader!../../../Assets/Images/sold.png';
+import SoldImage from '../../../Assets/Images/sold.png';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
-
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -41,14 +40,16 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     },
     price: {
-        fontSize: '2rem',
-        marginRight: '15px'
+        fontSize: '2rem'
     },
     cardContent: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
+    },
+    soldimg: {
+        marginRight: '15px'
     }
 }));
 
@@ -93,17 +94,21 @@ export default function Ticket(props) {
                     </Typography>
                     <Typography>
                         {sold} Sold
-                        {file ? (<img src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
-                        </Typography>
-                </CardContent>
-                <Typography align="right" className={classes.price}>
-                    {`${price}₪`}
-                </Typography>
-                {amount - sold === 0 ? (
-                    <Typography>
-                        <img src={SoldImage} height="40px" width="40px" alt="sold" />
                     </Typography>
-                ) : null}
+                    <Typography>
+                        {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
+                    </Typography>
+                </CardContent>
+                <div align="right" className={classes.soldimg}>
+                    <Typography className={classes.price}>
+                        {`${price}₪`}
+                    </Typography>
+                    {amount - sold === 0 ? (
+                        <Typography>
+                            <img src={SoldImage} height="60px" width="60px" alt="sold" />
+                        </Typography>
+                    ) : null}
+                </div>
             </div>
             <CardActions>
                 <IconButton onClick={() => setOpen(true)}>

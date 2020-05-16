@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Fade from '@material-ui/core/Fade';
@@ -47,9 +47,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EntryModal(props) {
+    const { isRegister, open, handleClose, errorText, enteredUname, enteredPass, enteredEmail, enteredPhone, handleSubmit } = props;
     const classes = useStyles();
     const registerTextBox = {
-        display: props.isRegister ? 'block' : 'none'
+        display: isRegister ? 'block' : 'none'
     };
     return (
         <div>
@@ -58,15 +59,15 @@ export default function EntryModal(props) {
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
                 className={classes.modal}
-                open={props.open}
-                onClose={props.handleClose}
+                open={open}
+                onClose={handleClose}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
                 }}
             >
-                <Fade in={props.open}>
+                <Fade in={open}>
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon />
@@ -75,7 +76,7 @@ export default function EntryModal(props) {
                             Sign in
                         </Typography>
                         <Typography component="h5" className={classes.error}>
-                            {props.errorText}
+                            {errorText}
                         </Typography>
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
@@ -88,7 +89,7 @@ export default function EntryModal(props) {
                                     label="User Name"
                                     name="UserName"
                                     autoComplete="UserName"
-                                    value={props.enteredUname}
+                                    value={enteredUname}
                                     onChange={(event) => {
                                         props.setEnteredUname(event.target.value);
                                     }}
@@ -103,7 +104,7 @@ export default function EntryModal(props) {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
-                                    value={props.enteredPass}
+                                    value={enteredPass}
                                     onChange={(event) => {
                                         props.setEnteredPass(event.target.value);
                                     }}
@@ -119,7 +120,7 @@ export default function EntryModal(props) {
                                     type="email"
                                     id="email"
                                     autoComplete="current-email"
-                                    value={props.enteredEmail}
+                                    value={enteredEmail}
                                     onChange={(event) => {
                                         props.setEnteredEmail(event.target.value);
                                     }}
@@ -135,7 +136,7 @@ export default function EntryModal(props) {
                                     type="phone"
                                     id="phone"
                                     autoComplete="phone"
-                                    value={props.enteredPhone}
+                                    value={enteredPhone}
                                     onChange={(event) => {
                                         props.setEnteredPhone(event.target.value);
                                     }}
@@ -146,9 +147,9 @@ export default function EntryModal(props) {
                                     color="primary"
                                     autoFocus
                                     className={classes.submit}
-                                    onClick={props.handleSubmit}
+                                    onClick={handleSubmit}
                                 >
-                                    {!props.isRegister ? 'Sign In' : 'Sign Up'}
+                                    {!isRegister ? 'Sign In' : 'Sign Up'}
                                 </Button>
                             </Grid>
                         </form>

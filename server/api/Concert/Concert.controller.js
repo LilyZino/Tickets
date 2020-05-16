@@ -120,4 +120,3 @@ export const getConcertsRecommendations = async (req, res) => {
 
     res.send(concerts);
 };
-

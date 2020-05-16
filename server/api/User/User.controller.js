@@ -157,7 +157,7 @@ export const setUserRank = async (req, res) => {
         {
             $inc: { rank: req.body.rank }
         }
-    ).then(result => {
+    ).then(() => {
         res.status(200).json({ message: 'Update successful!' });
     });
 };
@@ -170,7 +170,7 @@ export const setUserCredits = async (req, res) => {
         {
             $inc: { credits: req.body.credits }
         }
-    ).then(result => {
+    ).then(() => {
         res.status(200).json({ message: 'Update successful!' });
     });
 };

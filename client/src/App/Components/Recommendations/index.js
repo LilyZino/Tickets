@@ -10,8 +10,8 @@ const useStyles = makeStyles({
     title: {
         marginTop: '10px'
     },
-    error:{
-        textAlign: "center"
+    error: {
+        textAlign: 'center'
     }
 });
 
@@ -27,7 +27,7 @@ export default function Recommendations() {
                 ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
             console.log(userId);
             const response = await axios.get(`/api/concerts/recs/${userId}`);
-            setisLoaded(true)
+            setisLoaded(true);
             setConcerts(response.data);
             console.log('useEffect GetRecs:', response.data);
         }
@@ -63,18 +63,18 @@ export default function Recommendations() {
 
     return (
         <div>
-            {concertsToShow.length != 0
+            {concertsToShow.length !== 0
                 && (
                     <div>
                         <Typography variant="h4" className={classes.title}>Recommended for you</Typography>
                         <Typography>Here are some concerts we think you might be interested in</Typography>
                         <ConcertsList filter={filter} concerts={concertsToShow} />
-                        </div>
-                    )}
-            {concertsToShow.length == 0 && isLoaded
+                    </div>
+                )}
+            {concertsToShow.length === 0 && isLoaded
                 && (
                     <Typography component="h1" variant="h5" className={classes.error}>
-                        There are no recommendations for you, after you will sell tickets you will be able see recommendations here! 
+                        There are no recommendations for you, after you will sell tickets you will be able see recommendations here!
                     </Typography>
                 )}
         </div>
