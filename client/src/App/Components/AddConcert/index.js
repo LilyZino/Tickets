@@ -83,8 +83,6 @@ export default function AddConcert() {
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
-        const userId = authenticationService.currentUserValue.data
-            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         await axios.put('/api/concerts', {
             artist: enteredArtist,
             time: enteredTime,

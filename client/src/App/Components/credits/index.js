@@ -75,7 +75,7 @@ export default function Credits(props) {
         props.setCredits(parseInt(props.Credits) + parseInt(credits));
         await axios.post('/api/users/credits', {
             id: uid,
-            credits: credits
+            credits
         });
     };
 
@@ -202,8 +202,10 @@ export default function Credits(props) {
                                     variant="contained"
                                     color="primary"
                                     autoFocus
-                                    onClick={() => { changeCredits(props.uId,
-                                        (tabValue === 0 ? amount : amount * -1)); }}
+                                    onClick={() => {
+                                        changeCredits(props.uId,
+                                            (tabValue === 0 ? amount : amount * -1));
+                                    }}
                                 >
                                     Done
                                 </Button>

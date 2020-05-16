@@ -64,7 +64,7 @@ export const sendConfirmationMail = async (userMail, userFullName, artist, time,
 
     const mailjetHost = mailjet
         .connect('187b0a32d7380a84deaeb1ded861eb68', 'e02c897e8da191f92fbb6d61393972a1');
-
+    console.log(mailjetHost);
     try {
         const result = await mailjetHost
             .post('send', { version: 'v3.1' })
@@ -101,10 +101,9 @@ export const sendConfirmationMail = async (userMail, userFullName, artist, time,
 };
 
 export const sendConfirmationOfSaleMail = async (userMail, userFullName, artist, time, amount, price, user) => {
-    console.log(typeof ticket);
     const userUuid = uuid();
     const mailTemplate = `<h2>Hi ${userFullName}</h2>
-    Your ticket has been sold! Hurray <br/>
+    Your ticket has been sold! Hooray! <br/>
     <b>${amount} tickets for ${artist} on ${time}, bought by ${user}</b><br/>
     You received ${price}₪ in credits</br>
     <br/>
