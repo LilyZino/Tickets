@@ -36,6 +36,7 @@ export const editConcert = async (req, res) => {
             }
         }
     ).then(() => {
+        informConcertsUpdated();
         res.status(200).json({ message: 'Update successful!' });
     });
 };
