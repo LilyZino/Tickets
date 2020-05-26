@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -107,7 +107,7 @@ export default function AddConcertFade(props) {
                                         setEnteredGenre(event.target.value);
                                     }}
                                 />
-                                <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+                                <Button className={classes.submitBtn} variant="contained" color="primary" onClick={handleSubmit}>
                                     {AddMode ? 'Add Concert' : 'Edit Concert'}
                                 </Button>
                             </Grid>

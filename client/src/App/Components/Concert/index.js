@@ -9,17 +9,10 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import Collapse from '@material-ui/core/Collapse';
 import axios from 'axios';
 import MapIcon from '@material-ui/icons/Map';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -30,6 +23,7 @@ import Maps from '../Maps';
 import { registerSocketEvent } from '../../_services/socketService';
 import TicketinList from './perConcertTicket';
 import NewConcertFade from '../AddConcert/newConcertFade';
+import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -81,16 +75,16 @@ export default (props) => {
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
-        const userId = authenticationService.currentUserValue.data
-            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        const response = await axios.put(`/api/concerts/${id}`, {
+        const response = await axios.post('/api/concerts', {
+            _id: id,
             artist: enteredArtist,
             time: enteredTime,
             location: enteredLocation,
-            genre: enteredGenre,
+            genre: enteredGenre
         }, { headers: { Authorization: `Bearer ${token}` } });
 
-        console.log('editing ticket', response);
+        setOpen(false);
+        console.log('editing concert', response);
     };
 
     useEffect(() => {
