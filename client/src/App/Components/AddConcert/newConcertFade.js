@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -12,14 +11,6 @@ import {
     MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-
-// import moment from 'moment';
-// import Select from '@material-ui/core/Select';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import Collapse from '@material-ui/core/Collapse';
-// import IconButton from '@material-ui/core/IconButton';
-// import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -64,16 +55,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AddTicketFade(props) {
+export default function AddConcertFade(props) {
     const { open, handleClose, enteredArtist, setEnteredArtist, AddMode, enteredTime, setEnteredTime, enteredLocation, setEnteredLocation, enteredGenre, setEnteredGenre, handleSubmit } = props;
 
     const classes = useStyles();
-
-    useEffect(() => {
-        (async () => {
-
-        })();
-    }, []);
 
     return (
         <Modal

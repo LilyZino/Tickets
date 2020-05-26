@@ -81,12 +81,14 @@ export default (props) => {
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        await axios.put('/api/concerts', {
+        const response = await axios.put(`/api/concerts/${id}`, {
             artist: enteredArtist,
             time: enteredTime,
             location: enteredLocation,
             genre: enteredGenre,
         }, { headers: { Authorization: `Bearer ${token}` } });
+
+        console.log('editing ticket', response);
     };
 
     useEffect(() => {

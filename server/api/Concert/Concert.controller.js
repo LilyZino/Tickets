@@ -22,15 +22,17 @@ export const addConcert = async (req, res) => {
 };
 
 export const editConcert = async (req, res) => {
+    console.log('edit concert', req.body.artist);
+
     return Concert.updateOne(
         { _id: req.body._id }, // <-- find stage
         {
             $set: { // <-- set stage
                 id: req.body.id, // <-- id not _id
-                artist: req.body.userId,
-                location: req.body.concertId,
-                time: req.body.price,
-                genre: req.body.amount,
+                artist: req.body.artist,
+                location: req.body.location,
+                time: req.body.time,
+                genre: req.body.genre,
             }
         }
     ).then(() => {
