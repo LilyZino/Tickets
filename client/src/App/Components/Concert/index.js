@@ -25,6 +25,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import ErrorIcon from '@material-ui/icons/Error';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Maps from '../Maps';
 import { registerSocketEvent } from '../../_services/socketService';
 import TicketinList from './perConcertTicket';
