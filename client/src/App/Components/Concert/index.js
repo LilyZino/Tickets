@@ -19,16 +19,16 @@ import axios from 'axios';
 import MapIcon from '@material-ui/icons/Map';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import { registerSocketEvent } from '../../_services/socketService';
-import Maps from '../Maps';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import ErrorIcon from '@material-ui/icons/Error';
+import Maps from '../Maps';
+import { registerSocketEvent } from '../../_services/socketService';
 import TicketinList from './perConcertTicket';
-import { authenticationService } from '../../_services';
+import NewConcertFade from '../AddConcert/newConcertFade';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -69,14 +69,25 @@ export default (props) => {
     const [expanded, setExpanded] = useState(false);
     const [mapexpanded, setmapExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
-    
+
     const [open, setOpen] = useState(false);
     const [login, setLogin] = useState(false);
-    const [enteredConcert, setEnteredConcert] = useState('');
-    const [enteredPrice, setEnteredPrice] = useState('');
-    const [sellerUser, setsellerUser] = useState('');
-    const [enteredAmount, setEnteredAmount] = useState('');
-    const [enteredSold, setEnteredSold] = useState('');
+    const [enteredArtist, setEnteredArtist] = useState(artist);
+    const [enteredLocation, setEnteredLocation] = useState(location);
+    const [enteredTime, setEnteredTime] = useState(time);
+    const [enteredGenre, setEnteredGenre] = useState(genre);
+
+    const handleSubmit = async () => {
+        const { token } = authenticationService.currentUserValue.data;
+        const userId = authenticationService.currentUserValue.data
+            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+        await axios.put('/api/concerts', {
+            artist: enteredArtist,
+            time: enteredTime,
+            location: enteredLocation,
+            genre: enteredGenre,
+        }, { headers: { Authorization: `Bearer ${token}` } });
+    };
 
     useEffect(() => {
         const getTicketForConcert = async () => {
@@ -100,7 +111,6 @@ export default (props) => {
     const handlemapExpandClick = () => {
         setmapExpanded(!mapexpanded);
     };
-
 
     const handleClose = () => {
         setOpen(false);
@@ -140,16 +150,24 @@ export default (props) => {
                 {
                     editable
                         ? (
-                            <IconButton
-                                className={clsx(classes.expand, {
-                                    [classes.expandOpen]: expanded,
-                                })}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="Edit"
-                            >
-                                <EditIcon />
-                            </IconButton>
+                            <div>
+                                <IconButton onClick={() => setOpen(true)}>
+                                    <EditIcon />
+                                </IconButton>
+                                <NewConcertFade
+                                    open={open}
+                                    enteredArtist={enteredArtist}
+                                    setEnteredArtist={setEnteredArtist}
+                                    enteredTime={enteredTime}
+                                    setEnteredTime={setEnteredTime}
+                                    enteredLocation={enteredLocation}
+                                    setEnteredLocation={setEnteredLocation}
+                                    enteredGenre={enteredGenre}
+                                    setEnteredGenre={setEnteredGenre}
+                                    handleSubmit={handleSubmit}
+                                    handleClose={() => setOpen(false)}
+                                />
+                            </div>
                         ) : null
                 }
             </CardActions>
@@ -170,13 +188,12 @@ export default (props) => {
                             )
                             : concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0)
                                 .map((ticket) => {
-                                    //console.log(concertTickets)
                                     return (
                                         <TicketinList
                                             key={ticket._id}
                                             id={ticket._id}
-                                            ticket={ticket}>
-                                        </TicketinList>
+                                            ticket={ticket}
+                                        />
                                     );
                                 })}
                     </List>
@@ -206,6 +223,6 @@ export default (props) => {
                 </Fade>
             </Modal>
         </Card>
-        
+
     );
 };

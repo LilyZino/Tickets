@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import ErrorIcon from '@material-ui/icons/Error';
 import AddIcon from '@material-ui/icons/Add';
 import Fade from '@material-ui/core/Fade';
-import TextField from '@material-ui/core/TextField';
 import Backdrop from '@material-ui/core/Backdrop';
 import Avatar from '@material-ui/core/Avatar';
 import { authenticationService } from '../../_services';
@@ -103,7 +102,6 @@ export default function AddConcert() {
                 enteredGenre={enteredGenre}
                 setEnteredGenre={setEnteredGenre}
                 handleSubmit={handleSubmit}
-
                 handleClose={() => setOpen(false)}
             />
             <Modal
