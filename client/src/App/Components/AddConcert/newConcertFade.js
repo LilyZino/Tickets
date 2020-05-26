@@ -91,6 +91,7 @@ export default function AddTicketFade(props) {
             <div>
                 <Fade in={open}>
                     <div className={classes.paper}>
+                        NEW CONCERT FADE
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
                                 <TextField
