@@ -15,6 +15,8 @@ import SoldImage from '../../../Assets/Images/sold.png';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Chip } from '@material-ui/core';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
 
@@ -56,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
     },
     soldimg: {
         marginRight: '15px'
+    },
+    cardTitle: {
+        display: 'flex',
+        /* align-items: center; */
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 }));
 
@@ -111,20 +119,24 @@ export default function Ticket(props) {
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
-            <div className={classes.cardContent}>
-                <CardContent>
+            <CardContent>
+                <div className={classes.cardTitle}>
                     <Typography variant="h5" component="h2">
                         {concert.artist}
                     </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                        {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
-                    </Typography>
-                    <Typography>
-                        {amount} Tickets
-                    </Typography>
-                    <Typography>
-                        {sold} Sold
-                    </Typography>
+                    <Chip color="primary" icon={<AttachMoneyIcon />} label="Up for sale" />
+                </div>
+                <div className={classes.cardContent}>
+                    <div>
+                        <Typography className={classes.pos} color="textSecondary">
+                            {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
+                        </Typography>
+                        <Typography>
+                            {amount} Tickets
+                        </Typography>
+                        <Typography>
+                            {sold} Sold
+                        </Typography>
                     <Typography>
                         {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
                     </Typography>
@@ -139,7 +151,11 @@ export default function Ticket(props) {
                         </Typography>
                     ) : null}
                 </div>
-            </div>
+                </div>
+            </CardContent>
+            {/* <div className={classes.cardBadges}> */}
+            {/* <Chip color="secondary" icon={<RepeatIcon />} label="Waiting for exchange" /> */}
+            {/* </div> */}
             <CardActions>
                 <IconButton onClick={() => setOpen(true)}>
                     <EditIcon />
@@ -178,6 +194,9 @@ export default function Ticket(props) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
+                    <Typography>
+                        Switching Tickets
+                    </Typography>
                     <Typography>
                         For what ticket's genre you would like to exchange this ticket:
                         <Select

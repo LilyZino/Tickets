@@ -22,7 +22,7 @@ const TicketSchema = new Schema({
     sold: {
         type: Number
     },
-    isPhysical: {
+    upForExchange: {
         type: Boolean,
         required: true
     },
@@ -31,6 +31,10 @@ const TicketSchema = new Schema({
     },
     image: {
         type: String
+    },
+    upForExchange: {
+        type: Boolean,
+        default: false
     }
 });
 
