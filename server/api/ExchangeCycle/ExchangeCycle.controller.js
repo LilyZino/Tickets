@@ -5,7 +5,9 @@ export const getExchangeCycles = async (req, res) => {
 
     try {
         const result = await session.run(
-            'MATCH p=(n)-[*1..4]->(n) RETURN nodes(p)'
+            `MATCH p=(n)-[*1..4]->(n) 
+            WHERE ANY(x in nodes(p) WHERE x.userId="5e3d6d9fcaf48635a4e83e28")
+            return p`
             // { name: personName }
         );
 
@@ -29,17 +31,26 @@ export const addTicket = async (req, res) => {
         const addingNodeResult = await session.run(`CREATE (p:Ticket {
             id:"${req.body.ticket.id}",
             artist:"${req.body.ticket.artist}",
-            genre:"${req.body.ticket.genre}"
+            ticketGenre:"${req.body.ticket.genre}",
+            requestedGenre:"${req.body.requestedGenre}",
+            userId:"${req.body.ticket.userId}"
         }) return p`);
 
-        const addingRelationshipsResult = await session.run(`
-            MATCH (n:Ticket), (p:Ticket)
-            WHERE n.genre="${req.body.requestedGenre}" AND p.id="${req.body.ticket.id}"
-            CREATE (p)<-[:CAN_SWITCH_WITH]-(n)
-            RETURN p
+        const addingFirstSideRelationshipsResult = await session.run(`
+            MATCH (new:Ticket), (canReplaceWith:Ticket)
+            WHERE canReplaceWith.ticketGenre="${req.body.requestedGenre}" AND
+                    new.id="${req.body.ticket.id}"
+            CREATE (canReplaceWith)<-[:CAN_SWITCH_WITH]-(new)
+            RETURN canReplaceWith
         `);
 
-        console.log(addingRelationshipsResult);
+        const addingSecondSideRelationshipsResult = await session.run(`
+            MATCH (new:Ticket), (canBeReplacedWith:Ticket)
+            WHERE new.id="${req.body.ticket.id}" AND
+                    canBeReplacedWith.requestedGenre="${req.body.ticket.genre}"
+            MERGE (new)<-[:CAN_SWITCH_WITH]-(canBeReplacedWith)
+            RETURN canBeReplacedWith
+        `);
 
         res.send('ticket was added successfully');
     } catch (err) {

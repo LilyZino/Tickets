@@ -104,7 +104,8 @@ export default function Ticket(props) {
             ticket: {
                 id,
                 artist: concert.artist,
-                genre: concert.genre
+                genre: concert.genre,
+                userId
             },
             requestedGenre: selectedGenre
         }, { headers: { Authorization: `Bearer ${token}` } });
