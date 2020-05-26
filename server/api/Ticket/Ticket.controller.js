@@ -68,7 +68,6 @@ export const buyTicket = async (req, res) => {
             const user = await User.findById(seller);
             const buyer = await User.findById(userId);
             if (user) {
-                console.log('sending to ', user.email);
                 await sendConfirmationOfSaleMail(
                     user.email,
                     user.name,
@@ -80,7 +79,6 @@ export const buyTicket = async (req, res) => {
                 );
             }
             if (buyer) {
-                console.log('sending to ', buyer.email);
                 await sendConfirmationMail(
                     buyer.email,
                     buyer.name,
@@ -96,9 +94,14 @@ export const buyTicket = async (req, res) => {
             res.status(500).json({ msg: 'Server Error' });
         }
     }
-    await User.updateOne(
-        { _id: userId },
+    await User.findByIdAndUpdate(
+        userId,
         {
+            $push: {
+                purchases: {
+                    _id
+                }
+            },
             $set: {
                 credits: newcredit
             }

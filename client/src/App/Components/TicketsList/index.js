@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Ticket from '../Ticket';
+import SoldTicket from '../SoldTicket';
 
 const TicketsList = (props) => {
-    const { tickets, filter } = props;
+    const { tickets, filter, isMine } = props;
     const [filteredTickets, setFilteredTickets] = useState(tickets);
 
     const handleDelete = async (id) => {
@@ -35,18 +36,27 @@ const TicketsList = (props) => {
 
     return (
         <div>
-            {filteredTickets.map((ticket) => (
-                <Ticket
-                    key={ticket._id}
-                    id={ticket._id}
-                    price={ticket.price}
-                    sold={ticket.sold}
-                    amount={ticket.amount}
-                    concert={ticket.concert}
-                    file={ticket.file}
-                    onDelete={handleDelete}
-                />
-            ))}
+            {isMine ? (
+                filteredTickets.map((ticket) => (
+                    <Ticket
+                        id={ticket._id}
+                        price={ticket.price}
+                        sold={ticket.sold}
+                        amount={ticket.amount}
+                        concert={ticket.concert}
+                        file={ticket.file}
+                        onDelete={handleDelete}
+                    />
+                ))) : (
+                filteredTickets.map((ticket) => (
+                    <SoldTicket
+                        key={ticket._id}
+                        id={ticket._id}
+                        price={ticket.price}
+                        concert={ticket.concert}
+                        file={ticket.file}
+                    />
+                )))}
         </div>
     );
 };

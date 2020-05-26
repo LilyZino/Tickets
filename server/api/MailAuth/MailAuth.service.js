@@ -64,7 +64,6 @@ export const sendConfirmationMail = async (userMail, userFullName, artist, time,
 
     const mailjetHost = mailjet
         .connect('187b0a32d7380a84deaeb1ded861eb68', 'e02c897e8da191f92fbb6d61393972a1');
-    console.log(mailjetHost);
     try {
         const result = await mailjetHost
             .post('send', { version: 'v3.1' })
