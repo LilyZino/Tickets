@@ -61,7 +61,7 @@ export const deleteConcert = async (req, res) => {
 
         res.status(500).send('Server Error');
     }
-}
+};
 
 export const getConcertList = async (req, res) => {
     let i;
@@ -157,4 +157,3 @@ export const getConcertsRecommendations = async (req, res) => {
 
     res.send(concerts);
 };
-
