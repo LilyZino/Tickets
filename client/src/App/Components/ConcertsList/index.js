@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import moment from 'moment';
 import Concert from '../Concert';
 
 export default (props) => {
     const { concerts, filter, editable } = props;
     const [filteredConcerts, setFilteredConcerts] = useState(concerts);
-
-    const handleDelete = async (id) => {
-        await axios.delete(`api/concerts/${id}`);
-    };
 
     useEffect(() => {
         const concertsToRender = filter ? concerts.filter((concert) => {
@@ -46,7 +41,6 @@ export default (props) => {
                     time={concert.time}
                     genre={concert.genre}
                     editable={editable}
-                    onDelete={handleDelete}
                 />
             ))}
         </div>
