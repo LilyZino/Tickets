@@ -21,6 +21,23 @@ export const addConcert = async (req, res) => {
     res.send();
 };
 
+export const editConcert = async (req, res) => {
+    return Concert.updateOne(
+        { _id: req.body._id }, // <-- find stage
+        {
+            $set: { // <-- set stage
+                id: req.body.id, // <-- id not _id
+                artist: req.body.userId,
+                location: req.body.concertId,
+                time: req.body.price,
+                genre: req.body.amount,
+            }
+        }
+    ).then(() => {
+        res.status(200).json({ message: 'Update successful!' });
+    });
+}
+
 export const getConcert = async (req, res) => {
     const concert = await Concert.find(req.params.id);
     res.send(concert);
