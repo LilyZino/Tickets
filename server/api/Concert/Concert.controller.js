@@ -46,6 +46,23 @@ export const getConcert = async (req, res) => {
     res.send(concert);
 };
 
+export const deleteConcert = async (req, res) => {
+    try {
+        const concert = await Concert.findByIdAndDelete(req.params.id);
+
+        // Check for ObjectId format and post
+        if (!concert) {
+            return res.status(404).json({ msg: 'Concert not found' });
+        }
+
+        res.json(concert);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+}
+
 export const getConcertList = async (req, res) => {
     let i;
 

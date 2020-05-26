@@ -87,6 +87,10 @@ export default (props) => {
         console.log('editing concert', response);
     };
 
+    const onDelete = async () => {
+        await axios.delete(`api/concerts/${id}`);
+    };
+
     useEffect(() => {
         const getTicketForConcert = async () => {
             if (!expanded) return;
@@ -159,7 +163,7 @@ export default (props) => {
                 }
                 <IconButton onClick={() => {
                     setIsDeleted(true);
-                    onDelete(id);
+                    onDelete();
                 }}
                 >
                     <DeleteIcon />
