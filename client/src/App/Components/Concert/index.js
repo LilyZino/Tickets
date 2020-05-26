@@ -76,6 +76,7 @@ export default (props) => {
     const [enteredLocation, setEnteredLocation] = useState(location);
     const [enteredTime, setEnteredTime] = useState(time);
     const [enteredGenre, setEnteredGenre] = useState(genre);
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
@@ -120,7 +121,7 @@ export default (props) => {
     };
 
     return (
-        <Card className={classes.card} elevation={2}>
+        <Card className={classes.card} elevation={2} hidden={isDeleted}>
             <CardContent>
                 <Typography variant="h4" component="h2">
                     {artist}
@@ -138,17 +139,6 @@ export default (props) => {
                 >
                     <MapIcon />
                 </IconButton>
-                <IconButton
-                    className={clsx(classes.expand, {
-                        [classes.expandOpen]: expanded,
-                    })}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon />
-                </IconButton>
-
                 {
                     editable
                         ? (
@@ -172,6 +162,23 @@ export default (props) => {
                             </div>
                         ) : null
                 }
+                <IconButton onClick={() => {
+                    setIsDeleted(true);
+                    onDelete(id);
+                }}
+                >
+                    <DeleteIcon />
+                </IconButton>
+                <IconButton
+                    className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                >
+                    <ExpandMoreIcon />
+                </IconButton>
             </CardActions>
             <Collapse in={mapexpanded} timeout="auto" unmountOnExit>
                 <Maps location={`${location}`} />
