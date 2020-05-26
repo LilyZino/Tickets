@@ -33,7 +33,7 @@ export default function PersonalArea() {
         <div>
             <Typography variant="h4" className={classes.title}> Welcome to your personal area</Typography>
             <Typography>Here you can find the {ticketsCount} concert, you putted up tickets for sale</Typography>
-            <TicketsFeed tickets={tickets} />
+            <TicketsFeed tickets={tickets} isMine />
         </div>
     );
 }

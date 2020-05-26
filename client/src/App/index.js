@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
+import AttachMoney from '@material-ui/icons/AttachMoney';
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -33,6 +34,7 @@ import AddConcert from './Components/AddConcert';
 import Charts from './Components/Charts';
 import Recommendations from './Components/Recommendations';
 import UsersList from './Components/UsersList';
+import Purchases from './Components/Purchases';
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -79,6 +81,8 @@ export default function () {
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
+                                && <ListItemLink to="/purchases" primary="My Purchases" icon={<AttachMoney />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
@@ -108,6 +112,9 @@ export default function () {
                         <Route path="/userProfile">
                             <PersonalArea />
                             <AddTicket />
+                        </Route>
+                        <Route path="/purchases">
+                            <Purchases />
                         </Route>
                         <Route path="/users">
                             <UsersList />
