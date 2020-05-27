@@ -63,7 +63,7 @@ export default (props) => {
     const { id, artist, location, time, genre, editable } = props;
     const [expanded, setExpanded] = useState(false);
     const [mapexpanded, setmapExpanded] = useState(false);
-    const [concertTickets, setConcertTickets] = useState([]);
+    const [availableTickets, setAvailableTickets] = useState([]);
 
     const [open, setOpen] = useState(false);
     const [login, setLogin] = useState(false);
@@ -95,7 +95,8 @@ export default (props) => {
             if (!expanded) return;
 
             const response = await axios.get(`/api/tickets/concert/${id}`);
-            setConcertTickets(response.data);
+            const concertTickets = response.data;
+            setAvailableTickets(concertTickets.filter((ticket) => (ticket.amount - ticket.sold !== 0) && !ticket.user.isBlocked));
         };
 
         getTicketForConcert();
@@ -186,13 +187,13 @@ export default (props) => {
                         Available tickets:
                     </Typography>
                     <List>
-                        {concertTickets.length === 0 || concertTickets.filter((ticket) => ticket.amount - ticket.sold !== 0).length === 0
+                        {availableTickets.length === 0
                             ? (
                                 <Typography>
                                     There are no tickets available for this concert :(
                                 </Typography>
                             )
-                            : concertTickets.filter((ticket) => (ticket.amount - ticket.sold !== 0) && !ticket.user.isBlocked)
+                            : availableTickets
                                 .map((ticket) => {
                                     return (
                                         <TicketinList
