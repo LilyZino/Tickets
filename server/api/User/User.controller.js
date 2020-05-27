@@ -70,15 +70,34 @@ export const addUser = async (req, res) => {
 };
 
 export const blockUser = (req, res) => {
-    return getAllUsers.updateOne(
-        { _id: req.body._id }, // <-- find stage
+    console.log(req.params.id);
+
+    return User.updateOne(
+        { _id: req.params.id }, // <-- find stage
         {
             $set: { // <-- set stage
+                id: req.params.id, // <-- id not _id
                 isBlocked: true,
             }
         }
     ).then(() => {
         res.status(200).json({ message: 'Block successful!' });
+    });
+};
+
+export const unblockUser = (req, res) => {
+    console.log(req.params.id);
+
+    return User.updateOne(
+        { _id: req.params.id }, // <-- find stage
+        {
+            $set: { // <-- set stage
+                id: req.params.id, // <-- id not _id
+                isBlocked: false,
+            }
+        }
+    ).then(() => {
+        res.status(200).json({ message: 'Unblock successful!' });
     });
 };
 

@@ -25,6 +25,7 @@ const UsersList = () => {
                     email={user.email}
                     phone={user.phone}
                     rank={user.rank}
+                    isBlocked={user.isBlocked}
                 />
             ))}
         </div>

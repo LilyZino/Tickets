@@ -1,6 +1,6 @@
 // here we will configure the ExampleModel's router
 import { AsyncRouter } from 'express-async-router';
-import { getAllUsers, addUser, blockUser, getUser, getUserPurchases, login, getUsersSoldTicketsCount, setUserCredits, getUserCredits, setUserRank } from './User.controller';
+import { getAllUsers, addUser, blockUser, unblockUser, getUser, getUserPurchases, login, getUsersSoldTicketsCount, setUserCredits, getUserCredits, setUserRank } from './User.controller';
 
 const router = AsyncRouter();
 
@@ -11,6 +11,7 @@ router.get('/purchases/:id', getUserPurchases);
 router.post('/rank', setUserRank);
 router.post('/credits', setUserCredits);
 router.post('/block/:id', blockUser);
+router.post('/unblock/:id', unblockUser);
 router.put('/credits', getUserCredits);
 router.put('/', addUser);
 router.put('/login', login);

@@ -75,7 +75,7 @@ export default (props) => {
 
     const handleSubmit = async () => {
         const { token } = authenticationService.currentUserValue.data;
-        const response = await axios.post('/api/concerts', {
+        await axios.post('/api/concerts', {
             _id: id,
             artist: enteredArtist,
             time: enteredTime,
@@ -84,7 +84,6 @@ export default (props) => {
         }, { headers: { Authorization: `Bearer ${token}` } });
 
         setOpen(false);
-        console.log('editing concert', response);
     };
 
     const onDelete = async () => {
