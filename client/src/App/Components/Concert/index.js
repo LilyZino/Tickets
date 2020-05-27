@@ -157,16 +157,17 @@ export default (props) => {
                                     handleSubmit={handleSubmit}
                                     handleClose={() => setOpen(false)}
                                 />
+                                <IconButton onClick={() => {
+                                    setIsDeleted(true);
+                                    onDelete();
+                                }}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
                             </div>
                         ) : null
                 }
-                <IconButton onClick={() => {
-                    setIsDeleted(true);
-                    onDelete();
-                }}
-                >
-                    <DeleteIcon />
-                </IconButton>
+
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
