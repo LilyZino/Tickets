@@ -31,6 +31,10 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isBlocked: {
+        type: Boolean,
+        default: false
+    },
     rank: {
         type: Number,
         default: 0

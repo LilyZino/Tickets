@@ -69,8 +69,36 @@ export const addUser = async (req, res) => {
     }
 };
 
-export const editUser = (req, res) => {
-    res.status(501).send('not implemented');
+export const blockUser = (req, res) => {
+    console.log(req.params.id);
+
+    return User.updateOne(
+        { _id: req.params.id }, // <-- find stage
+        {
+            $set: { // <-- set stage
+                id: req.params.id, // <-- id not _id
+                isBlocked: true,
+            }
+        }
+    ).then(() => {
+        res.status(200).json({ message: 'Block successful!' });
+    });
+};
+
+export const unblockUser = (req, res) => {
+    console.log(req.params.id);
+
+    return User.updateOne(
+        { _id: req.params.id }, // <-- find stage
+        {
+            $set: { // <-- set stage
+                id: req.params.id, // <-- id not _id
+                isBlocked: false,
+            }
+        }
+    ).then(() => {
+        res.status(200).json({ message: 'Unblock successful!' });
+    });
 };
 
 export const getUser = async (req, res) => {
