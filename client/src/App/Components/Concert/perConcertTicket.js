@@ -59,9 +59,6 @@ const useStyles = makeStyles((theme) => ({
     expandOpen: {
         transform: 'rotate(180deg)',
     },
-    submitBtn: {
-        marginTop: '16px'
-    },
     paper: {
         backgroundColor: theme.palette.background.paper,
         border: '1px solid #000',
@@ -100,13 +97,10 @@ export default (props) => {
         }
     });
 
-    const changeRank = async (a, b) => {
-        console.log(a);
-        console.log(b);
-
+    const changeRank = async (userId, rank) => {
         await axios.post('/api/users/rank', {
-            id: a,
-            rank: b
+            id: userId,
+            rank
         });
     };
 
@@ -168,7 +162,7 @@ export default (props) => {
                 color="primary"
                 onClick={handleOpen}
             >
-                    Buy
+                Buy
             </Button>
             <BuyTicketFade
                 open={open}
