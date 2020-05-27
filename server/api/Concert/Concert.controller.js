@@ -21,9 +21,46 @@ export const addConcert = async (req, res) => {
     res.send();
 };
 
+export const editConcert = async (req, res) => {
+    console.log('edit concert', req.body);
+
+    return Concert.updateOne(
+        { _id: req.body._id }, // <-- find stage
+        {
+            $set: { // <-- set stage
+                id: req.body.id, // <-- id not _id
+                artist: req.body.artist,
+                location: req.body.location,
+                time: req.body.time,
+                genre: req.body.genre,
+            }
+        }
+    ).then(() => {
+        informConcertsUpdated();
+        res.status(200).json({ message: 'Update successful!' });
+    });
+};
+
 export const getConcert = async (req, res) => {
     const concert = await Concert.find(req.params.id);
     res.send(concert);
+};
+
+export const deleteConcert = async (req, res) => {
+    try {
+        const concert = await Concert.findByIdAndDelete(req.params.id);
+
+        // Check for ObjectId format and post
+        if (!concert) {
+            return res.status(404).json({ msg: 'Concert not found' });
+        }
+
+        res.json(concert);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
 };
 
 export const getConcertList = async (req, res) => {

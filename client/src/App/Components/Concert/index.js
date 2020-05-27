@@ -18,9 +18,12 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import ErrorIcon from '@material-ui/icons/Error';
-import { registerSocketEvent } from '../../_services/socketService';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Maps from '../Maps';
+import { registerSocketEvent } from '../../_services/socketService';
 import TicketinList from './perConcertTicket';
+import NewConcertFade from '../AddConcert/newConcertFade';
+import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -61,7 +64,32 @@ export default (props) => {
     const [expanded, setExpanded] = useState(false);
     const [mapexpanded, setmapExpanded] = useState(false);
     const [concertTickets, setConcertTickets] = useState([]);
+
+    const [open, setOpen] = useState(false);
     const [login, setLogin] = useState(false);
+    const [enteredArtist, setEnteredArtist] = useState(artist);
+    const [enteredLocation, setEnteredLocation] = useState(location);
+    const [enteredTime, setEnteredTime] = useState(time);
+    const [enteredGenre, setEnteredGenre] = useState(genre);
+    const [isDeleted, setIsDeleted] = useState(false);
+
+    const handleSubmit = async () => {
+        const { token } = authenticationService.currentUserValue.data;
+        const response = await axios.post('/api/concerts', {
+            _id: id,
+            artist: enteredArtist,
+            time: enteredTime,
+            location: enteredLocation,
+            genre: enteredGenre
+        }, { headers: { Authorization: `Bearer ${token}` } });
+
+        setOpen(false);
+        console.log('editing concert', response);
+    };
+
+    const onDelete = async () => {
+        await axios.delete(`api/concerts/${id}`);
+    };
 
     useEffect(() => {
         const getTicketForConcert = async () => {
@@ -91,7 +119,7 @@ export default (props) => {
     };
 
     return (
-        <Card className={classes.card} elevation={2}>
+        <Card className={classes.card} elevation={2} hidden={isDeleted}>
             <CardContent>
                 <Typography variant="h4" component="h2">
                     {artist}
@@ -109,6 +137,37 @@ export default (props) => {
                 >
                     <MapIcon />
                 </IconButton>
+                {
+                    editable
+                        ? (
+                            <div>
+                                <IconButton onClick={() => setOpen(true)}>
+                                    <EditIcon />
+                                </IconButton>
+                                <NewConcertFade
+                                    open={open}
+                                    enteredArtist={enteredArtist}
+                                    setEnteredArtist={setEnteredArtist}
+                                    enteredTime={enteredTime}
+                                    setEnteredTime={setEnteredTime}
+                                    enteredLocation={enteredLocation}
+                                    setEnteredLocation={setEnteredLocation}
+                                    enteredGenre={enteredGenre}
+                                    setEnteredGenre={setEnteredGenre}
+                                    handleSubmit={handleSubmit}
+                                    handleClose={() => setOpen(false)}
+                                />
+                                <IconButton onClick={() => {
+                                    setIsDeleted(true);
+                                    onDelete();
+                                }}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            </div>
+                        ) : null
+                }
+
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -119,22 +178,6 @@ export default (props) => {
                 >
                     <ExpandMoreIcon />
                 </IconButton>
-
-                {
-                    editable
-                        ? (
-                            <IconButton
-                                className={clsx(classes.expand, {
-                                    [classes.expandOpen]: expanded,
-                                })}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="Edit"
-                            >
-                                <EditIcon />
-                            </IconButton>
-                        ) : null
-                }
             </CardActions>
             <Collapse in={mapexpanded} timeout="auto" unmountOnExit>
                 <Maps location={`${location}`} />
@@ -188,5 +231,6 @@ export default (props) => {
                 </Fade>
             </Modal>
         </Card>
+
     );
 };

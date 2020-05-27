@@ -69,7 +69,6 @@ export default function AddTicketFade(props) {
     const [expanded, setExpanded] = useState(false);
     const [isTicketPhysical, setTicketPhysical] = useState(false);
 
-
     const handleExpandClick = () => {
         setExpanded(!expanded);
         setTicketPhysical(false);
