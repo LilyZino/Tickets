@@ -157,7 +157,7 @@ export const setUserRank = async (req, res) => {
         {
             $inc: { rank: req.body.rank }
         }
-    ).then(result => {
+    ).then(() => {
         res.status(200).json({ message: 'Update successful!' });
     });
 };
@@ -170,7 +170,7 @@ export const setUserCredits = async (req, res) => {
         {
             $inc: { credits: req.body.credits }
         }
-    ).then(result => {
+    ).then(() => {
         res.status(200).json({ message: 'Update successful!' });
     });
 };
@@ -186,6 +186,31 @@ export const getUserCredits = async (req, res) => {
         }
 
         res.json(user.credits);
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+};
+
+export const getUserPurchases = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.find().where('_id').equals(id).populate({
+            path: 'purchases',
+            model: 'ticket',
+            populate: {
+                path: 'concert',
+                model: 'concert'
+            }
+        });
+
+        // Check for ObjectId format and post
+        if (!id.match(/^[0-9a-fA-F]{24}$/) || !user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        res.json(user[0].purchases);
     } catch (err) {
         console.error(err.message);
 

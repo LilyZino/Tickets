@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import Ticket from './Ticket.model';
 import User from '../User/user.model';
 import { informTicketsUpdated } from '../../config/sockets';
@@ -14,8 +15,6 @@ export const getAllTickets = async (req, res) => {
 };
 
 export const addTicket = async (req, res) => {
-    console.log(req.files[0].filename);
-
     try {
         const newTicket = new Ticket({
             user: req.body.userId,
@@ -58,8 +57,7 @@ export const editTicket = async (req, res) => {
 
 export const buyTicket = async (req, res) => {
     const { _id, sold, seller, userId, newcredit, totalPrice } = req.body;
-    const buyerUser = await User.find().where('_id').equals(userId);
-    const ticket = await Ticket.find().where('_id').equals(_id).populate('concert')
+    await Ticket.find().where('_id').equals(_id).populate('concert')
         .then(result => {
             if (result) {
                 func(result[0]);
@@ -67,10 +65,8 @@ export const buyTicket = async (req, res) => {
         });
     async function func(ticket) {
         try {
-            console.log(ticket);
-            console.log(ticket.concert);
-
             const user = await User.findById(seller);
+            const buyer = await User.findById(userId);
             if (user) {
                 await sendConfirmationOfSaleMail(
                     user.email,
@@ -79,10 +75,9 @@ export const buyTicket = async (req, res) => {
                     ticket.concert.time,
                     sold,
                     totalPrice,
-                    buyerUser[0].name
+                    buyer.name
                 );
             }
-            const buyer = await User.findById(userId);
             if (buyer) {
                 await sendConfirmationMail(
                     buyer.email,
@@ -99,9 +94,14 @@ export const buyTicket = async (req, res) => {
             res.status(500).json({ msg: 'Server Error' });
         }
     }
-    await User.updateOne(
-        { _id: userId },
+    await User.findByIdAndUpdate(
+        userId,
         {
+            $push: {
+                purchases: {
+                    _id
+                }
+            },
             $set: {
                 credits: newcredit
             }

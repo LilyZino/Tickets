@@ -115,7 +115,6 @@ export default (props) => {
     };
 
     const handleClose = () => {
-        setOpen(false);
         setLogin(false);
     };
 

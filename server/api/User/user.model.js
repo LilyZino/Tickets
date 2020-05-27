@@ -38,7 +38,11 @@ const userSchema = new Schema({
     credits: {
         type: Number,
         default: 0
-    }
+    },
+    purchases: [{
+        type: Schema.Types.ObjectId,
+        ref: 'ticket'
+    }]
 });
 
 export default model('user', userSchema);
