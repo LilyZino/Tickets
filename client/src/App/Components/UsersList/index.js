@@ -8,7 +8,6 @@ const UsersList = () => {
     const getUsers = async () => {
         const response = await axios.get('/api/users/');
         setUsers(response.data);
-        console.log(users);
     };
 
     useEffect(() => {
@@ -17,7 +16,7 @@ const UsersList = () => {
 
     return (
         <div>
-            {users.map((user) => (
+            {users.sort((a, b) => b.rank - a.rank).map((user) => (
                 <User
                     key={user._id}
                     id={user._id}
