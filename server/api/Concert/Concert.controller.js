@@ -22,8 +22,6 @@ export const addConcert = async (req, res) => {
 };
 
 export const editConcert = async (req, res) => {
-    console.log('edit concert', req.body);
-
     return Concert.updateOne(
         { _id: req.body._id }, // <-- find stage
         {

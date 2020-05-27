@@ -69,8 +69,17 @@ export const addUser = async (req, res) => {
     }
 };
 
-export const editUser = (req, res) => {
-    res.status(501).send('not implemented');
+export const blockUser = (req, res) => {
+    return getAllUsers.updateOne(
+        { _id: req.body._id }, // <-- find stage
+        {
+            $set: { // <-- set stage
+                isBlocked: true,
+            }
+        }
+    ).then(() => {
+        res.status(200).json({ message: 'Block successful!' });
+    });
 };
 
 export const getUser = async (req, res) => {
