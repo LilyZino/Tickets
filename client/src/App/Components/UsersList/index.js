@@ -5,12 +5,12 @@ import User from '../User';
 const UsersList = () => {
     const [users, setUsers] = useState([]);
 
-    const getUsers = async () => {
-        const response = await axios.get('/api/users/');
-        setUsers(response.data);
-    };
-
     useEffect(() => {
+        const getUsers = async () => {
+            const response = await axios.get('/api/users/');
+            setUsers(response.data);
+        };
+
         getUsers();
     }, [users]);
 
