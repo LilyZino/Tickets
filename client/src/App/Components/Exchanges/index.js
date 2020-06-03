@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Graph } from 'react-d3-graph';
 import axios from 'axios';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import { authenticationService } from '../../_services';
-import { useRef } from 'react';
 
 const useStyles = makeStyles({
     title: {
@@ -63,7 +62,6 @@ export default function Exchanges(props) {
             setGraphData(formatedGraphData);
 
             graph.current._setNodeHighlightedValue(highlightedId, true);
-
         })();
     }, []);
 

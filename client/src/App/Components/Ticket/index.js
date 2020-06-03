@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -11,12 +11,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RepeatIcon from '@material-ui/icons/Repeat';
 import axios from 'axios';
-import SoldImage from '../../../Assets/Images/sold.png';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Chip } from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import SoldImage from '../../../Assets/Images/sold.png';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
 
@@ -144,20 +143,20 @@ export default function Ticket(props) {
                         <Typography>
                             {sold} Sold
                         </Typography>
-                    <Typography>
-                        {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
-                    </Typography>
-                </CardContent>
-                <div align="right" className={classes.soldimg}>
-                    <Typography className={classes.price}>
-                        {`${price}₪`}
-                    </Typography>
-                    {amount - sold === 0 ? (
                         <Typography>
-                            <img src={SoldImage} height="60px" width="60px" alt="sold" />
+                            {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
                         </Typography>
-                    ) : null}
-                </div>
+                        <div align="right" className={classes.soldimg}>
+                            <Typography className={classes.price}>
+                                {`${price}₪`}
+                            </Typography>
+                            {amount - sold === 0 ? (
+                                <Typography>
+                                    <img src={SoldImage} height="60px" width="60px" alt="sold" />
+                                </Typography>
+                            ) : null}
+                        </div>
+                    </div>
                 </div>
             </CardContent>
             <CardActions>
@@ -189,7 +188,7 @@ export default function Ticket(props) {
                 >
                     <DeleteIcon />
                 </IconButton>
-                { upForExchange ? null
+                {upForExchange ? null
                     : (
                         <IconButton onClick={() => {
                             setExpanded(true);

@@ -22,10 +22,6 @@ const TicketSchema = new Schema({
     sold: {
         type: Number
     },
-    upForExchange: {
-        type: Boolean,
-        required: true
-    },
     file: {
         type: String
     },
