@@ -39,6 +39,7 @@ const TicketsList = (props) => {
             {isMine ? (
                 filteredTickets.map((ticket) => (
                     <Ticket
+                        key={ticket._id}
                         id={ticket._id}
                         price={ticket.price}
                         sold={ticket.sold}
@@ -46,6 +47,7 @@ const TicketsList = (props) => {
                         concert={ticket.concert}
                         file={ticket.file}
                         onDelete={handleDelete}
+                        upForExchange={ticket.upForExchange}
                     />
                 ))) : (
                 filteredTickets.map((ticket) => (

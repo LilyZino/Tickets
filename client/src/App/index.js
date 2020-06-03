@@ -87,7 +87,7 @@ export default function () {
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/purchases" primary="My Purchases" icon={<AttachMoney />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
-                                && <ListItemLink to="/userExchanges" primary="My Possible Exchanges" icon={<RepeatIcon />} onClick={onDrawerClicked} />}
+                                && <ListItemLink to="/userExchanges" primary="My Exchanges" icon={<RepeatIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin

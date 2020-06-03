@@ -11,7 +11,7 @@ router.use('/tickets', ticketRouter);
 router.use('/users', userRouter);
 router.use('/mailAuth', mailAuthRouter);
 router.use('/concerts', concertRouter);
-router.use('/exchangecycles', exchangeCycleRouter);
+router.use('/exchangeCycles', exchangeCycleRouter);
 
 
 export default router;

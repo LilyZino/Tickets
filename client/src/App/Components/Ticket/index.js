@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Ticket(props) {
     const classes = useStyles();
     const { id, price, amount, concert, sold, file, onDelete } = props;
+    const [upForExchange, serUpForExchange] = useState(props.upForExchange);
     const [open, setOpen] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const [enteredConcert, setEnteredConcert] = useState(concert._id);
@@ -109,12 +110,16 @@ export default function Ticket(props) {
             },
             requestedGenre: selectedGenre
         }, { headers: { Authorization: `Bearer ${token}` } });
+        setExpanded(false);
+        serUpForExchange(true);
     };
 
     useEffect(() => {
         (async () => {
-            const serverGenres = await axios.get('/api/concerts/genres');
-            setGenres(serverGenres.data);
+            if (expanded) {
+                const serverGenres = await axios.get('/api/concerts/genres');
+                setGenres(serverGenres.data);
+            }
         })();
     }, [expanded]);
 
@@ -125,7 +130,8 @@ export default function Ticket(props) {
                     <Typography variant="h5" component="h2">
                         {concert.artist}
                     </Typography>
-                    <Chip color="primary" icon={<AttachMoneyIcon />} label="Up for sale" />
+                    {upForExchange ? <Chip color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
+                        : null}
                 </div>
                 <div className={classes.cardContent}>
                     <div>
@@ -154,9 +160,6 @@ export default function Ticket(props) {
                 </div>
                 </div>
             </CardContent>
-            {/* <div className={classes.cardBadges}> */}
-            {/* <Chip color="secondary" icon={<RepeatIcon />} label="Waiting for exchange" /> */}
-            {/* </div> */}
             <CardActions>
                 <IconButton onClick={() => setOpen(true)}>
                     <EditIcon />
@@ -186,12 +189,15 @@ export default function Ticket(props) {
                 >
                     <DeleteIcon />
                 </IconButton>
-                <IconButton onClick={() => {
-                    setExpanded(true);
-                }}
-                >
-                    <RepeatIcon />
-                </IconButton>
+                { upForExchange ? null
+                    : (
+                        <IconButton onClick={() => {
+                            setExpanded(true);
+                        }}
+                        >
+                            <RepeatIcon />
+                        </IconButton>
+                    )}
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
