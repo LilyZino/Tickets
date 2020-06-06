@@ -39,12 +39,14 @@ const TicketsList = (props) => {
             {isMine ? (
                 filteredTickets.map((ticket) => (
                     <Ticket
+                        key={ticket._id}
                         id={ticket._id}
                         price={ticket.price}
-                        sold={ticket.sold}
+                        desc={ticket.description}
                         amount={ticket.amount}
                         concert={ticket.concert}
                         file={ticket.file}
+                        isSold={ticket.isSold}
                         onDelete={handleDelete}
                     />
                 ))) : (

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
-import TextField from '@material-ui/core/TextField';
 import Backdrop from '@material-ui/core/Backdrop';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -49,9 +48,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddTicketFade(props) {
-    const { open, AddMode, enteredAmount, setEnteredSold, enteredTotal, setEnteredTotal, enteredPrice, buyTicket, handleClose } = props;
+    const { open, price, concert, amount, buyTicket, handleClose } = props;
     const classes = useStyles();
-    const [value, setValue] = useState(0);
 
     return (
         <Modal
@@ -71,63 +69,17 @@ export default function AddTicketFade(props) {
                     <div className={classes.paper}>
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
-                                {/* <InputLabel id="concertLabel">Concert</InputLabel>
-                            <Select
-                                labelId="concertLabel"
-                                label="Concert"
-                                id="concert"
-                                value={props.enteredConcert}
-                                onChange={(event) => { props.setEnteredConcert(event.target.value); }}
-                            >
-                                {concerts.map((concert) => (
-                                    <MenuItem key={concert._id} value={concert._id}>
-                                        {`${concert.artist} - ${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            <TextField
-                                label="Amount"
-                                value={props.enteredAmount}
-                                onChange={(event) => {
-                                    props.setEnteredAmount(event.target.value);
-                                }}
-                            /> */}
-                                <InputLabel id="concertLabel">How many tickets would you like to buy?</InputLabel>
-                                {/* <TextField
-                                style={updateTextBox}
-                                //label="How many tickets do you want to buy?"
-                                value={props.enteredSold}
-                                onChange={(event) => {
-                                    if(event.target.value >= props.enteredAmount)
-                                        props.setEnteredSold(props.enteredAmount);
-                                    else
-                                        props.setEnteredSold(event.target.value);
-                                }}
-                            /> */}
-                                <TextField
-                                    type="number"
-                                    inputProps={{ min: '0', max: enteredAmount, step: '1' }}
-                                    onChange={(event) => {
-                                        setValue(event.target.value);
-                                        if (event.target.value >= enteredAmount) setEnteredSold(enteredAmount);
-                                        else setEnteredSold(event.target.value);
-                                    }}
-                                />
-
-                                <br />
-                                {
-                                    setEnteredTotal(value * enteredPrice)
-                                }
-                                <InputLabel id="concertLabel">Total amount: {enteredTotal}</InputLabel>
-                                {/* <TextField
-                                label="Price"
-                                value={props.enteredPrice}
-                                onChange={(event) => {
-                                    props.setEnteredPrice(event.target.value);
-                                }}
-                            /> */}
+                                <Typography component="h1" variant="h5">
+                                    Please confirm the purchase:
+                                </Typography>
+                                <Typography component="h1" variant="h5">
+                                    {amount} tickets for {concert}
+                                </Typography>
+                                <Typography component="h1" variant="h5">
+                                    price: {price}₪
+                                </Typography>
                                 <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={buyTicket}>
-                                    {AddMode ? 'Buy Ticket' : 'Buy Ticket'}
+                                    Buy Ticket
                                 </Button>
                             </Grid>
                         </form>

@@ -19,12 +19,16 @@ const TicketSchema = new Schema({
         type: Number,
         required: true
     },
-    sold: {
-        type: Number
+    description: {
+        type: String
     },
     isPhysical: {
         type: Boolean,
         required: true
+    },
+    isSold: {
+        type: Boolean,
+        default: false
     },
     file: {
         type: String
