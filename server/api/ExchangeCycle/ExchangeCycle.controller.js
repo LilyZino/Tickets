@@ -17,19 +17,26 @@ export const getExchangeCycles = async (req, res) => {
             return nodes(p)`
         );
 
-        console.log(result.records[0]._fields.flat());
-        const formatedCycle = result.records[0]._fields.flat().map((node) => {
-            return { ...node.properties };
-        });
+        if (result.records.length === 0) {
+            res.send([]);
+        } else {
+            const cycles = result.records;
 
-        formatedCycle.pop();
+            cycles.forEach((item, index) => {
+                cycles.splice(index + 1, item._fields.flat().length - 1);
+            });
 
-        res.send(formatedCycle);
+            // console.log(cycles._fields.flat());
+            const formatedCycles = cycles.map((cycle) => {
+                const formatedCycle = (cycle._fields.flat().map((node) => {
+                    return { ...node.properties };
+                }));
+                formatedCycle.pop();
+                return formatedCycle;
+            });
 
-        // every records have a single field, that containts a node array
-        // const nodesInPath = singleRecord.get(0);
-
-        // console.log(node[0].properties.name);
+            res.send(formatedCycles);
+        }
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
