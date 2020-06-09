@@ -59,12 +59,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddTicketFade(props) {
-    const { open, handleClose, enteredConcert, enteredPrice, AddMode, enteredAmount, enteredSold, setEnteredSold, setEnteredFile, setEnteredConcert, handleSubmit } = props;
+    const { open, handleClose, enteredConcert, enteredPrice, AddMode, enteredAmount, enteredDesc, setEnteredDesc, setEnteredFile, setEnteredConcert, handleSubmit } = props;
 
     const classes = useStyles();
-    const updateTextBox = {
-        display: AddMode ? 'none' : 'block'
-    };
     const [concerts, setConcerts] = useState([]);
     const [expanded, setExpanded] = useState(false);
     const [isTicketPhysical, setTicketPhysical] = useState(false);
@@ -125,12 +122,10 @@ export default function AddTicketFade(props) {
                                     }}
                                 />
                                 <TextField
-                                    style={updateTextBox}
-                                    label="Sold"
-                                    value={enteredSold}
+                                    label="Description"
+                                    value={enteredDesc}
                                     onChange={(event) => {
-                                        if (event.target.value >= enteredAmount) setEnteredSold(props.enteredAmount);
-                                        else setEnteredSold(event.target.value);
+                                        setEnteredDesc(event.target.value);
                                     }}
                                 />
                                 <TextField

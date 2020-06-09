@@ -73,10 +73,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
     const classes = useStyles();
-    const { id, ticket } = props;
+    const { id, ticket, concert } = props;
     const [open, setOpen] = useState(false);
-    const [enteredSold, setEnteredSold] = useState('');
-    const [enteredTotal, setEnteredTotal] = useState('');
     const [userCredits, setuserCredits] = useState('');
     const [openAfterPurchaseMessage, setOpenAfterPurchaseMessage] = useState(false);
     const [PurchaseFailedMessage, setPurchaseFailedMessage] = useState(false);
@@ -116,14 +114,13 @@ export default (props) => {
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        if (userCredits.data >= enteredTotal) {
+        if (userCredits.data >= ticket.price) {
             setOpenAfterPurchaseMessage(true);
             await axios.post('/api/tickets/buy', {
                 _id: id,
-                sold: enteredSold,
                 seller: ticket.user._id,
-                totalPrice: enteredTotal,
-                newcredit: userCredits.data - enteredTotal,
+                totalPrice: ticket.price,
+                newcredit: userCredits.data - ticket.price,
                 userId
             }, { headers: { Authorization: `Bearer ${token}` } });
         } else {
@@ -148,11 +145,21 @@ export default (props) => {
                     </IconButton>
                 </div>
             </ListItemIcon>
-            <ListItemText
-                primary={`${ticket.amount - ticket.sold} Tickets Available`}
-                secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, 
+            {ticket.description
+                ? (
+                    <ListItemText
+                        primary={`${ticket.amount} Tickets. Description: ${ticket.description}`}
+                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, 
+            Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
+                    />
+                )
+                : (
+                    <ListItemText
+                        primary={`${ticket.amount} Tickets`}
+                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, 
                             Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
-            />
+                    />
+                )}
             <Typography>
                 {`${ticket.price}₪`}
             </Typography>
@@ -166,12 +173,9 @@ export default (props) => {
             </Button>
             <BuyTicketFade
                 open={open}
-                AddMode
-                enteredAmount={ticket.amount}
-                setEnteredSold={setEnteredSold}
-                enteredTotal={enteredTotal}
-                setEnteredTotal={setEnteredTotal}
-                enteredPrice={ticket.price}
+                concert={concert}
+                amount={ticket.amount}
+                price={ticket.price}
                 buyTicket={buyTicket}
                 handleClose={handleClose}
             />

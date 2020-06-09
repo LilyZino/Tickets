@@ -16,15 +16,27 @@ export const getAllTickets = async (req, res) => {
 
 export const addTicket = async (req, res) => {
     try {
-        const newTicket = new Ticket({
-            user: req.body.userId,
-            concert: req.body.concertId,
-            price: req.body.price,
-            amount: req.body.amount,
-            file: req.files[0].filename,
-            sold: 0,
-            isPhysical: false
-        });
+        let newTicket;
+        if (req.files[0]) {
+            newTicket = new Ticket({
+                user: req.body.userId,
+                concert: req.body.concertId,
+                price: req.body.price,
+                amount: req.body.amount,
+                file: req.files[0].filename,
+                description: req.body.desc,
+                isPhysical: false
+            });
+        } else {
+            newTicket = new Ticket({
+                user: req.body.userId,
+                concert: req.body.concertId,
+                price: req.body.price,
+                amount: req.body.amount,
+                description: req.body.desc,
+                isPhysical: true
+            });
+        }
 
         const ticket = await newTicket.save();
 
@@ -47,7 +59,7 @@ export const editTicket = async (req, res) => {
                 concert: req.body.concertId,
                 price: req.body.price,
                 amount: req.body.amount,
-                sold: req.body.sold
+                description: req.body.desc
             }
         }
     ).then(() => {
@@ -56,7 +68,7 @@ export const editTicket = async (req, res) => {
 };
 
 export const buyTicket = async (req, res) => {
-    const { _id, sold, seller, userId, newcredit, totalPrice } = req.body;
+    const { _id, seller, userId, newcredit, totalPrice } = req.body;
     await Ticket.find().where('_id').equals(_id).populate('concert')
         .then(result => {
             if (result) {
@@ -73,7 +85,6 @@ export const buyTicket = async (req, res) => {
                     user.name,
                     ticket.concert.artist,
                     ticket.concert.time,
-                    sold,
                     totalPrice,
                     buyer.name
                 );
@@ -86,7 +97,6 @@ export const buyTicket = async (req, res) => {
                     ticket.concert.time,
                     ticket.concert.location,
                     totalPrice,
-                    sold
                 );
             }
         } catch (error) {
@@ -115,11 +125,11 @@ export const buyTicket = async (req, res) => {
             }
         }
     );
-    return Ticket.updateOne(
+    await Ticket.updateOne(
         { _id },
         {
             $set: {
-                sold
+                isSold: true
             }
         }
     );

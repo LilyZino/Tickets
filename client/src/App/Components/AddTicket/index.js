@@ -61,6 +61,7 @@ export default function AddTicket() {
     const [enteredConcert, setEnteredConcert] = useState('');
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredAmount, setEnteredAmount] = useState('');
+    const [enteredDesc, setEnteredDesc] = useState('');
     const [file, setEnteredFile] = useState('');
     const [isTicketPhysical, setTicketPhysical] = useState(false);
 
@@ -87,6 +88,7 @@ export default function AddTicket() {
         formData.append('amount', enteredAmount);
         formData.append('userId', userId);
         formData.append('isPhysical', isTicketPhysical);
+        formData.append('desc', enteredDesc);
 
         await axios.put('api/tickets/', formData, {
             headers: {
@@ -110,6 +112,8 @@ export default function AddTicket() {
                 setEnteredPrice={setEnteredPrice}
                 enteredConcert={enteredConcert}
                 setEnteredConcert={setEnteredConcert}
+                enteredDesc={enteredDesc}
+                setEnteredDesc={setEnteredDesc}
                 isTicketPhysical={isTicketPhysical}
                 setTicketPhysical={setTicketPhysical}
                 ticketFile={file}
