@@ -4,12 +4,13 @@ import Ticket from '../Ticket/Ticket.model';
 export const getExchangeCycles = async (req, res) => {
     const session = driver.session();
 
+    console.log(req.params.userId);
     try {
         const result = await session.run(
             `MATCH p=(n)-[*1..4]->(n)
-            WHERE ANY(x in nodes(p) WHERE x.userId=userId)
-            return p`,
-            { userId: req.body.userId }
+            WHERE ANY(x in nodes(p) WHERE x.userId=$userId)
+            return nodes(p)`,
+            { userId: req.params.userId }
         );
 
         // const result = await session.run(
@@ -60,7 +61,7 @@ export const addTicket = async (req, res) => {
             MATCH (new:Ticket), (canReplaceWith:Ticket)
             WHERE canReplaceWith.ticketGenre="${req.body.requestedGenre}" AND
                     new.id="${req.body.ticket.id}"
-            MERGE (canReplaceWith)<-[:CAN_SWITCH_WITH]-(new)
+            MERGE (new)<-[:CAN_SWITCH_WITH]-(canReplaceWith)
             RETURN canReplaceWith
         `);
 
@@ -68,7 +69,7 @@ export const addTicket = async (req, res) => {
             MATCH (new:Ticket), (canBeReplacedWith:Ticket)
             WHERE new.id="${req.body.ticket.id}" AND
                     canBeReplacedWith.requestedGenre="${req.body.ticket.genre}"
-            MERGE (new)<-[:CAN_SWITCH_WITH]-(canBeReplacedWith)
+            MERGE (canBeReplacedWith)<-[:CAN_SWITCH_WITH]-(new)
             RETURN canBeReplacedWith
         `);
 
