@@ -5,17 +5,17 @@ export const getExchangeCycles = async (req, res) => {
     const session = driver.session();
 
     try {
-        // const result = await session.run(
-        //     `MATCH p=(n)-[*1..4]->(n)
-        //     WHERE ANY(x in nodes(p) WHERE x.userId=userId)
-        //     return p`,
-        //     { userId: req.body.userId }
-        // );
-
         const result = await session.run(
-            `MATCH p=(n)-[*1..4]->(n) 
-            return nodes(p)`
+            `MATCH p=(n)-[*1..4]->(n)
+            WHERE ANY(x in nodes(p) WHERE x.userId=userId)
+            return p`,
+            { userId: req.body.userId }
         );
+
+        // const result = await session.run(
+        //     `MATCH p=(n)-[*1..4]->(n) 
+        //     return nodes(p)`
+        // );
 
         if (result.records.length === 0) {
             res.send([]);
