@@ -225,7 +225,7 @@ export const getUserPurchases = async (req, res) => {
     try {
         const { id } = req.params;
         const user = await User.find().where('_id').equals(id).populate({
-            path: 'purchases',
+            path: 'purchases.ticket',
             model: 'ticket',
             populate: {
                 path: 'concert',

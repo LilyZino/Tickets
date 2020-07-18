@@ -44,8 +44,14 @@ const userSchema = new Schema({
         default: 0
     },
     purchases: [{
-        type: Schema.Types.ObjectId,
-        ref: 'ticket'
+        ticket: {
+            type: Schema.Types.ObjectId,
+            ref: 'ticket'
+        },
+        rank: {
+            type: Number,
+            default: 0
+        }
     }]
 });
 
