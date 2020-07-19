@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import axios from 'axios';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -95,13 +92,6 @@ export default (props) => {
         }
     });
 
-    const changeRank = async (userId, rank) => {
-        await axios.post('/api/users/rank', {
-            id: userId,
-            rank
-        });
-    };
-
     const handleOpen = () => {
         setOpen(true);
     };
@@ -132,18 +122,6 @@ export default (props) => {
         <ListItem button key={ticket._id}>
             <ListItemIcon>
                 <ConfirmationNumberIcon />
-            </ListItemIcon>
-            <ListItemIcon>
-                <div>
-                    <div>
-                        <IconButton onClick={() => changeRank(ticket.user._id, 1)}>
-                            <ArrowDropUpIcon />
-                        </IconButton>
-                    </div>
-                    <IconButton onClick={() => changeRank(ticket.user._id, -1)}>
-                        <ArrowDropDownIcon />
-                    </IconButton>
-                </div>
             </ListItemIcon>
             {ticket.description
                 ? (

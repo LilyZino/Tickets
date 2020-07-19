@@ -176,8 +176,23 @@ export const login = async (req, res) => {
 };
 
 export const setUserRank = async (req, res) => {
-    console.log(req.body.id);
-    console.log(req.body.rank);
+    await User.updateOne({
+        'purchases._id': req.body.rankId
+    },
+    {
+        $inc: { 'purchases.$.rank': req.body.rank }
+    }).catch((err) => {
+        console.log(err);
+    });
+
+    User.updateOne(
+        {
+            'purchases._id': req.body.rankId
+        },
+        {
+            $inc: { 'purchases.rank': req.body.rank }
+        }
+    );
     return User.updateOne(
         {
             _id: req.body.id// <-- find stage
