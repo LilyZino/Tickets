@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Credits(props) {
     const classes = useStyles();
+    const { myCredits } = props;
     const [openCredits, setopenCredits] = useState(false);
     const [tabValue, setTabValue] = React.useState(0);
     const [amount, setAmount] = React.useState(0);
@@ -82,7 +83,7 @@ export default function Credits(props) {
     return (
         <div className={classes.div}>
             <Typography variant="body2" className={classes.userNameText} onClick={() => { setopenCredits(true); }}>
-                You have {props.Credits} credits
+                You have {myCredits} credits
             </Typography>
 
             <Modal
