@@ -109,7 +109,9 @@ export const buyTicket = async (req, res) => {
         {
             $push: {
                 purchases: {
-                    _id
+                    ticket: {
+                        _id
+                    }
                 }
             },
             $set: {
