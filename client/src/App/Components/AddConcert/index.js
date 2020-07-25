@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
@@ -9,8 +9,12 @@ import AddIcon from '@material-ui/icons/Add';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Fuse from 'fuse.js';
+import moment from 'moment';
 import { authenticationService } from '../../_services';
 import NewConcertFade from './newConcertFade';
+import { registerSocketEvent, initSockets } from '../../_services/socketService';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -50,19 +54,53 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         margin: 'auto',
     },
-    rotation: {
-
-    }
+    pos: {
+        marginBottom: 12,
+    },
 }));
 
 export default function AddConcert() {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [suggestion, setSuggestion] = useState(false);
     const [login, setLogin] = useState(false);
     const [enteredArtist, setEnteredArtist] = useState('');
     const [enteredTime, setEnteredTime] = useState(new Date());
     const [enteredLocation, setEnteredLocation] = useState('');
     const [enteredGenre, setEnteredGenre] = useState('');
+    const [concerts, setConcerts] = useState([]);
+    const [concertsToSuggest, setConcertsToSuggest] = useState([]);
+    const options = {
+        // isCaseSensitive: false,
+        // includeScore: false,
+        // shouldSort: true,
+        // includeMatches: false,
+        // findAllMatches: false,
+        // minMatchCharLength: 3,
+        // location: 0,
+        // threshold: 0.5,
+        // distance: 100,
+        // useExtendedSearch: false,
+        // ignoreLocation: false,
+        // ignoreFieldNorm: false,
+        keys: [
+            'artist'
+        ]
+    };
+
+    const getAllConcerts = async () => {
+        const response = await axios.get('/api/concerts');
+        setConcerts(response.data);
+    };
+
+    useEffect(() => {
+        initSockets();
+        registerSocketEvent('concerts-updated', () => {
+            getAllConcerts();
+        });
+
+        getAllConcerts();
+    }, []);
 
     const handleOpen = () => {
         if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
@@ -71,9 +109,10 @@ export default function AddConcert() {
     const handleClose = () => {
         setOpen(false);
         setLogin(false);
+        setSuggestion(false);
     };
 
-    const handleSubmit = async () => {
+    const handleSuggestion = async () => {
         const { token } = authenticationService.currentUserValue.data;
         await axios.put('/api/concerts', {
             artist: enteredArtist,
@@ -81,6 +120,27 @@ export default function AddConcert() {
             location: enteredLocation,
             genre: enteredGenre,
         }, { headers: { Authorization: `Bearer ${token}` } });
+    };
+
+    const handleSubmit = async () => {
+        const timeFuse = new Fuse(concerts, {
+            threshold: 0.3,
+            keys: [
+                'time'
+            ]
+        });
+        const timePattern = moment(enteredTime).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const filteredConcerts = timeFuse.search(timePattern);
+        const finalConcerts = [];
+        filteredConcerts.forEach((concert) => { finalConcerts.push(concert.item); });
+        const fuse = new Fuse(finalConcerts, options);
+        const pattern = enteredArtist;
+        setConcertsToSuggest(fuse.search(pattern));
+        if (concertsToSuggest) {
+            setSuggestion(true);
+        } else {
+            handleSuggestion();
+        }
     };
 
     return (
@@ -122,6 +182,43 @@ export default function AddConcert() {
                         <Typography component="h1" variant="h5" className={classes.error}>
                             you must login first
                         </Typography>
+                    </div>
+                </Fade>
+            </Modal>
+            <Modal
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                className={classes.modal}
+                open={suggestion}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={suggestion}>
+                    <div className={classes.paper}>
+                        <Typography component="h1" variant="h5" className={classes.error}>
+                            We found an event similar to what you entered.
+                            If you wish to add the event anyway, press the ignore button
+                        </Typography>
+                        {concertsToSuggest.map((concert) => (
+                            <div>
+                                <Typography variant="h4" component="h2">
+                                    {concert.item.artist}
+                                </Typography>
+                                <Typography className={classes.pos} color="textSecondary" variant="h6">
+                                    {`${concert.item.location}, ${moment(concert.item.time).format('DD/MM/YYYY HH:mm')}${concert.item.genre ? `, ${concert.item.genre}` : ''}`}
+                                </Typography>
+                            </div>
+                        ))}
+                        <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleClose}>
+                            OK, thanks!
+                        </Button>
+                        <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSuggestion}>
+                            Ignore Suggestion
+                        </Button>
                     </div>
                 </Fade>
             </Modal>

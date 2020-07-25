@@ -69,6 +69,7 @@
     "form-data": "^3.0.0",
     "formidable": "^2.0.0-canary.20200402.2",
     "fs": "0.0.1-security",
+    "fuse.js": "^6.4.0",
     "google-maps-react": "^2.0.2",
     "highcharts": "^8.0.0",
     "highcharts-react-official": "^2.2.2",
