@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
@@ -118,7 +117,6 @@ export default function Ticket(props) {
                         ? (
                             <Chip
                                 label="This concert was deleted by admin"
-                                color="secondary"
                                 className={classes.chip}
                             />
                         ) : null}
