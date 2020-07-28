@@ -46,14 +46,18 @@ export const getConcert = async (req, res) => {
 
 export const deleteConcert = async (req, res) => {
     try {
-        const concert = await Concert.findByIdAndDelete(req.params.id);
-
-        // Check for ObjectId format and post
-        if (!concert) {
-            return res.status(404).json({ msg: 'Concert not found' });
-        }
-
-        res.json(concert);
+        return await Concert.updateOne(
+            { _id: req.params.id }, // <-- find stage
+            {
+                $set: { // <-- set stage
+                    id: req.params.id, // <-- id not _id
+                    isDeleted: true
+                }
+            }
+        ).then(() => {
+            informConcertsUpdated();
+            res.status(200).json({ message: 'Update successful!' });
+        });
     } catch (err) {
         console.error(err.message);
 

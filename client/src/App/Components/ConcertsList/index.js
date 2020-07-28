@@ -8,6 +8,8 @@ export default (props) => {
 
     useEffect(() => {
         const concertsToRender = filter ? concerts.filter((concert) => {
+            if (concert.isDeleted) { return false; }
+
             if (filter.artist && filter.artist !== '' && !concert.artist.toLowerCase().includes(filter.artist.toLowerCase())) {
                 return false;
             }
