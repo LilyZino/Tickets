@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
@@ -47,10 +48,23 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     soldimg: {
         marginRight: '15px'
+    },
+    chip: {
+        margin: '4px 0px'
+    },
+    img: {
+        borderRadius: '10px',
+        width: '100px',
+        height: '100px'
+    },
+    sideDiv: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end'
     }
 }));
 
@@ -81,8 +95,9 @@ export default function Ticket(props) {
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
-            <div className={classes.cardContent}>
-                <CardContent>
+            <CardContent className={classes.cardContent}>
+                <div>
+
                     <Typography variant="h5" component="h2">
                         {concert.artist}
                     </Typography>
@@ -97,28 +112,29 @@ export default function Ticket(props) {
                             Description: {desc}
                         </Typography>
                     ) : null}
-                    <Typography>
-                        {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
-                    </Typography>
+                </div>
+                <div className={classes.sideDiv}>
                     {concert.isDeleted
                         ? (
                             <Chip
                                 label="This concert was deleted by admin"
                                 color="secondary"
+                                className={classes.chip}
                             />
                         ) : null}
-                </CardContent>
-                <div align="right" className={classes.soldimg}>
-                    <Typography className={classes.price}>
-                        {`${price}₪`}
-                    </Typography>
                     {isSold ? (
                         <Typography>
                             <img src={SoldImage} height="60px" width="60px" alt="sold" />
                         </Typography>
                     ) : null}
+                    {file ? (
+                        <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
+                    ) : null}
+                    <Typography className={classes.price}>
+                        {`${price}₪`}
+                    </Typography>
                 </div>
-            </div>
+            </CardContent>
             <CardActions>
                 {!isSold ? (
                     <IconButton onClick={() => setOpen(true)}>
