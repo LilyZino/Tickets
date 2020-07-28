@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
+import Chip from '@material-ui/core/Chip';
 import SoldImage from '../../../Assets/Images/sold.png';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
@@ -95,10 +96,17 @@ export default function Ticket(props) {
                         <Typography>
                             Description: {desc}
                         </Typography>
-                    ) : null }
+                    ) : null}
                     <Typography>
                         {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
                     </Typography>
+                    {concert.isDeleted
+                        ? (
+                            <Chip
+                                label="This concert was deleted by admin"
+                                color="secondary"
+                            />
+                        ) : null}
                 </CardContent>
                 <div align="right" className={classes.soldimg}>
                     <Typography className={classes.price}>
