@@ -22,7 +22,8 @@ const useStyles = makeStyles({
         padding: 4,
     },
     button: {
-        margin: 8
+        margin: 'auto',
+        height: '40px'
     }
 });
 

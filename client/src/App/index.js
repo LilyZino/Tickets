@@ -47,7 +47,6 @@ const useStyles = makeStyles(() => ({
     },
     title: {
         flexGrow: 1,
-        textShadow: '2px 3px #313131'
     }
 }));
 
