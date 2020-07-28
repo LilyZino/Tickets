@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -44,7 +45,11 @@ export default function ConcertsSearch(props) {
     };
 
     const handleDateChange = (date) => {
-        setEnteredDate(date);
+        const searchDate = moment(date).isValid()
+            ? moment(date).format('YYYY-MM-DD')
+            : '';
+
+        setEnteredDate(searchDate);
     };
 
     return (
@@ -69,6 +74,8 @@ export default function ConcertsSearch(props) {
                     disableToolbar
                     autoOk
                     error={false}
+                    placeholder="Date"
+                    invalidDateMessage=""
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="normal"
