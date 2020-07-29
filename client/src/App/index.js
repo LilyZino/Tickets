@@ -37,7 +37,7 @@ import AddConcert from './Components/AddConcert';
 import Charts from './Components/Charts';
 import Recommendations from './Components/Recommendations';
 import UsersList from './Components/UsersList';
-import Exchanges from './Components/Exchanges';
+import Exchanges from './Components/ExchangesList';
 import Purchases from './Components/Purchases';
 
 const useStyles = makeStyles(() => ({
