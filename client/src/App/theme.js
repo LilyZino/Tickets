@@ -5,13 +5,13 @@ export default createMuiTheme({
     palette: {
         primary: {
             // light: will be calculated from palette.primary.main,
-            main: '#98738e',
+            main: '#354f52',
             // dark: will be calculated from palette.primary.main,
             // contrastText: will be calculated to contrast with palette.primary.main
         },
         secondary: {
-            light: '#bfa9b9',
-            main: '#bfa9b9',
+            light: '#e63946',
+            main: '#52796f',
             // dark: will be calculated from palette.secondary.main,
             contrastText: '#ffffff',
         },
