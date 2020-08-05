@@ -162,8 +162,7 @@ export default function Entrance() {
                         className={classes.button}
                         aria-controls="customized-menu"
                         aria-haspopup="true"
-                        variant="contained"
-                        color="primary"
+                        variant="outlined"
                         onClick={handleOpenLogin}
                     >
                         Login
@@ -175,8 +174,7 @@ export default function Entrance() {
                         className={classes.button}
                         aria-controls="customized-menu"
                         aria-haspopup="true"
-                        variant="contained"
-                        color="primary"
+                        variant="outlined"
                         onClick={handleOpenRegister}
                     >
                         Register
