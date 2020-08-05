@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,7 +10,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import User from '../User';
 
+const useStyles = makeStyles(() => ({
+    table: {
+        marginTop: 30,
+    }
+}));
+
 const UsersList = () => {
+    const classes = useStyles();
+
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -22,15 +31,15 @@ const UsersList = () => {
     }, [users]);
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer className={classes.table} component={Paper}>
             <Table size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
-                        <TableCell align="right">Mail</TableCell>
-                        <TableCell align="right">Phone</TableCell>
-                        <TableCell align="right">Rank</TableCell>
-                        <TableCell align="right">Status</TableCell>
+                        <TableCell>Mail</TableCell>
+                        <TableCell>Phone</TableCell>
+                        <TableCell>Rank</TableCell>
+                        <TableCell>Status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

@@ -65,10 +65,10 @@ export default function User(props) {
             <TableCell component="th" scope="row">
                 {name}
             </TableCell>
-            <TableCell align="right">{email}</TableCell>
-            <TableCell align="right">{phone}</TableCell>
-            <TableCell align="right">{rank}</TableCell>
-            <TableCell align="right">
+            <TableCell>{email}</TableCell>
+            <TableCell>{phone}</TableCell>
+            <TableCell>{rank}</TableCell>
+            <TableCell>
                 {
                     isBlocked
                         ? (
