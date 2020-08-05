@@ -14,8 +14,9 @@ export const getExchangeCycles = async (req, res) => {
         );
 
         // const result = await session.run(
-        //     `MATCH p=(n)-[*1..4]->(n) 
-        //     return nodes(p)`
+        //     `MATCH p=(n)-[*1..4]->(n)
+        //     return nodes(p)`,
+        //     { userId: req.params.userId }
         // );
 
         if (result.records.length === 0) {
@@ -24,7 +25,8 @@ export const getExchangeCycles = async (req, res) => {
             const cycles = result.records;
 
             cycles.forEach((item, index) => {
-                cycles.splice(index + 1, item._fields.flat().length - 1);
+                // cycles.splice(index + 1, item._fields[0].segments.length - 1);
+                cycles.splice(index + 1, item._fields[0].length - 1);
             });
 
             // console.log(cycles._fields.flat());
@@ -36,7 +38,34 @@ export const getExchangeCycles = async (req, res) => {
                 return formatedCycle;
             });
 
-            res.send(formatedCycles);
+            let cyclesPath = [];
+
+            await Promise.all(formatedCycles.map(async (cycle) => {
+                const currentPath = [];
+
+                await Promise.all(cycle.map(async (node, index, array) => {
+                    const start = node;
+                    const end = array[(index + 1) % array.length];
+                    const newSession = driver.session();
+                    const result = await newSession.run(
+                        `MATCH p=(start)-[]->(end)
+                        WHERE start.id="${start.id}" and end.id="${end.id}"
+                        RETURN p`
+                    );
+
+                    console.log(result);
+
+                    currentPath.push({
+                        start,
+                        end,
+                        relationship: result.records[0]._fields[0].segments[0].relationship.properties
+                    });
+                }));
+
+                cyclesPath.push(currentPath);
+            }));
+
+            res.send(cyclesPath);
         }
     } catch (err) {
         console.log(err);

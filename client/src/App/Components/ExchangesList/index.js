@@ -59,13 +59,16 @@ export default function ExchangesList() {
     return (
         <div>
             <Typography variant="h4" className={classes.title}> Welcome the exchange area</Typography>
-            <Typography>Here you can find the exchanges possabilities</Typography>
+            <Typography>Here you can find the exchanges possibilities</Typography>
             {exchanges.length === 0 ? <div /> : exchanges.map((exchange, index) => (
                 <Exchange
                     get={
-                        _.findIndex(exchange, (node) => node.userId === userId) !== -1
-                            ? exchange[(_.findIndex(exchange, (node) => node.userId === userId) - 1 + exchange.length) % exchange.length]
-                            : null
+                        exchange.where((path) => {
+                            path.end.id = 
+                        });
+                        // _.findIndex(exchange, (node) => node.userId === userId) !== -1
+                        //     ? exchange[(_.findIndex(exchange, (node) => node.userId === userId) - 1 + exchange.length) % exchange.length]
+                        //     : null
                     }
                     give={
                         _.findIndex(exchange, (node) => node.userId === userId) !== -1
