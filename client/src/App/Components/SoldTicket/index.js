@@ -79,7 +79,7 @@ export default function SoldTicket(props) {
                     </ListItemIcon>
                     <ListItemText>
                         <Typography variant="h5" component="h2">
-                            {concert.artist} - {price}$
+                            {concert.artist} - {price}₪
                         </Typography>
                         <Typography className={classes.pos} color="textSecondary">
                             {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
@@ -91,16 +91,11 @@ export default function SoldTicket(props) {
                                 color="primary"
                             >
                                 <a href={`http://localhost:9000/public/${file}`} download={`${concert.artist}-ticket`}>
-                            Download
+                                    Download
                                 </a>
                             </Button>
                         ) : null}
                     </ListItemText>
-                    {/* <div align="right" className={classes.soldimg}>
-                        <Typography className={classes.price}>
-                            {`${price}₪`}
-                        </Typography>
-                    </div> */}
                 </div>
             </Card>
         </div>
