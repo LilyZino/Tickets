@@ -1,13 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+import { red } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import BlockIcon from '@material-ui/icons/Block';
-import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -44,7 +43,10 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
-    }
+    },
+    blockedUser: {
+        color: red[500]
+    },
 }));
 
 export default function User(props) {
@@ -60,40 +62,31 @@ export default function User(props) {
     };
 
     return (
-        <Card className={classes.card} elavation="2">
-            <div className={classes.cardContent}>
-                <CardContent>
-                    <Typography variant="h5" component="h2">
-                        {name}
-                    </Typography>
-                    <Typography>
-                        {email}
-                    </Typography>
-                    <Typography>
-                        {phone}
-                    </Typography>
-                    <Typography>
-                        Rank: {rank}
-                    </Typography>
-                </CardContent>
-            </div>
-            <CardActions>
+        <TableRow key={id}>
+            <TableCell component="th" scope="row">
+                {name}
+            </TableCell>
+            <TableCell>{email}</TableCell>
+            <TableCell>{phone}</TableCell>
+            <TableCell>{rank}</TableCell>
+            <TableCell>
                 {
                     isBlocked
                         ? (
-                            <div>
-                                <IconButton onClick={unblockUser}>
+                            <Tooltip title="Unblock User" arrow>
+                                <IconButton className={classes.blockedUser} onClick={unblockUser}>
                                     <BlockIcon />
                                 </IconButton>
-                            </div>
+                            </Tooltip>
                         ) : (
-                            <IconButton onClick={blockUser}>
-                                <InsertEmoticonIcon />
-                            </IconButton>
+                            <Tooltip title="Block User" arrow>
+                                <IconButton onClick={blockUser}>
+                                    <BlockIcon />
+                                </IconButton>
+                            </Tooltip>
                         )
                 }
-
-            </CardActions>
-        </Card>
+            </TableCell>
+        </TableRow>
     );
 }
