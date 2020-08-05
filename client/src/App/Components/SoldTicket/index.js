@@ -14,8 +14,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 const useStyles = makeStyles(() => ({
     card: {
-        minWidth: 275,
-        marginTop: 15,
+        width: '40%',
+        margin: 15,
     },
     title: {
         fontSize: 14,
@@ -60,44 +60,42 @@ export default function SoldTicket(props) {
     };
 
     return (
-        <div>
-            <Card className={classes.card} elavation="2">
-                <div className={classes.cardContent}>
-                    <ListItemIcon>
+        <Card className={classes.card} elavation="2">
+            <div className={classes.cardContent}>
+                <ListItemIcon>
+                    <div>
                         <div>
-                            <div>
-                                <IconButton className={ticRank === 1 ? classes.thumbUp : classes.noThumb} onClick={() => changeRank(1)}>
-                                    <ThumbUpIcon />
-                                </IconButton>
-                            </div>
-                            <div>
-                                <IconButton className={ticRank === -1 ? classes.thumbDown : classes.noThumb} onClick={() => changeRank(-1)}>
-                                    <ThumbDownIcon />
-                                </IconButton>
-                            </div>
+                            <IconButton className={ticRank === 1 ? classes.thumbUp : classes.noThumb} onClick={() => changeRank(1)}>
+                                <ThumbUpIcon />
+                            </IconButton>
                         </div>
-                    </ListItemIcon>
-                    <ListItemText>
-                        <Typography variant="h5" component="h2">
-                            {concert.artist} - {price}₪
+                        <div>
+                            <IconButton className={ticRank === -1 ? classes.thumbDown : classes.noThumb} onClick={() => changeRank(-1)}>
+                                <ThumbDownIcon />
+                            </IconButton>
+                        </div>
+                    </div>
+                </ListItemIcon>
+                <ListItemText>
+                    <Typography variant="h5" component="h2">
+                        {concert.artist} - {price}₪
                         </Typography>
-                        <Typography className={classes.pos} color="textSecondary">
-                            {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
-                        </Typography>
-                        {file ? (
-                            <Button
-                                className={classes.submitBtn}
-                                type="submit"
-                                color="primary"
-                            >
-                                <a href={`http://localhost:9000/public/${file}`} download={`${concert.artist}-ticket`}>
-                                    Download
+                    <Typography className={classes.pos} color="textSecondary">
+                        {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
+                    </Typography>
+                    {file ? (
+                        <Button
+                            className={classes.submitBtn}
+                            type="submit"
+                            color="primary"
+                        >
+                            <a href={`http://localhost:9000/public/${file}`} download={`${concert.artist}-ticket`}>
+                                Download
                                 </a>
-                            </Button>
-                        ) : null}
-                    </ListItemText>
-                </div>
-            </Card>
-        </div>
+                        </Button>
+                    ) : null}
+                </ListItemText>
+            </div>
+        </Card>
     );
 }
