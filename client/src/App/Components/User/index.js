@@ -1,13 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import { green, red } from '@material-ui/core/colors';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import BlockIcon from '@material-ui/icons/Block';
-import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -44,7 +46,10 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
-    }
+    },
+    blockedUser: {
+        color: red[500]
+    },
 }));
 
 export default function User(props) {
@@ -60,40 +65,27 @@ export default function User(props) {
     };
 
     return (
-        <Card className={classes.card} elavation="2">
-            <div className={classes.cardContent}>
-                <CardContent>
-                    <Typography variant="h5" component="h2">
-                        {name}
-                    </Typography>
-                    <Typography>
-                        {email}
-                    </Typography>
-                    <Typography>
-                        {phone}
-                    </Typography>
-                    <Typography>
-                        Rank: {rank}
-                    </Typography>
-                </CardContent>
-            </div>
-            <CardActions>
+        <TableRow key={id}>
+            <TableCell component="th" scope="row">
+                {name}
+            </TableCell>
+            <TableCell align="right">{email}</TableCell>
+            <TableCell align="right">{phone}</TableCell>
+            <TableCell align="right">{rank}</TableCell>
+            <TableCell align="right">
                 {
                     isBlocked
                         ? (
-                            <div>
-                                <IconButton onClick={unblockUser}>
-                                    <BlockIcon />
-                                </IconButton>
-                            </div>
+                            <IconButton className={classes.blockedUser} onClick={unblockUser}>
+                                <BlockIcon />
+                            </IconButton>
                         ) : (
                             <IconButton onClick={blockUser}>
-                                <InsertEmoticonIcon />
+                                <BlockIcon />
                             </IconButton>
                         )
                 }
-
-            </CardActions>
-        </Card>
+            </TableCell>
+        </TableRow>
     );
 }
