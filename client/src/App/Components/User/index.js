@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import BlockIcon from '@material-ui/icons/Block';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -72,13 +73,17 @@ export default function User(props) {
                 {
                     isBlocked
                         ? (
-                            <IconButton className={classes.blockedUser} onClick={unblockUser}>
-                                <BlockIcon />
-                            </IconButton>
+                            <Tooltip title="Unblock User" arrow>
+                                <IconButton className={classes.blockedUser} onClick={unblockUser}>
+                                    <BlockIcon />
+                                </IconButton>
+                            </Tooltip>
                         ) : (
-                            <IconButton onClick={blockUser}>
-                                <BlockIcon />
-                            </IconButton>
+                            <Tooltip title="Block User" arrow>
+                                <IconButton onClick={blockUser}>
+                                    <BlockIcon />
+                                </IconButton>
+                            </Tooltip>
                         )
                 }
             </TableCell>
