@@ -25,16 +25,15 @@ const useStyles = makeStyles({
         /* align-items: center; */
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    root: {
+        marginBottom: '10px'
     }
 });
 
 export default function Exchange(props) {
     const classes = useStyles();
-    const { get, give, index } = props;
-
-    const approveExchange = async () => {
-        const approveResult = await axios.post('/api/exchangeCycles/approve', { getId: get.id, giveId: give.id });
-    };
+    const { get, give, relationship, approveFunction, denyFunction, index } = props;
 
     return (
         <div>
@@ -45,7 +44,11 @@ export default function Exchange(props) {
                         <Typography className={classes.cardTitle} color="textSecondary" gutterBottom>
                             {`Exchange option #${index + 1}`}
                         </Typography>
-                        <Chip color="secondary" icon={<CheckIcon />} label="You approved this exchange" />
+                        {
+                            relationship.isApproved
+                                ? <Chip color="secondary" icon={<CheckIcon />} label="You approved this exchange" />
+                                : <></>
+                        }
                     </div>
                     <div>
                         <Typography className={classes.h6}>
@@ -71,14 +74,20 @@ export default function Exchange(props) {
                         </Typography>
                     </div>
                 </CardContent>
-                <CardActions>
-                    <IconButton onClick={() => approveExchange()}>
-                        <CheckIcon />
-                    </IconButton>
-                    <IconButton>
-                        <BlockIcon />
-                    </IconButton>
-                </CardActions>
+                {
+                    !relationship.isApproved
+                        ? (
+                            <CardActions>
+                                <IconButton onClick={() => approveFunction()}>
+                                    <CheckIcon />
+                                </IconButton>
+                                <IconButton onClick={() => denyFunction()}>
+                                    <BlockIcon />
+                                </IconButton>
+                            </CardActions>
+                        )
+                        : <></>
+                }
             </Card>
         </div>
     );

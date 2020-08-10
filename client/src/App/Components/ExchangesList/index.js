@@ -10,6 +10,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import BlockIcon from '@material-ui/icons/Block';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
+import { path } from 'd3';
 import { authenticationService } from '../../_services';
 import Exchange from '../Exchange';
 
@@ -48,37 +49,49 @@ export default function ExchangesList() {
             const userId = authenticationService.currentUserValue.data
                 ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
 
+            console.log('userId Effect', userId);
+            setUserId(userId);
+
             const exchangesData = (await axios.get(`/api/exchangeCycles/${userId}`)).data;
             console.log(exchangesData);
-
             setExchanges(exchangesData);
-            setUserId(userId);
         })();
     }, []);
+
+    const approveExchange = async (get, give, exchangeIndex, exchangePathIndex) => {
+        const approveResult = await axios.post('/api/exchangeCycles/approve', { getId: get.id, giveId: give.id });
+        debugger;
+        const updatedExchanges = exchanges;
+        (updatedExchanges[exchangeIndex])[exchangePathIndex].relationship.isApproved = true;
+        setExchanges(updatedExchanges);
+    };
+
+    const denyExchange = async () => {
+        // const approveResult = await axios.post('/api/exchangeCycles/approve', { getId: get.id, giveId: give.id });
+
+    };
+
 
     return (
         <div>
             <Typography variant="h4" className={classes.title}> Welcome the exchange area</Typography>
             <Typography>Here you can find the exchanges possibilities</Typography>
-            {exchanges.length === 0 ? <div /> : exchanges.map((exchange, index) => (
-                <Exchange
-                    get={
-                        exchange.where((path) => {
-                            path.end.id = 
-                        });
-                        // _.findIndex(exchange, (node) => node.userId === userId) !== -1
-                        //     ? exchange[(_.findIndex(exchange, (node) => node.userId === userId) - 1 + exchange.length) % exchange.length]
-                        //     : null
-                    }
-                    give={
-                        _.findIndex(exchange, (node) => node.userId === userId) !== -1
-                            ? exchange[(_.findIndex(exchange, (node) => node.userId === userId))]
-                            : null
-                    }
-                    index={index}
-                    key={uuid()}
-                />
-            ))}
+            {exchanges.length === 0 || !userId ? <div /> : exchanges.map((exchange, index) => {
+                const exchangePathIndex = _.findIndex(exchange, (path) => path.end.userId === userId);
+                const exchangePath = exchange[exchangePathIndex];
+
+                return (
+                    <Exchange
+                        get={exchangePath.start}
+                        give={exchangePath.end}
+                        relationship={exchangePath.relationship}
+                        approveFunction={() => approveExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
+                        denyFunction={() => denyExchange(exchangePath.start, exchangePath.end)}
+                        index={index}
+                        key={uuid()}
+                    />
+                );
+            })}
         </div>
     );
 }
