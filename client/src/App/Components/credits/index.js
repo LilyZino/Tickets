@@ -13,11 +13,8 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
+import Cards from 'react-credit-cards';
+import 'react-credit-cards/es/styles-compiled.css';
 
 const useStyles = makeStyles((theme) => ({
     userNameText: {
@@ -52,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    column: {
+        float: 'left',
+        margin: '10px'
+    },
 }));
 
 export default function Credits(props) {
@@ -60,11 +61,20 @@ export default function Credits(props) {
     const [openCredits, setopenCredits] = useState(false);
     const [tabValue, setTabValue] = React.useState(0);
     const [amount, setAmount] = React.useState(0);
-    const [selectedDate, setselectedDate] = useState(new Date());
+    const [cvc, setcvc] = useState('');
+    const [expiry, setexpiry] = useState('');
+    const [dateError, setdateError] = useState(false);
+    const [name, setname] = useState('');
+    const [cardnumber, setnumber] = useState('');
 
-    const handleDateChange = (date) => {
-        setselectedDate(date);
-    };
+    let today = new Date();
+    let mm = today.getMonth() + 1;
+    const yy = today.getFullYear().toString().substr(-2);
+    if (mm < 10) {
+        mm = `0${mm}`;
+    }
+
+    today = `${mm}/${yy}`;
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -79,6 +89,20 @@ export default function Credits(props) {
             credits
         });
     };
+
+    function clearNumber(value = '') {
+        return value.replace(/\D+/g, '');
+    }
+
+    function formatExpirationDate(value) {
+        const clearValue = clearNumber(value);
+
+        if (clearValue.length >= 3) {
+            return `${clearValue.slice(0, 2)}/${clearValue.slice(2, 4)}`;
+        }
+
+        return clearValue;
+    }
 
     return (
         <div className={classes.div}>
@@ -120,6 +144,7 @@ export default function Credits(props) {
                                                 margin="normal"
                                                 required
                                                 fullWidth
+                                                type="number"
                                                 id="BankAccount"
                                                 label="Bank account"
                                                 name="BankAccount"
@@ -130,6 +155,8 @@ export default function Credits(props) {
                                                 margin="normal"
                                                 required
                                                 fullWidth
+                                                type="number"
+                                                inputProps={{ min: '100', max: '999', step: '1' }}
                                                 id="BankBranch"
                                                 label="Bank Branch"
                                                 name="BankBranch"
@@ -140,6 +167,8 @@ export default function Credits(props) {
                                                 margin="normal"
                                                 required
                                                 fullWidth
+                                                type="number"
+                                                inputProps={{ min: '10', max: '99', step: '1' }}
                                                 id="BankNumber"
                                                 label="Bank number"
                                                 name="BankNumber"
@@ -150,33 +179,74 @@ export default function Credits(props) {
                                 {tabValue === 0
                                     && (
                                         <div className={classes.div}>
-                                            <TextField
-                                                variant="outlined"
-                                                margin="normal"
-                                                required
-                                                fullWidth
-                                                label="Credit card"
-                                            />
-                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                <KeyboardDatePicker
-                                                    margin="normal"
-                                                    id="date-picker-dialog"
-                                                    label="Expiration date"
-                                                    format="MM/yyyy"
-                                                    value={selectedDate}
-                                                    onChange={handleDateChange}
-                                                    KeyboardButtonProps={{
-                                                        'aria-label': 'change date',
-                                                    }}
+                                            <div className={classes.column}>
+                                                <Cards
+                                                    cvc={cvc}
+                                                    expiry={expiry}
+                                                    name={name}
+                                                    number={cardnumber}
                                                 />
-                                            </MuiPickersUtilsProvider>
-                                            <TextField
-                                                variant="outlined"
-                                                margin="normal"
-                                                required
-                                                fullWidth
-                                                label="CVV"
-                                            />
+                                            </div>
+                                            <Grid className={classes.column}>
+                                                <div>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        margin="normal"
+                                                        required
+                                                        type="number"
+                                                        name="number"
+                                                        value={cardnumber}
+                                                        pattern="[\d| ]{16,22}"
+                                                        placeholder="Card Number"
+                                                        onChange={(event) => {
+                                                            setnumber(event.target.value);
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        margin="normal"
+                                                        required
+                                                        name="name"
+                                                        value={name}
+                                                        type="text"
+                                                        placeholder="Name"
+                                                        onChange={(event) => {
+                                                            setname(event.target.value);
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        margin="normal"
+                                                        required
+                                                        format="MM/yy"
+                                                        value={expiry}
+                                                        placeholder="expiry"
+                                                        onChange={(event) => {
+                                                            setexpiry(formatExpirationDate(event.target.value));
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        margin="normal"
+                                                        required
+                                                        name="cvc"
+                                                        value={cvc}
+                                                        type="number"
+                                                        inputProps={{ min: '100', max: '9999', step: '1' }}
+                                                        pattern="\d{3,4}"
+                                                        placeholder="CVC"
+                                                        onChange={(event) => {
+                                                            if (event.target.value) setcvc(event.target.value);
+                                                        }}
+                                                    />
+                                                </div>
+                                            </Grid>
                                         </div>
                                     )}
                                 <TextField
@@ -187,15 +257,16 @@ export default function Credits(props) {
                                     id="Amount"
                                     label="Amount"
                                     name="Amount"
+                                    type="number"
                                     autoComplete="Amount"
                                     value={amount}
                                     onChange={(event) => {
                                         if (tabValue === 1 && event.target.value > props.Credits) {
                                             setAmount(props.Credits);
-                                        } else {
+                                        }
+                                        if (event.target.value > 0) {
                                             setAmount(event.target.value);
                                         }
-                                        console.log(`${props.Credits} ${event.target.value} ${tabValue}`);
                                     }}
                                 />
                                 <Button
@@ -204,14 +275,42 @@ export default function Credits(props) {
                                     color="primary"
                                     autoFocus
                                     onClick={() => {
-                                        changeCredits(props.uId,
-                                            (tabValue === 0 ? amount : amount * -1));
+                                        if (expiry < today) {
+                                            setdateError(true);
+                                        } else {
+                                            changeCredits(props.uId,
+                                                (tabValue === 0 ? amount : amount * -1));
+                                        }
                                     }}
                                 >
                                     Done
                                 </Button>
                             </Grid>
                         </form>
+                    </div>
+                </Fade>
+            </Modal>
+            <Modal
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                className={classes.modal}
+                open={dateError}
+                onClose={() => setdateError(false)}
+                closeAfterTransition
+            >
+                <Fade in={dateError}>
+                    <div className={classes.paper}>
+                        <Typography variant="h4" className={classes.title}>
+                            Credits failed to update because your card is expired
+                        </Typography>
+                        <Button
+                            className={classes.okButton}
+                            variant="contained"
+                            color="primary"
+                            onClick={() => setdateError(false)}
+                        >
+                            OK
+                        </Button>
                     </div>
                 </Fade>
             </Modal>

@@ -201,8 +201,10 @@ export default function AddConcert() {
                     <div className={classes.paper}>
                         <Typography component="h1" variant="h5" className={classes.error}>
                             We found an event similar to what you entered.
+                            <br />
                             If you wish to add the event anyway, press the ignore button
                         </Typography>
+                        <br />
                         {concertsToSuggest.map((concert) => (
                             <div>
                                 <Typography variant="h4" component="h2">

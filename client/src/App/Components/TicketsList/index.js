@@ -13,7 +13,6 @@ const TicketsList = (props) => {
 
     useEffect(() => {
         const ticketsToRender = filter ? tickets.filter((ticket) => {
-
             if (filter.artist && filter.artist !== '' && !ticket.concert.artist.toLowerCase().includes(filter.artist.toLowerCase())) {
                 return false;
             }
