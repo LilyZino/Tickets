@@ -60,8 +60,7 @@ export default function ExchangesList() {
 
     const approveExchange = async (get, give, exchangeIndex, exchangePathIndex) => {
         const approveResult = await axios.post('/api/exchangeCycles/approve', { getId: get.id, giveId: give.id });
-        debugger;
-        const updatedExchanges = exchanges;
+        const updatedExchanges = [...exchanges];
         (updatedExchanges[exchangeIndex])[exchangePathIndex].relationship.isApproved = true;
         setExchanges(updatedExchanges);
     };
@@ -70,7 +69,6 @@ export default function ExchangesList() {
         // const approveResult = await axios.post('/api/exchangeCycles/approve', { getId: get.id, giveId: give.id });
 
     };
-
 
     return (
         <div>
@@ -84,7 +82,7 @@ export default function ExchangesList() {
                     <Exchange
                         get={exchangePath.start}
                         give={exchangePath.end}
-                        relationship={exchangePath.relationship}
+                        approved={exchangePath.relationship.isApproved}
                         approveFunction={() => approveExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
                         denyFunction={() => denyExchange(exchangePath.start, exchangePath.end)}
                         index={index}

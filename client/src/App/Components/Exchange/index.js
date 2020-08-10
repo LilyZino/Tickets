@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 export default function Exchange(props) {
     const classes = useStyles();
-    const { get, give, relationship, approveFunction, denyFunction, index } = props;
+    const { get, give, approved, approveFunction, denyFunction, index } = props;
 
     return (
         <div>
@@ -45,7 +45,7 @@ export default function Exchange(props) {
                             {`Exchange option #${index + 1}`}
                         </Typography>
                         {
-                            relationship.isApproved
+                            approved
                                 ? <Chip color="secondary" icon={<CheckIcon />} label="You approved this exchange" />
                                 : <></>
                         }
@@ -75,7 +75,7 @@ export default function Exchange(props) {
                     </div>
                 </CardContent>
                 {
-                    !relationship.isApproved
+                    !approved
                         ? (
                             <CardActions>
                                 <IconButton onClick={() => approveFunction()}>
