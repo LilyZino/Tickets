@@ -58,15 +58,15 @@ export default function ExchangesList() {
         })();
     }, []);
 
-    const approveExchange = async (get, give, exchangeIndex, exchangePathIndex) => {
-        const approveResult = await axios.post('/api/exchangeCycles/approve', { getId: get.id, giveId: give.id });
+    const approveExchange = async (exchange, get, give, exchangeIndex, exchangePathIndex) => {
+        const approveResult = await axios.post('/api/exchangeCycles/approve', { exchange, getId: get.id, giveId: give.id });
         const updatedExchanges = [...exchanges];
         (updatedExchanges[exchangeIndex])[exchangePathIndex].relationship.isApproved = true;
         setExchanges(updatedExchanges);
     };
 
     const denyExchange = async (get, give, exchangeIndex, exchangePathIndex) => {
-        const approveResult = await axios.post('/api/exchangeCycles/deny', { getId: get.id, giveId: give.id });
+        const denyResult = await axios.post('/api/exchangeCycles/deny', { getId: get.id, giveId: give.id });
         const updatedExchanges = [...exchanges];
         (updatedExchanges[exchangeIndex])[exchangePathIndex].relationship.isDenied = true;
         setExchanges(updatedExchanges);
@@ -89,7 +89,7 @@ export default function ExchangesList() {
                             isDenied: exchange.some((path) => path.relationship.isDenied),
                             deniedByUser: exchangePath.relationship.isDenied
                         }}
-                        approveFunction={() => approveExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
+                        approveFunction={() => approveExchange(exchange, exchangePath.start, exchangePath.end, index, exchangePathIndex)}
                         denyFunction={() => denyExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
                         index={index}
                         unApprovedCount={exchange.filter((path) => path.relationship.isApproved !== true).length}

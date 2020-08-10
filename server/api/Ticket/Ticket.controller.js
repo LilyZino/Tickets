@@ -2,7 +2,8 @@
 import Ticket from './Ticket.model';
 import User from '../User/user.model';
 import { informTicketsUpdated } from '../../config/sockets';
-import { sendConfirmationMail, sendConfirmationOfSaleMail } from '../MailAuth/MailAuth.service';
+
+import { purchaseTicket } from '../../common/tickets';
 
 export const getAllTickets = async (req, res) => {
     try {
@@ -57,72 +58,7 @@ export const editTicket = async (req, res) => {
 
 export const buyTicket = async (req, res) => {
     const { _id, sold, seller, userId, newcredit, totalPrice } = req.body;
-    await Ticket.find().where('_id').equals(_id).populate('concert')
-        .then(result => {
-            if (result) {
-                func(result[0]);
-            }
-        });
-    async function func(ticket) {
-        try {
-            const user = await User.findById(seller);
-            const buyer = await User.findById(userId);
-            if (user) {
-                await sendConfirmationOfSaleMail(
-                    user.email,
-                    user.name,
-                    ticket.concert.artist,
-                    ticket.concert.time,
-                    sold,
-                    totalPrice,
-                    buyer.name
-                );
-            }
-            if (buyer) {
-                await sendConfirmationMail(
-                    buyer.email,
-                    buyer.name,
-                    ticket.concert.artist,
-                    ticket.concert.time,
-                    ticket.concert.location,
-                    totalPrice,
-                    sold
-                );
-            }
-        } catch (error) {
-            console.error(error.message);
-            res.status(500).json({ msg: 'Server Error' });
-        }
-    }
-    await User.findByIdAndUpdate(
-        userId,
-        {
-            $push: {
-                purchases: {
-                    _id
-                }
-            },
-            $set: {
-                credits: newcredit
-            }
-        }
-    );
-    await User.updateOne(
-        { _id: seller },
-        {
-            $inc: {
-                credits: totalPrice
-            }
-        }
-    );
-    return Ticket.updateOne(
-        { _id },
-        {
-            $set: {
-                sold
-            }
-        }
-    );
+    await purchaseTicket(_id, sold, seller, userId, newcredit, totalPrice);
 };
 
 export const getTicket = async (req, res) => {

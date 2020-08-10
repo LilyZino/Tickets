@@ -1,10 +1,9 @@
 import { driver } from '../../config/neo4j';
 import Ticket from '../Ticket/Ticket.model';
+import { purchaseTicket } from '../../common/tickets';
 
-export const getExchangeCycles = async (req, res) => {
+const getCycles = async (req, res) => {
     const session = driver.session();
-
-    console.log(req.params.userId);
     try {
         const result = await session.run(
             `MATCH p=(n)-[*1..4]->(n)
@@ -13,23 +12,15 @@ export const getExchangeCycles = async (req, res) => {
             { userId: req.params.userId }
         );
 
-        // const result = await session.run(
-        //     `MATCH p=(n)-[*1..4]->(n)
-        //     return nodes(p)`,
-        //     { userId: req.params.userId }
-        // );
-
         if (result.records.length === 0) {
             res.send([]);
         } else {
             const cycles = result.records;
 
             cycles.forEach((item, index) => {
-                // cycles.splice(index + 1, item._fields[0].segments.length - 1);
                 cycles.splice(index + 1, item._fields[0].length - 1);
             });
 
-            // console.log(cycles._fields.flat());
             const formatedCycles = cycles.map((cycle) => {
                 const formatedCycle = (cycle._fields.flat().map((node) => {
                     return { ...node.properties };
@@ -65,13 +56,21 @@ export const getExchangeCycles = async (req, res) => {
                 cyclesPath.push(currentPath);
             }));
 
-            res.send(cyclesPath);
+            return (cyclesPath);
         }
+    } finally {
+        await session.close();
+    }
+};
+
+export const getExchangeCycles = async (req, res) => {
+    try {
+        const exchanges = await getCycles(req, res);
+
+        res.send(exchanges);
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
-    } finally {
-        await session.close();
     }
 };
 
@@ -116,12 +115,22 @@ export const addTicket = async (req, res) => {
 };
 
 export const approveExchange = async (req, res) => {
+    const { exchange, getId, giveId } = req.body;
     const session = driver.session();
     try {
         const approveExchangeResult = await session.run(
-            `MATCH (a {id:"${req.body.getId}"})-[r]-(b {id:"${req.body.giveId}"})
+            `MATCH (a {id:"${getId}"})-[r]-(b {id:"${giveId}"})
             SET r.isApproved = true`
         );
+
+        if (exchange.every((path) => path.relationship.isApproved)) {
+
+            // TODO: run purchaseTicket for every path
+            // also balance credits
+            // await purchaseTicket(purchaseTicketId, ticketsAmount, sellerId, buyerId)
+            // Todo: finish the exchange
+            // Todo: remove all nodes from graph
+        }
 
         res.send('exchange was approved successfully');
     } catch (err) {
@@ -148,3 +157,4 @@ export const denyExchange = async (req, res) => {
         session.close();
     }
 };
+
