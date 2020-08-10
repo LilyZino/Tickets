@@ -155,12 +155,12 @@ export default function AddTicketFade(props) {
                                 }}
                             />
                         </Collapse>
-                        <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+                        <Button className={classes.submitBtn} type="submit" variant="contained" color="secondary" onClick={handleSubmit}>
                             {AddMode ? 'Add Ticket' : 'Edit Ticket'}
                         </Button>
                     </Grid>
                 </form>
             </Fade>
-        </Modal >
+        </Modal>
     );
 }

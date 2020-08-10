@@ -28,15 +28,13 @@ import { authenticationService } from '../../_services';
 const useStyles = makeStyles((theme) => ({
     card: {
         minWidth: 275,
-        marginTop: 15
+        marginTop: 15,
+        backgroundColor: '#fbfbfb'
     },
     bullet: {
         display: 'inline-block',
         margin: '0 2px',
         transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
     },
     pos: {
         marginBottom: 12,

@@ -40,7 +40,7 @@ export default function Search(props) {
                 value={enteredTitle}
                 onChange={(event) => setEnteredTitle(event.target.value)}
             />
-            <Button variant="contained" color="primary" onClick={setSearchFilter}>Search</Button>
+            <Button variant="outlined" color="primary" onClick={setSearchFilter}>Search</Button>
         </div>
     );
 }
