@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Video from '../../../Assets/Vids/tomorrowland.mp4';
 
 const useStyles = makeStyles(() => ({
     columns: {
@@ -13,6 +12,10 @@ const useStyles = makeStyles(() => ({
         marginTop: '20px',
         flexDirection: 'column',
         alignItems: 'center'
+    },
+    title: {
+        marginTop: 10,
+        textAlign: 'center'
     }
 }));
 
@@ -21,38 +24,16 @@ export default function About() {
 
     return (
         <div>
-            <div id="videoDiv">
-                <div id="videoBlock">
-                    <video id="video" autoPlay loop muted>
-                        <source src={Video} type="video/mp4" />
-                    </video>
-                </div>
-                <div id="videoMessage">
-                    <h1>
-                        <span>
-                            Life is built on memories
-                            <br />
-                            Find your show today
-                        </span>
-                    </h1>
-                </div>
+            <div className={classes.title}>
+                <Typography component="h3" variant="h2">About us</Typography>
             </div>
-            <section>
-                <Typography component="h2" variant="h2">About us</Typography>
-                <div className={classes.columns}>
-                    <Typography>
-                        We believe that no ticket should ever go to waste.
-                    </Typography>
-                    <Typography>
-                        This is why we created the best platform for people to sell
-                        their unwanted tickets and for others to buy the tickets to
-                        their favorites.
-                    </Typography>
-                    <Typography>
-                        Our goal is to provide the best platform for selling and purchasing second hand concerts tickets
-                    </Typography>
-                </div>
-            </section>
+            <Typography>
+                We believe that no ticket should ever go to waste.
+                This is why we created the best platform for people to sell
+                their unwanted tickets and for others to buy the tickets to
+                their favorites.
+                Our goal is to provide the best platform for selling and purchasing second hand concerts tickets
+                </Typography>
             <aside className={classes.twiterFeed}>
                 <a href="https://twitter.com/intent/tweet?screen_name=Tickets" className="twitter-mention-button" data-show-count="false">Tweet to FriendForYou</a>
                 <br />

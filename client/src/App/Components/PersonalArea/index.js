@@ -8,6 +8,9 @@ import TicketsFeed from '../TicketsFeed';
 const useStyles = makeStyles({
     title: {
         marginTop: '10px'
+    },
+    center: {
+        textAlign: 'center'
     }
 });
 
@@ -31,8 +34,10 @@ export default function PersonalArea() {
 
     return (
         <div>
-            <Typography variant="h4" className={classes.title}> Welcome to your personal area</Typography>
-            <Typography>Here you can find the {ticketsCount} concert, you putted up tickets for sale</Typography>
+            <div className={classes.center}>
+                <Typography variant="h3" className={classes.title}>Personal Area</Typography>
+                <Typography>Here you can find the {ticketsCount} concert, you putted up tickets for sale</Typography>
+            </div>
             <TicketsFeed tickets={tickets} isMine />
         </div>
     );

@@ -12,6 +12,9 @@ const useStyles = makeStyles({
     },
     error: {
         textAlign: 'center'
+    },
+    center: {
+        textAlign: 'center'
     }
 });
 
@@ -66,8 +69,10 @@ export default function Recommendations() {
             {concertsToShow.length !== 0
                 && (
                     <div>
-                        <Typography variant="h4" className={classes.title}>Recommended for you</Typography>
-                        <Typography>Here are some concerts we think you might be interested in</Typography>
+                        <div className={classes.center}>
+                            <Typography variant="h3" className={classes.title}>Recommended For You</Typography>
+                            <Typography>Here are some concerts we think you might be interested in</Typography>
+                        </div>
                         <ConcertsList filter={filter} concerts={concertsToShow} />
                     </div>
                 )}
