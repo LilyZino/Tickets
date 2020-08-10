@@ -117,6 +117,8 @@ export default function AddTicketFade(props) {
                             </Select>
                         </FormControl>
                         <TextField
+                            type="number"
+                            inputProps={{ min: '1', max: '10', step: '1' }}
                             label="Amount"
                             value={enteredAmount}
                             onChange={(event) => {
@@ -149,7 +151,7 @@ export default function AddTicketFade(props) {
                                 type="file"
                                 multiple=""
                                 name="MyFile"
-                                accept="image/png, image/jpeg"
+                                accept="image/png, image/jpeg, application/pdf"
                                 onChange={(event) => {
                                     setEnteredFile(event.target.files[0]);
                                 }}
