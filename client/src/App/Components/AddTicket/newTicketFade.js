@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Collapse from '@material-ui/core/Collapse';
+import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
@@ -99,20 +100,22 @@ export default function AddTicketFade(props) {
             <Fade in={open} className={classes.paper}>
                 <form noValidate autoComplete="off">
                     <Grid className={classes.form}>
-                        <InputLabel id="concertLabel">Concert</InputLabel>
-                        <Select
-                            labelId="concertLabel"
-                            label="Concert"
-                            id="concert"
-                            value={enteredConcert}
-                            onChange={(event) => { setEnteredConcert(event.target.value); }}
-                        >
-                            {concerts.filter(concert => !concert.isDeleted).map((concert) => (
-                                <MenuItem key={concert._id} value={concert._id}>
-                                    {`${concert.artist} - ${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
-                                </MenuItem>
-                            ))}
-                        </Select>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="concertLabel">Concert</InputLabel>
+                            <Select
+                                labelId="concertLabel"
+                                label="Concert"
+                                id="concert"
+                                value={enteredConcert}
+                                onChange={(event) => { setEnteredConcert(event.target.value); }}
+                            >
+                                {concerts.filter(concert => !concert.isDeleted).map((concert) => (
+                                    <MenuItem key={concert._id} value={concert._id}>
+                                        {`${concert.artist} - ${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                         <TextField
                             label="Amount"
                             value={enteredAmount}
