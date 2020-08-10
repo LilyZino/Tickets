@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 export default function Exchange(props) {
     const classes = useStyles();
-    const { get, give, approved, approveFunction, denyFunction, index, unApprovedCount } = props;
+    const { get, give, approved, denied, approveFunction, denyFunction, index, unApprovedCount } = props;
 
     return (
         <div>
@@ -45,9 +45,21 @@ export default function Exchange(props) {
                             {`Exchange option #${index + 1}`}
                         </Typography>
                         {
-                            approved
-                                ? <Chip color="secondary" icon={<CheckIcon />} label="You approved this exchange" />
-                                : <></>
+                            denied && denied.isDenied
+                                ? (
+                                    <Chip
+                                        color="primary"
+                                        icon={<BlockIcon />}
+                                        label={denied.deniedByUser
+                                            ? 'You denied this exchange'
+                                            : 'Someone else denied this exchange'}
+                                    />
+                                )
+                                : (
+                                    approved
+                                        ? <Chip color="secondary" icon={<CheckIcon />} label="You approved this exchange" />
+                                        : <></>
+                                )
                         }
                     </div>
                     <div>
@@ -73,7 +85,7 @@ export default function Exchange(props) {
                             }
                         </Typography>
                         {
-                            approved
+                            approved && !denied.isDenied
                                 ? (
                                     <Typography variant="h5" className={classes.optionTitle}>
                                         you need to wait for {unApprovedCount} other users to approve the exchange
@@ -83,8 +95,10 @@ export default function Exchange(props) {
                         }
                     </div>
                 </CardContent>
+                {console.log(approved)}
+                {console.log(denied)}
                 {
-                    !approved
+                    !(approved || (denied && denied.isDenied))
                         ? (
                             <CardActions>
                                 <IconButton onClick={() => approveFunction()}>

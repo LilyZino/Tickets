@@ -131,3 +131,20 @@ export const approveExchange = async (req, res) => {
         session.close();
     }
 };
+
+export const denyExchange = async (req, res) => {
+    const session = driver.session();
+    try {
+        const approveExchangeResult = await session.run(
+            `MATCH (a {id:"${req.body.getId}"})-[r]-(b {id:"${req.body.giveId}"})
+            SET r.isDenied = true`
+        );
+
+        res.send('exchange was denied successfully');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    } finally {
+        session.close();
+    }
+};
