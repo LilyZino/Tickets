@@ -127,7 +127,7 @@ export const approveExchange = async (req, res) => {
 
             // TODO: run purchaseTicket for every path
             // also balance credits
-            // await purchaseTicket(purchaseTicketId, ticketsAmount, sellerId, buyerId)
+            // await purchaseTicket(purchasedTicketId, ticketsAmount, sellerId, buyerId)
             // Todo: finish the exchange
             // Todo: remove all nodes from graph
         }
