@@ -151,7 +151,6 @@ export default function Ticket(props) {
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
             <CardContent className={classes.cardContent}>
                 <div>
-
                     <Typography variant="h5" component="h2">
                         {concert.artist}
                     </Typography>
