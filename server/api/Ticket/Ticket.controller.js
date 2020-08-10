@@ -106,7 +106,7 @@ export const buyTicket = async (req, res) => {
 
         // mark ticket as sold
         await Ticket.updateOne(
-            { ticketId },
+            { _id: ticketId },
             {
                 $set: {
                     isSold: true
