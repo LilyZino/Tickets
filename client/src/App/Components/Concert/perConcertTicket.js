@@ -144,7 +144,7 @@ export default (props) => {
             <Button
                 className={classes.submitBtn}
                 type="submit"
-                color="primary"
+                color="secondary"
                 onClick={handleOpen}
             >
                 Buy
