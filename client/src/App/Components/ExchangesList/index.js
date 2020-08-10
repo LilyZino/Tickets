@@ -86,6 +86,7 @@ export default function ExchangesList() {
                         approveFunction={() => approveExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
                         denyFunction={() => denyExchange(exchangePath.start, exchangePath.end)}
                         index={index}
+                        unApprovedCount={exchange.filter((path) => path.relationship.isApproved !== true).length}
                         key={uuid()}
                     />
                 );

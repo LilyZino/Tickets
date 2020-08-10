@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 export default function Exchange(props) {
     const classes = useStyles();
-    const { get, give, approved, approveFunction, denyFunction, index } = props;
+    const { get, give, approved, approveFunction, denyFunction, index, unApprovedCount } = props;
 
     return (
         <div>
@@ -72,6 +72,15 @@ export default function Exchange(props) {
                                     : null
                             }
                         </Typography>
+                        {
+                            approved
+                                ? (
+                                    <Typography variant="h5" className={classes.optionTitle}>
+                                        you need to wait for {unApprovedCount} other users to approve the exchange
+                                    </Typography>
+                                )
+                                : <></>
+                        }
                     </div>
                 </CardContent>
                 {
