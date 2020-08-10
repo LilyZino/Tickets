@@ -38,6 +38,12 @@ export const addUser = async (req, res) => {
             .status(400)
             .json({ msg: 'Please enter phone' });
     }
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false) {
+        console.log('invalid');
+        return res
+            .status(400)
+            .json({ msg: 'email is invalid' });
+    }
 
     try {
         let user = await User.findOne({ name });
