@@ -59,6 +59,7 @@ export default function AddConcertFade(props) {
     const { open, handleClose, enteredArtist, setEnteredArtist, AddMode, enteredTime, setEnteredTime, enteredLocation, setEnteredLocation, enteredGenre, setEnteredGenre, handleSubmit } = props;
 
     const classes = useStyles();
+    const dateToday = new Date();
 
     return (
         <Modal
@@ -89,6 +90,7 @@ export default function AddConcertFade(props) {
                                     <DateTimePicker
                                         autoOk
                                         ampm={false}
+                                        minDate={dateToday}
                                         value={enteredTime}
                                         onChange={setEnteredTime}
                                     />
