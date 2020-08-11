@@ -128,6 +128,8 @@ export default function AddTicketFade(props) {
                         <TextField
                             label="Description"
                             value={enteredDesc}
+                            multiline
+                            rows={4}
                             onChange={(event) => {
                                 setEnteredDesc(event.target.value);
                             }}

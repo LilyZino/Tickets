@@ -52,6 +52,14 @@ const userSchema = new Schema({
             type: Number,
             default: 0
         }
+    }],
+    reports: [{
+        complaint: {
+            type: String,
+        },
+        byUser: {
+            type: String,
+        }
     }]
 });
 

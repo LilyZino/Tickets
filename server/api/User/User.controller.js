@@ -266,3 +266,29 @@ export const getUserPurchases = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+export const reportUser = async (req, res) => {
+    try {
+        const { ReportComplaint, target, userName } = req.body;
+        const report = ReportComplaint.toString();
+        const complainer = userName.toString();
+
+        await User.findByIdAndUpdate(
+            target,
+            {
+                $push: {
+                    reports: {
+                        complaint:
+                            report,
+                        byUser:
+                            complainer
+                    }
+                }
+            }
+        );
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+};

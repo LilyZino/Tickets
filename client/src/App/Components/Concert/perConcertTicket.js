@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import BuyTicketFade from './buyTicketFade';
+import ReportFade from '../Report';
 import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,10 +19,6 @@ const useStyles = makeStyles((theme) => ({
     },
     okButton: {
         marginTop: '20px'
-    },
-    userNameText: {
-        float: 'left',
-        margin: '0.3em',
     },
     modal: {
         display: 'flex',
@@ -65,7 +62,16 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    userNameText: {
+        float: 'left',
+        margin: '0.3em',
+        marginTop: '5%',
+        textAlign: 'center',
+        '&:hover': {
+            textDecoration: 'underline'
+        }
+    },
 }));
 
 export default (props) => {
@@ -75,6 +81,7 @@ export default (props) => {
     const [userCredits, setuserCredits] = useState('');
     const [openAfterPurchaseMessage, setOpenAfterPurchaseMessage] = useState(false);
     const [PurchaseFailedMessage, setPurchaseFailedMessage] = useState(false);
+    const [openUser, setOpenUser] = useState(false);
 
     useEffect(() => {
         const GetCredits = async () => {
@@ -126,16 +133,16 @@ export default (props) => {
             {ticket.description
                 ? (
                     <ListItemText
+                        onClick={() => { setOpenUser(true); }}
                         primary={`${ticket.amount} Tickets. Description: ${ticket.description}`}
-                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, 
-            Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
+                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}`}
                     />
                 )
                 : (
                     <ListItemText
+                        onClick={() => { setOpenUser(true); }}
                         primary={`${ticket.amount} Tickets`}
-                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, 
-                            Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
+                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}`}
                     />
                 )}
             <Typography>
@@ -154,6 +161,13 @@ export default (props) => {
                 concert={concert}
                 amount={ticket.amount}
                 price={ticket.price}
+                buyTicket={buyTicket}
+                handleClose={handleClose}
+            />
+            <ReportFade
+                openUser={openUser}
+                setOpenUser={setOpenUser}
+                ticket={ticket}
                 buyTicket={buyTicket}
                 handleClose={handleClose}
             />
