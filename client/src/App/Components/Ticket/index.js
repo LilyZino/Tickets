@@ -81,7 +81,7 @@ export default function Ticket(props) {
     const { token } = authenticationService.currentUserValue.data;
     const userId = authenticationService.currentUserValue.data
         ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-    const handleSubmit = async () => {
+    const editTicket = async () => {
         await axios.post('/api/tickets', {
             _id: id,
             concertId: enteredConcert,
@@ -154,7 +154,7 @@ export default function Ticket(props) {
                     setEnteredConcert={setEnteredConcert}
                     enteredFile={enteredFile}
                     setEnteredFile={setEnteredFile}
-                    handleSubmit={handleSubmit}
+                    handleSubmit={editTicket}
                     handleClose={() => setOpen(false)}
                 />
 

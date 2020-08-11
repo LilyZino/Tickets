@@ -63,7 +63,7 @@ export default function AddTicket() {
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredDesc, setEnteredDesc] = useState('');
     const [file, setEnteredFile] = useState('');
-    const [isTicketPhysical, setTicketPhysical] = useState(false);
+    const [isTicketPhysical, setTicketPhysical] = useState(true);
 
     const handleOpen = () => {
         if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
@@ -83,6 +83,7 @@ export default function AddTicket() {
         if (!isTicketPhysical) {
             formData.append('file', file, file.name);
         }
+
         formData.append('concertId', enteredConcert);
         formData.append('price', enteredPrice);
         formData.append('amount', enteredAmount);

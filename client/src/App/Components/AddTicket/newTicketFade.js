@@ -63,17 +63,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddTicketFade(props) {
-    const { open, handleClose, enteredConcert, enteredPrice, AddMode, enteredAmount, enteredDesc, setEnteredDesc, setEnteredFile, setEnteredConcert, handleSubmit } = props;
+    const { open, handleClose, enteredConcert, enteredPrice, AddMode, enteredAmount, enteredDesc, setEnteredDesc, setEnteredFile, isTicketPhysical, setTicketPhysical, setEnteredConcert, handleSubmit } = props;
 
     const classes = useStyles();
     const [concerts, setConcerts] = useState([]);
     const [expanded, setExpanded] = useState(false);
-    const [isTicketPhysical, setTicketPhysical] = useState(false);
 
     const handleExpandClick = () => {
-        console.log('toggle');
         setTicketPhysical(!isTicketPhysical);
-        console.log(isTicketPhysical);
         setExpanded(!expanded);
     };
 
@@ -140,7 +137,7 @@ export default function AddTicketFade(props) {
                             }}
                         />
                         <FormControlLabel
-                            control={<Switch checked={isTicketPhysical} onChange={handleExpandClick} name="Digital Ticket" />}
+                            control={<Switch checked={!isTicketPhysical} onChange={handleExpandClick} name="Digital Ticket" />}
                             label="Digital Ticket"
                         />
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
