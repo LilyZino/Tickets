@@ -35,41 +35,6 @@ export const addTicket = async (req, res) => {
     }
 };
 
-export const addTicket2 = async (req, res) => {
-    try {
-        let newTicket;
-        if (req.files[0]) {
-            newTicket = new Ticket({
-                user: req.body.userId,
-                concert: req.body.concertId,
-                price: req.body.price,
-                amount: req.body.amount,
-                file: req.files[0].filename,
-                description: req.body.desc,
-                isPhysical: false
-            });
-        } else {
-            newTicket = new Ticket({
-                user: req.body.userId,
-                concert: req.body.concertId,
-                price: req.body.price,
-                amount: req.body.amount,
-                description: req.body.desc,
-                isPhysical: true
-            });
-        }
-
-        const ticket = await newTicket.save();
-
-        informTicketsUpdated();
-
-        res.json(ticket);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-};
-
 export const editTicket = async (req, res) => {
     return Ticket.updateOne(
         { _id: req.body._id }, // <-- find stage
