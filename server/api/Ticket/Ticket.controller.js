@@ -16,32 +16,18 @@ export const getAllTickets = async (req, res) => {
 
 export const addTicket = async (req, res) => {
     try {
-        let newTicket;
-        if (req.files[0]) {
-            newTicket = new Ticket({
-                user: req.body.userId,
-                concert: req.body.concertId,
-                price: req.body.price,
-                amount: req.body.amount,
-                file: req.files[0].filename,
-                description: req.body.desc,
-                isPhysical: false
-            });
-        } else {
-            newTicket = new Ticket({
-                user: req.body.userId,
-                concert: req.body.concertId,
-                price: req.body.price,
-                amount: req.body.amount,
-                description: req.body.desc,
-                isPhysical: true
-            });
-        }
+        const newTicket = new Ticket({
+            user: req.body.userId,
+            concert: req.body.concertId,
+            price: req.body.price,
+            amount: req.body.amount,
+            file: req.files[0] ? req.files[0].filename : '',
+            description: req.body.desc,
+            isPhysical: req.body.isPhysical
+        });
 
         const ticket = await newTicket.save();
-
         informTicketsUpdated();
-
         res.json(ticket);
     } catch (err) {
         console.error(err.message);
@@ -50,6 +36,8 @@ export const addTicket = async (req, res) => {
 };
 
 export const editTicket = async (req, res) => {
+    console.log(req);
+
     return Ticket.updateOne(
         { _id: req.body._id }, // <-- find stage
         {
@@ -59,7 +47,9 @@ export const editTicket = async (req, res) => {
                 concert: req.body.concertId,
                 price: req.body.price,
                 amount: req.body.amount,
-                description: req.body.desc
+                description: req.body.desc,
+                file: req.files[0] ? req.files[0].filename : '',
+                isPhysical: req.body.isPhysical
             }
         }
     ).then(() => {
