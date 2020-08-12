@@ -36,6 +36,8 @@ export const addTicket = async (req, res) => {
 };
 
 export const editTicket = async (req, res) => {
+    console.log(req);
+
     return Ticket.updateOne(
         { _id: req.body._id }, // <-- find stage
         {
@@ -45,7 +47,9 @@ export const editTicket = async (req, res) => {
                 concert: req.body.concertId,
                 price: req.body.price,
                 amount: req.body.amount,
-                description: req.body.desc
+                description: req.body.desc,
+                file: req.files[0] ? req.files[0].filename : '',
+                isPhysical: req.body.isPhysical
             }
         }
     ).then(() => {

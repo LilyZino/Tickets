@@ -56,6 +56,7 @@ const TicketsList = (props) => {
                         file={ticket.file}
                         isSold={ticket.isSold}
                         onDelete={handleDelete}
+                        isPhysical={ticket.isPhysical}
                     />
                 ))) : (
                     filteredTickets.map((ticket) => (

@@ -70,9 +70,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Ticket(props) {
     const classes = useStyles();
-    const { id, price, amount, concert, desc, file, onDelete, isSold } = props;
+    const { id, price, amount, concert, desc, file, onDelete, isSold, isPhysical } = props;
     const [open, setOpen] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
+    const [isTicketPhysical, setIsTicketPhysical] = useState(isPhysical);
     const [enteredConcert, setEnteredConcert] = useState(concert._id);
     const [enteredPrice, setEnteredPrice] = useState(price);
     const [enteredAmount, setEnteredAmount] = useState(amount);
@@ -81,16 +82,27 @@ export default function Ticket(props) {
     const { token } = authenticationService.currentUserValue.data;
     const userId = authenticationService.currentUserValue.data
         ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+
     const editTicket = async () => {
-        await axios.post('/api/tickets', {
-            _id: id,
-            concertId: enteredConcert,
-            price: enteredPrice,
-            amount: enteredAmount,
-            desc: enteredDesc,
-            file: enteredFile,
-            userId
-        }, { headers: { Authorization: `Bearer ${token}` } });
+        const formData = new FormData();
+
+        if (!isTicketPhysical) {
+            formData.append('file', enteredFile, enteredFile.name);
+        }
+
+        formData.append('_id', id);
+        formData.append('concertId', enteredConcert);
+        formData.append('price', enteredPrice);
+        formData.append('amount', enteredAmount);
+        formData.append('userId', userId);
+        formData.append('isPhysical', isTicketPhysical);
+        formData.append('desc', enteredDesc);
+
+        await axios.post('api/tickets/', formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
     };
 
     return (
@@ -154,6 +166,8 @@ export default function Ticket(props) {
                     setEnteredConcert={setEnteredConcert}
                     enteredFile={enteredFile}
                     setEnteredFile={setEnteredFile}
+                    isTicketPhysical={isTicketPhysical}
+                    setIsTicketPhysical={setIsTicketPhysical}
                     handleSubmit={editTicket}
                     handleClose={() => setOpen(false)}
                 />

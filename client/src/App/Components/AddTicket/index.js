@@ -63,7 +63,7 @@ export default function AddTicket() {
     const [enteredAmount, setEnteredAmount] = useState('');
     const [enteredDesc, setEnteredDesc] = useState('');
     const [file, setEnteredFile] = useState('');
-    const [isTicketPhysical, setTicketPhysical] = useState(true);
+    const [isTicketPhysical, setIsTicketPhysical] = useState(true);
 
     const handleOpen = () => {
         if (authenticationService.currentUserValue) { setOpen(true); } else { setLogin(true); }
@@ -115,7 +115,7 @@ export default function AddTicket() {
                 enteredDesc={enteredDesc}
                 setEnteredDesc={setEnteredDesc}
                 isTicketPhysical={isTicketPhysical}
-                setTicketPhysical={setTicketPhysical}
+                setIsTicketPhysical={setIsTicketPhysical}
                 ticketFile={file}
                 setEnteredFile={setEnteredFile}
                 handleSubmit={handleSubmit}
