@@ -5,36 +5,16 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     card: {
         minWidth: 275,
         marginTop: 15,
     },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
-    price: {
-        fontSize: '2rem',
-        marginRight: '15px'
+    sideDiv: {
+        float: 'right',
+        margin: '10px'
     },
     cardContent: {
         display: 'flex',
@@ -46,32 +26,41 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Report(props) {
     const classes = useStyles();
-    const { name, reports, reporter } = props;
+    const { name, complaint, byUser, _id } = props;
+
+    const solveReport = async (target) => {
+        await axios.post('/api/users/remove_report', {
+            object: { _id, complaint, byUser },
+            target
+        });
+    };
 
     return (
         <Card className={classes.card} elavation="2">
             <div className={classes.cardContent}>
                 <CardContent>
                     <Typography variant="h5" component="h2">
-                        {name} was reported by {reporter}
+                        <b>{name}</b> was reported by {byUser}
                     </Typography>
                     <Typography>
-                        {reports}
+                        {complaint}
                     </Typography>
                 </CardContent>
             </div>
-            <CardActions>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => {
-                    }}
-                >
+            <div className={classes.sideDiv}>
+                <CardActions>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => {
+                            solveReport(name);
+                        }}
+                    >
                     Mark as solved
-                </Button>
-
-            </CardActions>
+                    </Button>
+                </CardActions>
+            </div>
         </Card>
     );
 }

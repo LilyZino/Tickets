@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import User from './user.model';
 import Ticket from '../Ticket/Ticket.model';
 import { sendAuthenticationMail } from '../MailAuth/MailAuth.service';
+import { informReportsUpdated } from '../../config/sockets';
 
 const jwt = require('jsonwebtoken');
 
@@ -286,6 +287,33 @@ export const reportUser = async (req, res) => {
                 }
             }
         );
+        informReportsUpdated();
+    } catch (err) {
+        console.error(err.message);
+
+        res.status(500).send('Server Error');
+    }
+};
+
+export const removeReport = async (req, res) => {
+    try {
+        const { object, target } = req.body;
+        let userId = {};
+        await User.find().where('name').equals(target).then((user) => {
+            userId = user[0]._id;
+        });
+
+        await User.updateOne(
+            {
+                _id: userId
+            },
+            {
+                $pullAll: {
+                    reports: [object]
+                }
+            }
+        );
+        informReportsUpdated();
     } catch (err) {
         console.error(err.message);
 

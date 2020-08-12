@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         transform: 'scale(0.8)',
     },
     title: {
-        fontSize: 14,
+        fontSize: 20,
         textAlign: 'center'
     },
     pos: {
@@ -78,8 +78,6 @@ export default (props) => {
     const handleReport = async (ReportComplaint, target) => {
         const userName = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data.name : authenticationService.currentUserValue._id;
-        console.log(authenticationService.currentUserValue.data.name);
-        console.log(authenticationService.currentUserValue._id);
 
         await axios.post('/api/users/report', {
             ReportComplaint,
@@ -100,15 +98,16 @@ export default (props) => {
             >
                 <Fade in={openUser}>
                     <div className={classes.paper}>
-                        <Typography variant="h2" className={classes.title}>
+                        <Typography variant="h3" className={classes.title}>
                             {ticket.user.name}
                         </Typography>
-                        <Typography variant="h3" className={classes.title}>
+                        <Typography variant="h2" className={classes.title}>
                             Rank: {ticket.user.rank}
                         </Typography>
-                        <Typography variant="h4" className={classes.title}>
-                            Phone: {ticket.user.phone}, Mail: {ticket.user.email}`
+                        <Typography variant="h2" className={classes.title}>
+                            Phone: {ticket.user.phone}, Mail: {ticket.user.email}
                         </Typography>
+                        <br />
                         <Button
                             fullWidth
                             variant="contained"
@@ -145,10 +144,10 @@ export default (props) => {
             >
                 <Fade in={openReport}>
                     <div className={classes.paper}>
-                        <Typography variant="h1" className={classes.title}>
-                            You wish to report {ticket.user.name}
+                        <Typography variant="h3" className={classes.title}>
+                            You are reporting <b>{ticket.user.name}</b>
                         </Typography>
-                        <Typography variant="h1" className={classes.title}>
+                        <Typography variant="h3" className={classes.title}>
                             Please explain your complaint and the Admin will take it into consideration
                         </Typography>
                         <TextField

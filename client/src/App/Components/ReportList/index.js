@@ -3,6 +3,7 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Report from './report';
+import { registerSocketEvent, initSockets } from '../../_services/socketService';
 
 const useStyles = makeStyles(() => ({
     table: {
@@ -21,7 +22,7 @@ const ReportList = () => {
     const [newreports, setnewreports] = useState([[]]);
 
     useEffect(() => {
-        const getUsers = async () => {
+        const getReports = async () => {
             const response = await axios.get('/api/users/');
             setUsers(response.data);
             users.forEach((user) => {
@@ -29,13 +30,17 @@ const ReportList = () => {
                     reports.push({ ...{ name: user.name, report: user.reports } });
                     setnewreports(reports.map((x) => (
                         x.report.map((r) => (
-                            { name: x.name, complaint: r.complaint, by: r.byUser })))));
+                            { name: x.name, complaint: r.complaint, by: r.byUser, _id: r._id })))));
                 }
             });
         };
         if (reports.length === 0) {
-            getUsers();
+            getReports();
         }
+        initSockets();
+        registerSocketEvent('reports-updated', () => {
+            getReports();
+        });
     }, [newreports, reports, users]);
 
     return (
@@ -46,8 +51,9 @@ const ReportList = () => {
             {newreports[0].map((x) => (
                 <Report
                     name={x.name}
-                    reports={x.complaint}
-                    reporter={x.by}
+                    complaint={x.complaint}
+                    byUser={x.by}
+                    _id={x._id}
                 />
             ))}
         </div>
