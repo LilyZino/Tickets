@@ -9,6 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
 import AttachMoney from '@material-ui/icons/AttachMoney';
 import PeopleIcon from '@material-ui/icons/People';
+import ReportIcon from '@material-ui/icons/Report';
 import EditIcon from '@material-ui/icons/Edit';
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
@@ -36,6 +37,7 @@ import AddConcert from './Components/AddConcert';
 import Charts from './Components/Charts';
 import Recommendations from './Components/Recommendations';
 import UsersList from './Components/UsersList';
+import ReportList from './Components/ReportList';
 import Purchases from './Components/Purchases';
 
 const useStyles = makeStyles(() => ({
@@ -90,6 +92,8 @@ export default function () {
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/users" primary="Users" icon={<PeopleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
+                                && <ListItemLink to="/reports" primary="Reports" icon={<ReportIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/edit-concerts" primary="Edit Concerts" icon={<EditIcon />} onClick={onDrawerClicked} />}
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
                         </List>
@@ -119,6 +123,9 @@ export default function () {
                         </Route>
                         <Route path="/users">
                             <UsersList />
+                        </Route>
+                        <Route path="/reports">
+                            <ReportList />
                         </Route>
                         <Route path="/edit-concerts">
                             <ConcertsFeed editable />

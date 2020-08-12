@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
         float: 'left',
         margin: '10px'
     },
+    crediColumn: {
+        float: 'left',
+        marginTop: '50px',
+        margin: '10px'
+    },
 }));
 
 export default function Credits(props) {
@@ -180,7 +185,7 @@ export default function Credits(props) {
                                 {tabValue === 0
                                     && (
                                         <div className={classes.div}>
-                                            <div className={classes.column}>
+                                            <div className={classes.crediColumn}>
                                                 <Cards
                                                     cvc={cvc}
                                                     expiry={expiry}
@@ -225,7 +230,7 @@ export default function Credits(props) {
                                                         required
                                                         format="MM/yy"
                                                         value={expiry}
-                                                        placeholder="expiry"
+                                                        placeholder="Expiry date"
                                                         onChange={(event) => {
                                                             setexpiry(formatExpirationDate(event.target.value));
                                                         }}
