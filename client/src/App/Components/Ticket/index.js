@@ -92,6 +92,9 @@ export default function Ticket(props) {
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredDesc, setEnteredDesc] = useState(desc);
     const [enteredFile, setEnteredFile] = useState(file);
+    const [expanded, setExpanded] = useState(false);
+    const [selectedGenre, setSelectedGenre] = useState();
+    const [genres, setGenres] = useState([]);
     const { token } = authenticationService.currentUserValue.data;
     const userId = authenticationService.currentUserValue.data
         ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
