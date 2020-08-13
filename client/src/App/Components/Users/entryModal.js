@@ -55,7 +55,6 @@ export default function EntryModal(props) {
     return (
         <div>
             <Modal
-                className={classes.button}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
                 className={classes.modal}
