@@ -12,6 +12,11 @@ export const informConcertsUpdated = () => {
     console.log('Sending concerts was updated to all clients');
 };
 
+export const informReportsUpdated = () => {
+    socket.emit('reports-updated');
+    console.log('Sending reports was updated to all clients');
+};
+
 export const initSocket = (app) => {
     socket = io(app);
     socket.on('connection', (currSocket) => {

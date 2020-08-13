@@ -117,6 +117,8 @@ export default function AddTicketFade(props) {
                             </Select>
                         </FormControl>
                         <TextField
+                            type="number"
+                            inputProps={{ min: '1', max: '10', step: '1' }}
                             label="Amount"
                             value={enteredAmount}
                             onChange={(event) => {
@@ -126,6 +128,8 @@ export default function AddTicketFade(props) {
                         <TextField
                             label="Description"
                             value={enteredDesc}
+                            multiline
+                            rows={4}
                             onChange={(event) => {
                                 setEnteredDesc(event.target.value);
                             }}
@@ -149,18 +153,18 @@ export default function AddTicketFade(props) {
                                 type="file"
                                 multiple=""
                                 name="MyFile"
-                                accept="image/png, image/jpeg"
+                                accept="image/png, image/jpeg, application/pdf"
                                 onChange={(event) => {
                                     setEnteredFile(event.target.files[0]);
                                 }}
                             />
                         </Collapse>
-                        <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+                        <Button className={classes.submitBtn} type="submit" variant="contained" color="secondary" onClick={handleSubmit}>
                             {AddMode ? 'Add Ticket' : 'Edit Ticket'}
                         </Button>
                     </Grid>
                 </form>
             </Fade>
-        </Modal >
+        </Modal>
     );
 }

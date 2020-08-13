@@ -33,10 +33,10 @@ const useStyles = makeStyles(() => ({
         alignItems: 'center'
     },
     thumbUp: {
-        color: green[500]
+        color: '#52b788'
     },
     thumbDown: {
-        color: red[500]
+        color: '#e63946'
     },
     noThumb: {
         color: grey
