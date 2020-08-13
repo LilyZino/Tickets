@@ -246,21 +246,28 @@ export const getUserCredits = async (req, res) => {
 export const getUserPurchases = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await User.find().where('_id').equals(id).populate({
+        const userPurchases = await User.findById(id).populate({
             path: 'purchases.ticket',
             model: 'ticket',
             populate: {
                 path: 'concert',
                 model: 'concert'
             }
+        }).populate({
+            path: 'purchases.ticket',
+            model: 'ticket',
+            populate: {
+                path: 'user',
+                model: 'user'
+            }
         });
 
         // Check for ObjectId format and post
-        if (!id.match(/^[0-9a-fA-F]{24}$/) || !user) {
+        if (!id.match(/^[0-9a-fA-F]{24}$/) || !userPurchases) {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        res.json(user[0].purchases);
+        res.json(userPurchases.purchases);
     } catch (err) {
         console.error(err.message);
 

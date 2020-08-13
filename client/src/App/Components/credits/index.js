@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Credits(props) {
     const classes = useStyles();
-    const { myCredits } = props;
+    const { myCredits, setCredits } = props;
     const [openCredits, setopenCredits] = useState(false);
     const [tabValue, setTabValue] = React.useState(0);
     const [amount, setAmount] = React.useState(0);
@@ -88,7 +88,7 @@ export default function Credits(props) {
 
     const changeCredits = async (uid, credits) => {
         setopenCredits(false);
-        props.setCredits(parseInt(props.Credits) + parseInt(credits));
+        setCredits(parseInt(props.myCredits) + parseInt(credits));
         await axios.post('/api/users/credits', {
             id: uid,
             credits

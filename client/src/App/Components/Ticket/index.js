@@ -82,32 +82,40 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Ticket(props) {
     const classes = useStyles();
-    const { id, price, amount, concert, desc, file, onDelete, isSold } = props;
+    const { id, price, amount, concert, desc, file, onDelete, isSold, isPhysical } = props;
     const [upForExchange, serUpForExchange] = useState(props.upForExchange);
     const [open, setOpen] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
+    const [isTicketPhysical, setIsTicketPhysical] = useState(isPhysical);
     const [enteredConcert, setEnteredConcert] = useState(concert._id);
     const [enteredPrice, setEnteredPrice] = useState(price);
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredDesc, setEnteredDesc] = useState(desc);
     const [enteredFile, setEnteredFile] = useState(file);
-    const [expanded, setExpanded] = useState(false);
-    const [selectedGenre, setSelectedGenre] = useState();
-    const [genres, setGenres] = useState([]);
+    const { token } = authenticationService.currentUserValue.data;
+    const userId = authenticationService.currentUserValue.data
+        ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
 
-    const handleSubmit = async () => {
-        const { token } = authenticationService.currentUserValue.data;
-        const userId = authenticationService.currentUserValue.data
-            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        await axios.post('/api/tickets', {
-            _id: id,
-            concertId: enteredConcert,
-            price: enteredPrice,
-            amount: enteredAmount,
-            desc: enteredDesc,
-            file: enteredFile,
-            userId
-        }, { headers: { Authorization: `Bearer ${token}` } });
+    const editTicket = async () => {
+        const formData = new FormData();
+
+        if (!isTicketPhysical) {
+            formData.append('file', enteredFile, enteredFile.name);
+        }
+
+        formData.append('_id', id);
+        formData.append('concertId', enteredConcert);
+        formData.append('price', enteredPrice);
+        formData.append('amount', enteredAmount);
+        formData.append('userId', userId);
+        formData.append('isPhysical', isTicketPhysical);
+        formData.append('desc', enteredDesc);
+
+        await axios.post('api/tickets/', formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
     };
 
     const setAsExchangeTicket = async () => {
@@ -138,14 +146,9 @@ export default function Ticket(props) {
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
-<<<<<<< HEAD
-            <CardContent>
-                <div className={classes.cardTitle}>
-=======
             <CardContent className={classes.cardContent}>
                 <div>
 
->>>>>>> 19393ba3a7fa3e80527cfd01b2dfd0708cb9fa42
                     <Typography variant="h5" component="h2">
                         {concert.artist}
                     </Typography>
@@ -160,56 +163,32 @@ export default function Ticket(props) {
                         <Typography>
                             {amount} Tickets
                         </Typography>
-<<<<<<< HEAD
                         {desc ? (
                             <Typography>
                                 Description: {desc}
                             </Typography>
                         ) : null}
-=======
-                    ) : null}
-                </div>
-                <div className={classes.sideDiv}>
-                    {concert.isDeleted
-                        ? (
-                            <Chip
-                                label="This concert was deleted by admin"
-                                className={classes.chip}
-                            />
-                        ) : null}
-                    {isSold ? (
->>>>>>> 19393ba3a7fa3e80527cfd01b2dfd0708cb9fa42
-                        <Typography>
-                            {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
-                        </Typography>
-<<<<<<< HEAD
+                    </div>
+                    <div className={classes.sideDiv}>
                         {concert.isDeleted
                             ? (
                                 <Chip
                                     label="This concert was deleted by admin"
-                                    color="secondary"
+                                    className={classes.chip}
                                 />
                             ) : null}
-                        <div align="right" className={classes.soldimg}>
-                            <Typography className={classes.price}>
-                                {`${price}₪`}s
+                        {isSold ? (
+                            <Typography>
+                                {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
                             </Typography>
-                            {isSold ? (
-                                <Typography>
-                                    <img src={SoldImage} height="60px" width="60px" alt="sold" />
-                                </Typography>
-                            ) : null}
-                        </div>
+                        ) : null}
+                        {file ? (
+                            <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
+                        ) : null}
+                        <Typography className={classes.price}>
+                            {`${price}₪`}
+                        </Typography>
                     </div>
-=======
-                    ) : null}
-                    {file ? (
-                        <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
-                    ) : null}
-                    <Typography className={classes.price}>
-                        {`${price}₪`}
-                    </Typography>
->>>>>>> 19393ba3a7fa3e80527cfd01b2dfd0708cb9fa42
                 </div>
             </CardContent>
             <CardActions>
@@ -232,7 +211,9 @@ export default function Ticket(props) {
                     setEnteredConcert={setEnteredConcert}
                     enteredFile={enteredFile}
                     setEnteredFile={setEnteredFile}
-                    handleSubmit={handleSubmit}
+                    isTicketPhysical={isTicketPhysical}
+                    setIsTicketPhysical={setIsTicketPhysical}
+                    handleSubmit={editTicket}
                     handleClose={() => setOpen(false)}
                 />
 
