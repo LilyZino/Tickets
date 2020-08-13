@@ -148,16 +148,16 @@ export default function Ticket(props) {
                         <Typography>
                             {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
                         </Typography>
-                        <div align="right" className={classes.soldimg}>
-                            <Typography className={classes.price}>
-                                {`${price}₪`}s
+                    </div>
+                    <div align="right" className={classes.soldimg}>
+                        <Typography className={classes.price}>
+                            {`${price}₪`}
+                        </Typography>
+                        {isSold ? (
+                            <Typography>
+                                <img src={SoldImage} height="60px" width="60px" alt="sold" />
                             </Typography>
-                            {isSold ? (
-                                <Typography>
-                                    <img src={SoldImage} height="60px" width="60px" alt="sold" />
-                                </Typography>
-                            ) : null}
-                        </div>
+                        ) : null}
                     </div>
                 </div>
             </CardContent>
@@ -228,6 +228,6 @@ export default function Ticket(props) {
                     </Button>
                 </CardContent>
             </Collapse>
-        </Card>
+        </Card >
     );
 }
