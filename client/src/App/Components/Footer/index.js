@@ -6,7 +6,7 @@ export default function Footer() {
             <footer>
                 <div>
                     <div className="footer-cp">
-                        © 2020 Tickets, all rights reserved
+                        © 2020 Tickets, All Rights Reserved
                         <span className="grey-text text-lighten-4 right">The best way to find a concert's ticket</span>
                     </div>
                 </div>

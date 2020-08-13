@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     soldimg: {
         marginRight: '15px'
@@ -63,6 +63,19 @@ const useStyles = makeStyles((theme) => ({
         /* align-items: center; */
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    chip: {
+        margin: '4px 0px'
+    },
+    img: {
+        borderRadius: '10px',
+        width: '100px',
+        height: '100px'
+    },
+    sideDiv: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end'
     }
 }));
 
@@ -124,8 +137,14 @@ export default function Ticket(props) {
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
+<<<<<<< HEAD
             <CardContent>
                 <div className={classes.cardTitle}>
+=======
+            <CardContent className={classes.cardContent}>
+                <div>
+
+>>>>>>> 19393ba3a7fa3e80527cfd01b2dfd0708cb9fa42
                     <Typography variant="h5" component="h2">
                         {concert.artist}
                     </Typography>
@@ -140,14 +159,29 @@ export default function Ticket(props) {
                         <Typography>
                             {amount} Tickets
                         </Typography>
+<<<<<<< HEAD
                         {desc ? (
                             <Typography>
                                 Description: {desc}
                             </Typography>
                         ) : null}
+=======
+                    ) : null}
+                </div>
+                <div className={classes.sideDiv}>
+                    {concert.isDeleted
+                        ? (
+                            <Chip
+                                label="This concert was deleted by admin"
+                                className={classes.chip}
+                            />
+                        ) : null}
+                    {isSold ? (
+>>>>>>> 19393ba3a7fa3e80527cfd01b2dfd0708cb9fa42
                         <Typography>
                             {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
                         </Typography>
+<<<<<<< HEAD
                         {concert.isDeleted
                             ? (
                                 <Chip
@@ -166,6 +200,15 @@ export default function Ticket(props) {
                             ) : null}
                         </div>
                     </div>
+=======
+                    ) : null}
+                    {file ? (
+                        <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
+                    ) : null}
+                    <Typography className={classes.price}>
+                        {`${price}₪`}
+                    </Typography>
+>>>>>>> 19393ba3a7fa3e80527cfd01b2dfd0708cb9fa42
                 </div>
             </CardContent>
             <CardActions>

@@ -83,7 +83,8 @@ export default function Credits(props) {
     return (
         <div className={classes.div}>
             <Typography variant="body2" className={classes.userNameText} onClick={() => { setopenCredits(true); }}>
-                You have {myCredits} credits
+                <img src="../../../Assets/images/coin.png" alt="" />
+                {myCredits}
             </Typography>
 
             <Modal
