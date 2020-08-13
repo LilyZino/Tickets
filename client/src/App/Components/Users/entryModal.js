@@ -72,7 +72,7 @@ export default function EntryModal(props) {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5" className={classes.title}>
-                            Sign in
+                            {!isRegister ? 'Sign In' : 'Sign Up'}
                         </Typography>
                         <Typography component="h5" className={classes.error}>
                             {errorText}
