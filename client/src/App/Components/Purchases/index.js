@@ -36,8 +36,7 @@ export default function Purchases() {
             {tickets
                 && (
                     <div>
-                        <Typography variant="h4" className={classes.title}>My purchases</Typography>
-                        <Typography>Here is your purchase history</Typography>
+                        <Typography variant="h4" className={classes.title}>Your Purchases</Typography>
                         <TicketsFeed tickets={tickets} isMine={false} />
                     </div>
                 )}

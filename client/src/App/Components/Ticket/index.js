@@ -21,8 +21,8 @@ import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        minWidth: 275,
-        marginTop: 15,
+        width: '40%',
+        margin: 15,
     },
     bullet: {
         display: 'inline-block',

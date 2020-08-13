@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Ticket from '../Ticket';
 import SoldTicket from '../SoldTicket';
 
+const useStyles = makeStyles((theme) => ({
+    grid: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around'
+    }
+}));
+
 const TicketsList = (props) => {
+    const classes = useStyles();
     const { tickets, filter, isMine } = props;
     const [filteredTickets, setFilteredTickets] = useState(tickets);
 
@@ -34,7 +44,7 @@ const TicketsList = (props) => {
 
 
     return (
-        <div>
+        <div className={classes.grid}>
             {isMine ? (
                 filteredTickets.map((ticket) => (
                     <Ticket
@@ -50,17 +60,17 @@ const TicketsList = (props) => {
                         upForExchange={ticket.upForExchange}
                     />
                 ))) : (
-                filteredTickets.map((ticket) => (
-                    <SoldTicket
-                        ticketRank={ticket.rank}
-                        key={ticket._id}
-                        rankId={ticket._id}
-                        price={ticket.ticket.price}
-                        concert={ticket.ticket.concert}
-                        file={ticket.ticket.file}
-                        user={ticket.ticket.user}
-                    />
-                )))}
+                    filteredTickets.map((ticket) => (
+                        <SoldTicket
+                            ticketRank={ticket.rank}
+                            key={ticket._id}
+                            rankId={ticket._id}
+                            price={ticket.ticket.price}
+                            concert={ticket.ticket.concert}
+                            file={ticket.ticket.file}
+                            user={ticket.ticket.user}
+                        />
+                    )))}
         </div>
     );
 };
