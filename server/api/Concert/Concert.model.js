@@ -19,6 +19,11 @@ const ConcertSchema = new Schema({
         type: String,
         required: true
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+        required: true
+    }
 });
 
 export default mongoose.model('concert', ConcertSchema);

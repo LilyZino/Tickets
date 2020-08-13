@@ -148,6 +148,13 @@ export default function Ticket(props) {
                         <Typography>
                             {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
                         </Typography>
+                        {concert.isDeleted
+                            ? (
+                                <Chip
+                                    label="This concert was deleted by admin"
+                                    color="secondary"
+                                />
+                            ) : null}
                         <div align="right" className={classes.soldimg}>
                             <Typography className={classes.price}>
                                 {`${price}₪`}s

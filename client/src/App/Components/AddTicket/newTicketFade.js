@@ -108,7 +108,7 @@ export default function AddTicketFade(props) {
                                     value={enteredConcert}
                                     onChange={(event) => { setEnteredConcert(event.target.value); }}
                                 >
-                                    {concerts.map((concert) => (
+                                    {concerts.filter(concert => !concert.isDeleted).map((concert) => (
                                         <MenuItem key={concert._id} value={concert._id}>
                                             {`${concert.artist} - ${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
                                         </MenuItem>
