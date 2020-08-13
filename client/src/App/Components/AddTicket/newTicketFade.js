@@ -12,8 +12,11 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Collapse from '@material-ui/core/Collapse';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
-import clsx from 'clsx';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -31,13 +34,14 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        outline: 'none'
     },
     paper: {
+        width: '30%',
         backgroundColor: theme.palette.background.paper,
-        border: '1px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-        borderRadius: '15px'
+        padding: theme.spacing(2),
+        borderRadius: '5px',
+        outline: 'none'
     },
     form: {
         display: 'flex',
@@ -67,12 +71,10 @@ export default function AddTicketFade(props) {
     const [isTicketPhysical, setTicketPhysical] = useState(false);
 
     const handleExpandClick = () => {
-        setExpanded(!expanded);
-        setTicketPhysical(false);
-    };
-    const handlePhysicalTicket = () => {
+        console.log('toggle');
         setTicketPhysical(!isTicketPhysical);
-        setExpanded(false);
+        console.log(isTicketPhysical);
+        setExpanded(!expanded);
     };
 
     useEffect(() => {
@@ -95,95 +97,70 @@ export default function AddTicketFade(props) {
                 timeout: 500,
             }}
         >
-            <div>
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <form noValidate autoComplete="off">
-                            <Grid className={classes.form}>
-                                <InputLabel id="concertLabel">Concert</InputLabel>
-                                <Select
-                                    labelId="concertLabel"
-                                    label="Concert"
-                                    id="concert"
-                                    value={enteredConcert}
-                                    onChange={(event) => { setEnteredConcert(event.target.value); }}
-                                >
-                                    {concerts.filter(concert => !concert.isDeleted).map((concert) => (
-                                        <MenuItem key={concert._id} value={concert._id}>
-                                            {`${concert.artist} - ${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                                <TextField
-                                    type="number"
-                                    inputProps={{ min: '1', max: '10', step: '1' }}
-                                    label="Amount"
-                                    value={enteredAmount}
-                                    onChange={(event) => {
-                                        props.setEnteredAmount(event.target.value);
-                                    }}
-                                />
-                                <TextField
-                                    type="number"
-                                    label="Price"
-                                    value={enteredPrice}
-                                    onChange={(event) => {
-                                        props.setEnteredPrice(event.target.value);
-                                    }}
-                                />
-                                <TextField
-                                    label="Description"
-                                    value={enteredDesc}
-                                    onChange={(event) => {
-                                        setEnteredDesc(event.target.value);
-                                    }}
-                                />
-                                <br />
-                                <IconButton
-                                    className={clsx(classes.expand, {
-                                        [classes.expandOpen]: isTicketPhysical,
-                                    })}
-                                    onClick={() => {
-                                        handlePhysicalTicket();
-                                        props.setTicketPhysical(!isTicketPhysical);
-                                    }}
-                                >
-                                    <InputLabel>My ticket is physical </InputLabel>
-                                </IconButton>
-                                <IconButton
-                                    className={clsx(classes.expand, {
-                                        [classes.expandOpen]: expanded,
-                                    })}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                >
-                                    <InputLabel>My ticket is digital </InputLabel>
-                                </IconButton>
-                                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                    <div className="form-group files">
-                                        <InputLabel>Upload Your File </InputLabel>
-                                        <br />
-                                        <input
-                                            type="file"
-                                            className="form-control"
-                                            multiple=""
-                                            name="MyFile"
-                                            accept="image/png, image/jpeg, application/pdf"
-                                            onChange={(event) => {
-                                                setEnteredFile(event.target.files[0]);
-                                            }}
-                                        />
-                                    </div>
-                                </Collapse>
-                                <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-                                    {AddMode ? 'Add Ticket' : 'Edit Ticket'}
-                                </Button>
-                            </Grid>
-                        </form>
-                    </div>
-                </Fade>
-            </div>
-        </Modal>
+            <Fade in={open} className={classes.paper}>
+                <form noValidate autoComplete="off">
+                    <Grid className={classes.form}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="concertLabel">Concert</InputLabel>
+                            <Select
+                                labelId="concertLabel"
+                                label="Concert"
+                                id="concert"
+                                value={enteredConcert}
+                                onChange={(event) => { setEnteredConcert(event.target.value); }}
+                            >
+                                {concerts.filter(concert => !concert.isDeleted).map((concert) => (
+                                    <MenuItem key={concert._id} value={concert._id}>
+                                        {`${concert.artist} - ${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <TextField
+                            label="Amount"
+                            value={enteredAmount}
+                            onChange={(event) => {
+                                props.setEnteredAmount(event.target.value);
+                            }}
+                        />
+                        <TextField
+                            label="Description"
+                            value={enteredDesc}
+                            onChange={(event) => {
+                                setEnteredDesc(event.target.value);
+                            }}
+                        />
+                        <TextField
+                            label="Price"
+                            value={enteredPrice}
+                            onChange={(event) => {
+                                props.setEnteredPrice(event.target.value);
+                            }}
+                        />
+                        <FormControlLabel
+                            control={<Switch checked={isTicketPhysical} onChange={handleExpandClick} name="Digital Ticket" />}
+                            label="Digital Ticket"
+                        />
+                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                            <IconButton edge="start" color="inherit" aria-label="menu">
+                                <AttachFileIcon />
+                            </IconButton>
+                            <input
+                                type="file"
+                                multiple=""
+                                name="MyFile"
+                                accept="image/png, image/jpeg"
+                                onChange={(event) => {
+                                    setEnteredFile(event.target.files[0]);
+                                }}
+                            />
+                        </Collapse>
+                        <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+                            {AddMode ? 'Add Ticket' : 'Edit Ticket'}
+                        </Button>
+                    </Grid>
+                </form>
+            </Fade>
+        </Modal >
     );
 }

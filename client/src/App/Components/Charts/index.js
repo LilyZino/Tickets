@@ -1,16 +1,32 @@
-/* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 import axios from 'axios';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import moment from 'moment';
 
+const useStyles = makeStyles({
+    title: {
+        marginTop: '10px'
+    },
+    error: {
+        textAlign: 'center'
+    },
+    center: {
+        textAlign: 'center'
+    }
+});
+
 export default function Charts() {
+    const classes = useStyles();
+
     let i;
 
     const [Tickets, setTickets] = useState([]);
     const [Users, setUsers] = useState([]);
     const [concertTickets, setConcertTickets] = useState([]);
+
     useEffect(() => {
         const getTicketForConcert = async () => {
             const response = await axios.get('/api/concerts/');
@@ -170,10 +186,13 @@ export default function Charts() {
 
     return (
         <div>
-            <HighchartsReact highcharts={Highcharts} options={options} />
-            <br />
-            <br />
-            <HighchartsReact highcharts={Highcharts} options={pieoptions} />
+            <div className={classes.center}>
+                <Typography variant="h3" className={classes.title}>Statistics</Typography>
+            </div>
+            <div>
+                <HighchartsReact highcharts={Highcharts} options={options} />
+                <HighchartsReact highcharts={Highcharts} options={pieoptions} />
+            </div>
         </div>
     );
 }

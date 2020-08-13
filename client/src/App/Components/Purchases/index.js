@@ -11,6 +11,9 @@ const useStyles = makeStyles({
     },
     error: {
         textAlign: 'center'
+    },
+    center: {
+        textAlign: 'center'
     }
 });
 
@@ -35,8 +38,8 @@ export default function Purchases() {
         <div>
             {tickets
                 && (
-                    <div>
-                        <Typography variant="h4" className={classes.title}>Your Purchases</Typography>
+                    <div className={classes.center}>
+                        <Typography variant="h3" className={classes.title}>Your Purchases</Typography>
                         <TicketsFeed tickets={tickets} isMine={false} />
                     </div>
                 )}

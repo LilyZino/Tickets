@@ -102,7 +102,6 @@ export default function AddTicket() {
             <Fab color="secondary" aria-label="add" className={classes.fab} onClick={handleOpen}>
                 <AddIcon />
             </Fab>
-
             <AddTicketFade
                 open={open}
                 AddMode
