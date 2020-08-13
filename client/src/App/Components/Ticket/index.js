@@ -68,14 +68,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Ticket(props) {
     const classes = useStyles();
-    const { id, price, amount, concert, sold, file, onDelete } = props;
+    const { id, price, amount, concert, desc, file, onDelete, isSold } = props;
     const [upForExchange, serUpForExchange] = useState(props.upForExchange);
     const [open, setOpen] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const [enteredConcert, setEnteredConcert] = useState(concert._id);
     const [enteredPrice, setEnteredPrice] = useState(price);
     const [enteredAmount, setEnteredAmount] = useState(amount);
-    const [enteredSold, setEnteredSold] = useState(sold);
+    const [enteredDesc, setEnteredDesc] = useState(desc);
     const [enteredFile, setEnteredFile] = useState(file);
     const [expanded, setExpanded] = useState(false);
     const [selectedGenre, setSelectedGenre] = useState();
@@ -90,7 +90,7 @@ export default function Ticket(props) {
             concertId: enteredConcert,
             price: enteredPrice,
             amount: enteredAmount,
-            sold: enteredSold,
+            desc: enteredDesc,
             file: enteredFile,
             userId
         }, { headers: { Authorization: `Bearer ${token}` } });
@@ -140,9 +140,11 @@ export default function Ticket(props) {
                         <Typography>
                             {amount} Tickets
                         </Typography>
+                    {desc ? (
                         <Typography>
-                            {sold} Sold
+                            Description: {desc}
                         </Typography>
+                    ) : null }
                         <Typography>
                             {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
                         </Typography>
@@ -150,7 +152,7 @@ export default function Ticket(props) {
                             <Typography className={classes.price}>
                                 {`${price}₪`}
                             </Typography>
-                            {amount - sold === 0 ? (
+                    {isSold ? (
                                 <Typography>
                                     <img src={SoldImage} height="60px" width="60px" alt="sold" />
                                 </Typography>
@@ -160,17 +162,19 @@ export default function Ticket(props) {
                 </div>
             </CardContent>
             <CardActions>
-                <IconButton onClick={() => setOpen(true)}>
-                    <EditIcon />
-                </IconButton>
+                {!isSold ? (
+                    <IconButton onClick={() => setOpen(true)}>
+                        <EditIcon />
+                    </IconButton>
+                ) : null}
                 <AddTicketFade
                     open={open}
                     AddMode={false}
                     submitText="Update Ticket"
                     enteredAmount={enteredAmount}
                     setEnteredAmount={setEnteredAmount}
-                    enteredSold={enteredSold}
-                    setEnteredSold={setEnteredSold}
+                    enteredDesc={enteredDesc}
+                    setEnteredDesc={setEnteredDesc}
                     enteredPrice={enteredPrice}
                     setEnteredPrice={setEnteredPrice}
                     enteredConcert={enteredConcert}

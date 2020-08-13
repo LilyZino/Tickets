@@ -23,8 +23,6 @@ export default function Purchases() {
             const userId = authenticationService.currentUserValue.data
                 ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
             const getTicketsResponse = await axios.get(`/api/users/purchases/${userId}`);
-            console.log(getTicketsResponse);
-            console.log(getTicketsResponse.data);
             setTickets(getTicketsResponse.data);
             setisLoaded(true);
         }

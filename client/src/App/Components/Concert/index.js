@@ -96,7 +96,7 @@ export default (props) => {
 
             const response = await axios.get(`/api/tickets/concert/${id}`);
             const concertTickets = response.data;
-            setAvailableTickets(concertTickets.filter((ticket) => (ticket.amount - ticket.sold !== 0) && !ticket.user.isBlocked));
+            setAvailableTickets(concertTickets.filter((ticket) => (!ticket.isSold) && !ticket.user.isBlocked));
         };
 
         getTicketForConcert();
@@ -200,6 +200,7 @@ export default (props) => {
                                             key={ticket._id}
                                             id={ticket._id}
                                             ticket={ticket}
+                                            concert={artist}
                                         />
                                     );
                                 })}

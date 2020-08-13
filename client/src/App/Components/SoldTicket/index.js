@@ -2,42 +2,26 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { green, red, grey } from '@material-ui/core/colors';
+import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Modal from '@material-ui/core/Modal';
-import Fade from '@material-ui/core/Fade';
+import axios from 'axios';
+import IconButton from '@material-ui/core/IconButton';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     card: {
         minWidth: 275,
         marginTop: 15,
-    },
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
     },
     title: {
         fontSize: 14,
     },
     pos: {
         marginBottom: 12,
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)',
     },
     price: {
         fontSize: '2rem'
@@ -48,26 +32,54 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
-    soldimg: {
-        marginRight: '15px'
+    thumbUp: {
+        color: green[500]
+    },
+    thumbDown: {
+        color: red[500]
+    },
+    noThumb: {
+        color: grey
     }
 }));
 
 export default function SoldTicket(props) {
     const classes = useStyles();
-    const { concert, file } = props;
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => {
-        setOpen(true);
+    const { concert, file, price, user, rankId, ticketRank } = props;
+    const [ticRank, setTicketRank] = useState(ticketRank);
+
+    const changeRank = async (rank) => {
+        if (rank + ticRank > -2 && rank + ticRank < 2) {
+            setTicketRank(ticRank + rank);
+            await axios.post('/api/users/rank', {
+                id: user,
+                rank,
+                rankId
+            });
+        }
     };
 
     return (
         <div>
             <Card className={classes.card} elavation="2">
                 <div className={classes.cardContent}>
-                    <CardContent>
+                    <ListItemIcon>
+                        <div>
+                            <div>
+                                <IconButton className={ticRank === 1 ? classes.thumbUp : classes.noThumb} onClick={() => changeRank(1)}>
+                                    <ThumbUpIcon />
+                                </IconButton>
+                            </div>
+                            <div>
+                                <IconButton className={ticRank === -1 ? classes.thumbDown : classes.noThumb} onClick={() => changeRank(-1)}>
+                                    <ThumbDownIcon />
+                                </IconButton>
+                            </div>
+                        </div>
+                    </ListItemIcon>
+                    <ListItemText>
                         <Typography variant="h5" component="h2">
-                            {concert.artist}
+                            {concert.artist} - {price}$
                         </Typography>
                         <Typography className={classes.pos} color="textSecondary">
                             {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
@@ -77,12 +89,13 @@ export default function SoldTicket(props) {
                                 className={classes.submitBtn}
                                 type="submit"
                                 color="primary"
-                                onClick={handleOpen}
                             >
-                        Show Ticket
+                                <a href={`http://localhost:9000/public/${file}`} download={`${concert.artist}-ticket`}>
+                            Download
+                                </a>
                             </Button>
                         ) : null}
-                    </CardContent>
+                    </ListItemText>
                     {/* <div align="right" className={classes.soldimg}>
                         <Typography className={classes.price}>
                             {`${price}₪`}
@@ -90,22 +103,6 @@ export default function SoldTicket(props) {
                     </div> */}
                 </div>
             </Card>
-            <Modal
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={() => setOpen(false)}
-                closeAfterTransition
-            >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <Typography>
-                            <embed src={`http://localhost:9000/public/${file}`} alt="img" height="400px" width="400px" />
-                        </Typography>
-                    </div>
-                </Fade>
-            </Modal>
         </div>
     );
 }

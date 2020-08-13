@@ -13,7 +13,6 @@ const TicketsList = (props) => {
 
     useEffect(() => {
         const ticketsToRender = filter ? tickets.filter((ticket) => {
-            console.log(ticket);
 
             if (filter.artist && filter.artist !== '' && !ticket.concert.artist.toLowerCase().includes(filter.artist.toLowerCase())) {
                 return false;
@@ -42,21 +41,24 @@ const TicketsList = (props) => {
                         key={ticket._id}
                         id={ticket._id}
                         price={ticket.price}
-                        sold={ticket.sold}
+                        desc={ticket.description}
                         amount={ticket.amount}
                         concert={ticket.concert}
                         file={ticket.file}
+                        isSold={ticket.isSold}
                         onDelete={handleDelete}
                         upForExchange={ticket.upForExchange}
                     />
                 ))) : (
                 filteredTickets.map((ticket) => (
                     <SoldTicket
+                        ticketRank={ticket.rank}
                         key={ticket._id}
-                        id={ticket._id}
-                        price={ticket.price}
-                        concert={ticket.concert}
-                        file={ticket.file}
+                        rankId={ticket._id}
+                        price={ticket.ticket.price}
+                        concert={ticket.ticket.concert}
+                        file={ticket.ticket.file}
+                        user={ticket.ticket.user}
                     />
                 )))}
         </div>

@@ -113,7 +113,11 @@ export default function Entrance() {
                 console.log(res.data);
                 setUname(enteredUname);
                 setUId(res.data._id);
-                setCredits(res.data.credits);
+                axios.put('/api/users/credits', {
+                    id: authenticationService.currentUserValue.data._id,
+                }).then((credit) => {
+                    setCredits(credit.data);
+                });
             }).catch((response) => {
                 setloginError(response.response.data.msg);
             });
@@ -141,7 +145,7 @@ export default function Entrance() {
                         </Typography>
                         <Credits
                             uId={UId}
-                            Credits={credits}
+                            myCredits={credits}
                             setCredits={setCredits}
                         />
                     </div>

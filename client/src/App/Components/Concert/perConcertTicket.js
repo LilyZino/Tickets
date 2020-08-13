@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import axios from 'axios';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -73,10 +70,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
     const classes = useStyles();
-    const { id, ticket } = props;
+    const { id, ticket, concert } = props;
     const [open, setOpen] = useState(false);
-    const [enteredSold, setEnteredSold] = useState('');
-    const [enteredTotal, setEnteredTotal] = useState('');
     const [userCredits, setuserCredits] = useState('');
     const [openAfterPurchaseMessage, setOpenAfterPurchaseMessage] = useState(false);
     const [PurchaseFailedMessage, setPurchaseFailedMessage] = useState(false);
@@ -97,13 +92,6 @@ export default (props) => {
         }
     });
 
-    const changeRank = async (userId, rank) => {
-        await axios.post('/api/users/rank', {
-            id: userId,
-            rank
-        });
-    };
-
     const handleOpen = () => {
         setOpen(true);
     };
@@ -116,14 +104,13 @@ export default (props) => {
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
-        if (userCredits.data >= enteredTotal) {
+        if (userCredits.data >= ticket.price) {
             setOpenAfterPurchaseMessage(true);
             await axios.post('/api/tickets/buy', {
                 _id: id,
-                sold: enteredSold,
                 seller: ticket.user._id,
-                totalPrice: enteredTotal,
-                newcredit: userCredits.data - enteredTotal,
+                totalPrice: ticket.price,
+                newcredit: userCredits.data - ticket.price,
                 userId
             }, { headers: { Authorization: `Bearer ${token}` } });
         } else {
@@ -136,23 +123,21 @@ export default (props) => {
             <ListItemIcon>
                 <ConfirmationNumberIcon />
             </ListItemIcon>
-            <ListItemIcon>
-                <div>
-                    <div>
-                        <IconButton onClick={() => changeRank(ticket.user._id, 1)}>
-                            <ArrowDropUpIcon />
-                        </IconButton>
-                    </div>
-                    <IconButton onClick={() => changeRank(ticket.user._id, -1)}>
-                        <ArrowDropDownIcon />
-                    </IconButton>
-                </div>
-            </ListItemIcon>
-            <ListItemText
-                primary={`${ticket.amount - ticket.sold} Tickets Available`}
-                secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, 
+            {ticket.description
+                ? (
+                    <ListItemText
+                        primary={`${ticket.amount} Tickets. Description: ${ticket.description}`}
+                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, 
+            Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
+                    />
+                )
+                : (
+                    <ListItemText
+                        primary={`${ticket.amount} Tickets`}
+                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}, 
                             Phone: ${ticket.user.phone}, Mail: ${ticket.user.email}`}
-            />
+                    />
+                )}
             <Typography>
                 {`${ticket.price}₪`}
             </Typography>
@@ -166,12 +151,9 @@ export default (props) => {
             </Button>
             <BuyTicketFade
                 open={open}
-                AddMode
-                enteredAmount={ticket.amount}
-                setEnteredSold={setEnteredSold}
-                enteredTotal={enteredTotal}
-                setEnteredTotal={setEnteredTotal}
-                enteredPrice={ticket.price}
+                concert={concert}
+                amount={ticket.amount}
+                price={ticket.price}
                 buyTicket={buyTicket}
                 handleClose={handleClose}
             />

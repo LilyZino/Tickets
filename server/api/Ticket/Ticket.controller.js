@@ -17,15 +17,27 @@ export const getAllTickets = async (req, res) => {
 
 export const addTicket = async (req, res) => {
     try {
-        const newTicket = new Ticket({
-            user: req.body.userId,
-            concert: req.body.concertId,
-            price: req.body.price,
-            amount: req.body.amount,
-            file: req.files[0].filename,
-            sold: 0,
-            isPhysical: false
-        });
+        let newTicket;
+        if (req.files[0]) {
+            newTicket = new Ticket({
+                user: req.body.userId,
+                concert: req.body.concertId,
+                price: req.body.price,
+                amount: req.body.amount,
+                file: req.files[0].filename,
+                description: req.body.desc,
+                isPhysical: false
+            });
+        } else {
+            newTicket = new Ticket({
+                user: req.body.userId,
+                concert: req.body.concertId,
+                price: req.body.price,
+                amount: req.body.amount,
+                description: req.body.desc,
+                isPhysical: true
+            });
+        }
 
         const ticket = await newTicket.save();
 
@@ -48,7 +60,7 @@ export const editTicket = async (req, res) => {
                 concert: req.body.concertId,
                 price: req.body.price,
                 amount: req.body.amount,
-                sold: req.body.sold
+                description: req.body.desc
             }
         }
     ).then(() => {
@@ -57,8 +69,73 @@ export const editTicket = async (req, res) => {
 };
 
 export const buyTicket = async (req, res) => {
-    const { _id, sold, seller, userId, newcredit, totalPrice } = req.body;
-    await purchaseTicket(_id, sold, seller, userId, newcredit, totalPrice);
+    const { _id, seller, userId, newcredit, totalPrice } = req.body;
+    await Ticket.find().where('_id').equals(_id).populate('concert')
+        .then(result => {
+            if (result) {
+                func(result[0]);
+            }
+        });
+    async function func(ticket) {
+        try {
+            const user = await User.findById(seller);
+            const buyer = await User.findById(userId);
+            if (user) {
+                await sendConfirmationOfSaleMail(
+                    user.email,
+                    user.name,
+                    ticket.concert.artist,
+                    ticket.concert.time,
+                    totalPrice,
+                    buyer.name
+                );
+            }
+            if (buyer) {
+                await sendConfirmationMail(
+                    buyer.email,
+                    buyer.name,
+                    ticket.concert.artist,
+                    ticket.concert.time,
+                    ticket.concert.location,
+                    totalPrice,
+                );
+            }
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).json({ msg: 'Server Error' });
+        }
+    }
+    await User.findByIdAndUpdate(
+        userId,
+        {
+            $push: {
+                purchases: {
+                    ticket: {
+                        _id
+                    }
+                }
+            },
+            $set: {
+                credits: newcredit
+            }
+        }
+    );
+    await User.updateOne(
+        { _id: seller },
+        {
+            $inc: {
+                credits: totalPrice
+            }
+        }
+    );
+    await Ticket.updateOne(
+        { _id },
+        {
+            $set: {
+                isSold: true
+            }
+        }
+    );
 };
 
 export const getTicket = async (req, res) => {
