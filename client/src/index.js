@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import App from './App';
 import './styles.css';
-import 'typeface-roboto';
+// import 'typeface-roboto';
+import 'raleway-webfont';
 
 const FullScreenedApp = styled(App)`
     height: 100%
