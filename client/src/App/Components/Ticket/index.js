@@ -22,7 +22,7 @@ import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        width: '40%',
+        width: '45%',
         margin: 15,
         backgroundColor: '#fbfbfb'
     },
@@ -59,8 +59,13 @@ const useStyles = makeStyles((theme) => ({
     soldimg: {
         marginRight: '15px'
     },
+    badges: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+    },
     chip: {
-        margin: '4px 0px'
+        margin: '0px 4px',
+        fontSize: 'x-small'
     },
     img: {
         borderRadius: '10px',
@@ -149,41 +154,42 @@ export default function Ticket(props) {
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
-            <CardContent className={classes.cardContent}>
-                <div>
-                    {upForExchange ? <Chip color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
+            <CardContent>
+                <div className={classes.badges}>
+                    {upForExchange ? <Chip className={classes.chip} color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
                         : null}
                     {isSold ? (
-                        <Typography>
-                            <Chip color="secondary" icon={<AttachMoney />} label="Sold" />
-                        </Typography>
+                        <Chip className={classes.chip} color="secondary" icon={<AttachMoney />} label="Sold" />
                     ) : null}
-                    <Typography variant="h5" component="h2">
-                        {concert.artist}
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                        {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
-                    </Typography>
-                    <Typography>
-                        {amount} Tickets
-                    </Typography>
-                    {desc ? (
-                        <Typography>
-                            Description: {desc}
-                        </Typography>
-                    ) : null}
-                </div>
-                <div className={classes.sideDiv}>
                     {concert.isDeleted
                         ? (
                             <Chip
-                                label="This concert was deleted by admin"
-                                className={classes.chip}
+                                label="This concert was removed by admin"
                             />
                         ) : null}
-                    <Typography className={classes.price}>
-                        {`${price}₪`}
+                </div>
+                <div className={classes.cardContent}>
+                    <div>
+                        <Typography variant="h5" component="h2">
+                            {concert.artist}
+                        </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+                            {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
+                        </Typography>
+                        <Typography>
+                            {amount} Tickets
                     </Typography>
+                        {desc ? (
+                            <Typography>
+                                Description: {desc}
+                            </Typography>
+                        ) : null}
+                    </div>
+                    <div className={classes.sideDiv}>
+                        <Typography className={classes.price}>
+                            {`${price}₪`}
+                        </Typography>
+                    </div>
                 </div>
             </CardContent>
             <CardActions>
