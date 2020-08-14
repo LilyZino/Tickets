@@ -51,6 +51,9 @@ const useStyles = makeStyles(() => ({
     },
     title: {
         flexGrow: 1,
+    },
+    logo: {
+        width: '160px',
     }
 }));
 
@@ -73,7 +76,7 @@ export default function () {
                                 <MenuIcon />
                             </IconButton>
                             <Typography variant="h6" className={classes.title}>
-                                Tickets
+                                <img className={classes.logo} src="../../Assets/Images/logo.png" alt="" />
                             </Typography>
                             <Entrance />
                         </Toolbar>
