@@ -85,7 +85,7 @@ export default function Ticket(props) {
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredDesc, setEnteredDesc] = useState(desc);
     const [enteredFile, setEnteredFile] = useState(file);
-    const [expanded, setExpanded] = useState(false);
+    const [exchangeExpanded, setExpanded] = useState(false);
     const [selectedGenre, setSelectedGenre] = useState();
     const [genres, setGenres] = useState([]);
     const { token } = authenticationService.currentUserValue.data;
@@ -114,14 +114,11 @@ export default function Ticket(props) {
         });
     };
 
-    const toggleExchangeCollapse = () => {
-        setExpanded(!expanded);
-    }
+    const toggleExchangeExpanded = () => {
+        setExpanded(!exchangeExpanded);
+    };
 
     const setAsExchangeTicket = async () => {
-        const { token } = authenticationService.currentUserValue.data;
-        const userId = authenticationService.currentUserValue.data
-            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         axios.put('/api/exchangecycles/tickets', {
             ticket: {
                 id,
@@ -137,12 +134,12 @@ export default function Ticket(props) {
 
     useEffect(() => {
         (async () => {
-            if (expanded) {
+            if (exchangeExpanded) {
                 const serverGenres = await axios.get('/api/concerts/genres');
                 setGenres(serverGenres.data);
             }
         })();
-    }, [expanded]);
+    }, [exchangeExpanded]);
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
@@ -222,14 +219,14 @@ export default function Ticket(props) {
                 {upForExchange ? null
                     : (
                         <IconButton onClick={() => {
-                            toggleExchangeCollapse();
+                            toggleExchangeExpanded();
                         }}
                         >
                             <RepeatIcon />
                         </IconButton>
                     )}
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <Collapse in={exchangeExpanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography>
                         Switching Tickets
