@@ -167,9 +167,7 @@ export default (props) => {
             <ReportFade
                 openUser={openUser}
                 setOpenUser={setOpenUser}
-                ticket={ticket}
-                buyTicket={buyTicket}
-                handleClose={handleClose}
+                user={ticket.user}
             />
             <Modal
                 aria-labelledby="modal-title"

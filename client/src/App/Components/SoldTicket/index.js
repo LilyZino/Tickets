@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ReportFade from '../Report';
 
 const useStyles = makeStyles(() => ({
     card: {
@@ -47,6 +48,7 @@ export default function SoldTicket(props) {
     const classes = useStyles();
     const { concert, file, price, user, rankId, ticketRank } = props;
     const [ticRank, setTicketRank] = useState(ticketRank);
+    const [openUser, setOpenUser] = useState(false);
 
     const changeRank = async (rank) => {
         if (rank + ticRank > -2 && rank + ticRank < 2) {
@@ -83,7 +85,7 @@ export default function SoldTicket(props) {
                     <Typography className={classes.pos} color="textSecondary">
                         {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
                     </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
+                    <Typography className={classes.pos} color="textSecondary" onClick={() => { setOpenUser(true); }}>
                         {`Ticket by ${user.name}`}
                     </Typography>
                     {file ? (
@@ -99,6 +101,12 @@ export default function SoldTicket(props) {
                     ) : null}
                 </ListItemText>
             </div>
+
+            <ReportFade
+                openUser={openUser}
+                setOpenUser={setOpenUser}
+                user={user}
+            />
         </Card>
     );
 }
