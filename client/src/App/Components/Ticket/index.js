@@ -225,15 +225,15 @@ export default function Ticket(props) {
                 >
                     <DeleteIcon />
                 </IconButton>
-                {upForExchange ? null
-                    : (
+                {!upForExchange && !isSold
+                    ? (
                         <IconButton onClick={() => {
                             toggleExchangeExpanded();
                         }}
                         >
                             <RepeatIcon />
                         </IconButton>
-                    )}
+                    ) : null}
                 {file
                     ? (
                         <IconButton onClick={() => {
