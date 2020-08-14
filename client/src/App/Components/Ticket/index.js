@@ -11,10 +11,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RepeatIcon from '@material-ui/icons/Repeat';
 import axios from 'axios';
+import Chip from '@material-ui/core/Chip';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Chip } from '@material-ui/core';
 import SoldImage from '../../../Assets/Images/sold.png';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
@@ -47,8 +47,7 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     },
     price: {
-        fontSize: '2rem',
-        marginRight: '15px'
+        fontSize: '2rem'
     },
     cardContent: {
         display: 'flex',
@@ -58,12 +57,6 @@ const useStyles = makeStyles((theme) => ({
     },
     soldimg: {
         marginRight: '15px'
-    },
-    cardTitle: {
-        display: 'flex',
-        /* align-items: center; */
-        flexDirection: 'row',
-        justifyContent: 'space-between'
     },
     chip: {
         margin: '4px 0px'
@@ -151,46 +144,42 @@ export default function Ticket(props) {
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
             <CardContent className={classes.cardContent}>
                 <div>
+                    {upForExchange ? <Chip color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
+                        : null}
                     <Typography variant="h5" component="h2">
                         {concert.artist}
                     </Typography>
-                    {upForExchange ? <Chip color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
-                        : null}
-                </div>
-                <div className={classes.cardContent}>
-                    <div>
-                        <Typography className={classes.pos} color="textSecondary">
-                            {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
-                        </Typography>
+                    <Typography className={classes.pos} color="textSecondary">
+                        {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
+                    </Typography>
+                    <Typography>
+                        {amount} Tickets
+                    </Typography>
+                    {desc ? (
                         <Typography>
-                            {amount} Tickets
+                            Description: {desc}
                         </Typography>
-                        {desc ? (
-                            <Typography>
-                                Description: {desc}
-                            </Typography>
+                    ) : null}
+                </div>
+                <div className={classes.sideDiv}>
+                    {concert.isDeleted
+                        ? (
+                            <Chip
+                                label="This concert was deleted by admin"
+                                className={classes.chip}
+                            />
                         ) : null}
-                    </div>
-                    <div className={classes.sideDiv}>
-                        {concert.isDeleted
-                            ? (
-                                <Chip
-                                    label="This concert was deleted by admin"
-                                    className={classes.chip}
-                                />
-                            ) : null}
-                        {isSold ? (
-                            <Typography>
-                                {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
-                            </Typography>
-                        ) : null}
-                        {file ? (
-                            <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
-                        ) : null}
-                        <Typography className={classes.price}>
-                            {`${price}₪`}
+                    {isSold ? (
+                        <Typography>
+                            <img src={SoldImage} height="60px" width="60px" alt="sold" />
                         </Typography>
-                    </div>
+                    ) : null}
+                    {file ? (
+                        <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
+                    ) : null}
+                    <Typography className={classes.price}>
+                        {`${price}₪`}
+                    </Typography>
                 </div>
             </CardContent>
             <CardActions>
