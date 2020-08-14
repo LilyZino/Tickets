@@ -1,70 +1,73 @@
 import { sendConfirmationMail, sendConfirmationOfSaleMail } from '../api/MailAuth/MailAuth.service';
+import Ticket from '../api/Ticket/Ticket.model';
+import User from '../api/User/user.model';
 
-export const purchaseTicket = async (_id, sold, seller, userId, newcredit, totalPrice) => {
-    await Ticket.find().where('_id').equals(_id).populate('concert')
-        .then(result => {
-            if (result) {
-                func(result[0]);
-            }
-        });
-    async function func(ticket) {
-        try {
-            const user = await User.findById(seller);
-            const buyer = await User.findById(userId);
-            if (user) {
-                await sendConfirmationOfSaleMail(
-                    user.email,
-                    user.name,
-                    ticket.concert.artist,
-                    ticket.concert.time,
-                    sold,
-                    totalPrice,
-                    buyer.name
-                );
-            }
-            if (buyer) {
-                await sendConfirmationMail(
-                    buyer.email,
-                    buyer.name,
-                    ticket.concert.artist,
-                    ticket.concert.time,
-                    ticket.concert.location,
-                    totalPrice,
-                    sold
-                );
-            }
-        } catch (error) {
-            console.error(error.message);
-            throw error;
-        }
-    }
-    await User.findByIdAndUpdate(
-        userId,
-        {
-            $push: {
-                purchases: {
-                    _id
+export const purchaseTicket = async (_id, userId) => {
+    const ticketId = _id;
+    const buyerId = userId;
+    const ticket = await Ticket.findById(_id).populate('user').populate('concert');
+    const buyer = await User.findById(userId);
+
+    try {
+        // decrcease buyer credits & add to his purchases
+        await User.findByIdAndUpdate(
+            buyerId,
+            {
+                $push: {
+                    purchases: {
+                        ticket: {
+                            _id
+                        }
+                    }
+                },
+                $inc: {
+                    credits: (ticket.price * -1)
                 }
-            },
-            $set: {
-                credits: newcredit
             }
-        }
-    );
-    await User.updateOne(
-        { _id: seller },
-        {
-            $inc: {
-                credits: totalPrice
+        );
+
+        // update seller credit (add ticket price to seller credit)
+        await User.updateOne(
+            { _id: ticket.user._id },
+            {
+                $inc: {
+                    credits: ticket.price
+                }
             }
-        }
-    );
-    return Ticket.updateOne(
-        { _id },
-        {
-            $set: {
-                sold
+        );
+
+        // mark ticket as sold
+        await Ticket.updateOne(
+            { _id: ticketId },
+            {
+                $set: {
+                    isSold: true
+                }
             }
+        );
+
+        if (ticket.user) {
+            await sendConfirmationOfSaleMail(
+                ticket.user.email,
+                ticket.user.name,
+                ticket.concert.artist,
+                ticket.concert.time,
+                ticket.price,
+                buyer.name
+            );
         }
-    );
+        if (buyer) {
+            await sendConfirmationMail(
+                buyer.email,
+                buyer.name,
+                ticket.concert.artist,
+                ticket.concert.time,
+                ticket.concert.location,
+                ticket.price,
+            );
+        }
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
 };
