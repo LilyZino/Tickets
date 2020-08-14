@@ -2,65 +2,61 @@ import { driver } from '../../config/neo4j';
 import Ticket from '../Ticket/Ticket.model';
 import { purchaseTicket } from '../../common/tickets';
 
-const getCycles = async (req, res) => {
+const getCycles = async ({ userId }) => {
     const session = driver.session();
     try {
         const result = await session.run(
             `MATCH p=(n)-[*1..4]->(n)
             WHERE ANY(x in nodes(p) WHERE x.userId=$userId)
             return nodes(p)`,
-            { userId: req.params.userId }
+            { userId }
         );
 
         if (result.records.length === 0) {
-            res.send([]);
-        } else {
-            const cycles = result.records;
+            return ([]);
+        }
+        const cycles = result.records;
 
-            cycles.forEach((item, index) => {
-                cycles.splice(index + 1, item._fields[0].length - 1);
-            });
+        cycles.forEach((item, index) => {
+            cycles.splice(index + 1, item._fields[0].length - 1);
+        });
 
-            const formatedCycles = cycles.map((cycle) => {
-                const formatedCycle = (cycle._fields.flat().map((node) => {
-                    return { ...node.properties };
-                }));
-                formatedCycle.pop();
-                return formatedCycle;
-            });
+        const formatedCycles = cycles.map((cycle) => {
+            const formatedCycle = (cycle._fields.flat().map((node) => {
+                return { ...node.properties };
+            }));
+            formatedCycle.pop();
+            return formatedCycle;
+        });
 
-            const cyclesPath = [];
+        const cyclesPath = [];
 
-            await Promise.all(formatedCycles.map(async (cycle) => {
-                const currentPath = [];
+        await Promise.all(formatedCycles.map(async (cycle) => {
+            const currentPath = [];
 
-                await Promise.all(cycle.map(async (node, index, array) => {
-                    const start = node;
-                    const end = array[(index + 1) % array.length];
-                    const newSession = driver.session();
-                    const result = await newSession.run(
-                        `MATCH p=(start)-[]->(end)
+            await Promise.all(cycle.map(async (node, index, array) => {
+                const start = node;
+                const end = array[(index + 1) % array.length];
+                const newSession = driver.session();
+                const result = await newSession.run(
+                    `MATCH p=(start)-[]->(end)
                         WHERE start.id="${start.id}" and end.id="${end.id}"
                         RETURN p`
-                    );
+                );
 
-                    console.log(result);
+                console.log(result);
 
-                    currentPath.push({
-                        start,
-                        end,
-                        relationship: result.records[0]._fields[0].segments[0].relationship.properties
-                    });
-                }));
-
-                cyclesPath.push(currentPath);
+                currentPath.push({
+                    start,
+                    end,
+                    relationship: result.records[0]._fields[0].segments[0].relationship.properties
+                });
             }));
 
-            return (cyclesPath);
-        }
-    } catch (err) {
-        console.log(err);
-        res.status(500).send(err);
+            cyclesPath.push(currentPath);
+        }));
+
+        return (cyclesPath);
     } finally {
         await session.close();
     }
@@ -68,7 +64,7 @@ const getCycles = async (req, res) => {
 
 export const getExchangeCycles = async (req, res) => {
     try {
-        const exchanges = await getCycles(req, res);
+        const exchanges = await getCycles(req.params);
 
         res.send(exchanges);
     } catch (err) {
