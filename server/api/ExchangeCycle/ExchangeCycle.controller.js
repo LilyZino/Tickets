@@ -29,7 +29,7 @@ const getCycles = async (req, res) => {
                 return formatedCycle;
             });
 
-            let cyclesPath = [];
+            const cyclesPath = [];
 
             await Promise.all(formatedCycles.map(async (cycle) => {
                 const currentPath = [];
@@ -58,6 +58,9 @@ const getCycles = async (req, res) => {
 
             return (cyclesPath);
         }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     } finally {
         await session.close();
     }
@@ -123,16 +126,23 @@ export const approveExchange = async (req, res) => {
             SET r.isApproved = true`
         );
 
-        if (exchange.every((path) => path.relationship.isApproved)) {
+        (exchange.find((path) => path.start.id === getId && path.end.id === giveId)).relationship.isApproved = true;
 
-            // TODO: run purchaseTicket for every path
-            // also balance credits
-            // await purchaseTicket(purchasedTicketId, ticketsAmount, sellerId, buyerId)
-            // Todo: finish the exchange
-            // Todo: remove all nodes from graph
+        if (exchange.every((path) => path.relationship.isApproved)) {
+            exchange.forEach((path) => {
+                purchaseTicket(path.start.id, path.end.userId);
+            });
+
+            const deleteCompletedExchange = await session.run(
+                `MATCH (a:Ticket)
+                WHERE a.id IN [${exchange.map((path) => `'${path.start.id}'`).join(', ')}]
+                detach delete a`
+            );
+
+            res.send({ isExchangeComplete: true });
         }
 
-        res.send('exchange was approved successfully');
+        res.send({ isExchangeComplete: false });
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
@@ -157,4 +167,3 @@ export const denyExchange = async (req, res) => {
         session.close();
     }
 };
-
