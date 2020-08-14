@@ -11,6 +11,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RepeatIcon from '@material-ui/icons/Repeat';
 import AttachMoney from '@material-ui/icons/AttachMoney';
+import AttachFile from '@material-ui/icons/AttachFile';
 import axios from 'axios';
 import Chip from '@material-ui/core/Chip';
 import Select from '@material-ui/core/Select';
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Ticket(props) {
     const classes = useStyles();
     const { id, price, amount, concert, desc, file, onDelete, isSold, isPhysical } = props;
-    const [upForExchange, serUpForExchange] = useState(props.upForExchange);
+    const [upForExchange, setUpForExchange] = useState(props.upForExchange);
     const [open, setOpen] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const [isTicketPhysical, setIsTicketPhysical] = useState(isPhysical);
@@ -85,7 +86,8 @@ export default function Ticket(props) {
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredDesc, setEnteredDesc] = useState(desc);
     const [enteredFile, setEnteredFile] = useState(file);
-    const [exchangeExpanded, setExpanded] = useState(false);
+    const [exchangeExpanded, setExchangeExpanded] = useState(false);
+    const [fileExpanded, setFileExpanded] = useState(false);
     const [selectedGenre, setSelectedGenre] = useState();
     const [genres, setGenres] = useState([]);
     const { token } = authenticationService.currentUserValue.data;
@@ -115,7 +117,11 @@ export default function Ticket(props) {
     };
 
     const toggleExchangeExpanded = () => {
-        setExpanded(!exchangeExpanded);
+        setExchangeExpanded(!exchangeExpanded);
+    };
+
+    const toggleFileExpanded = () => {
+        setFileExpanded(!fileExpanded);
     };
 
     const setAsExchangeTicket = async () => {
@@ -128,8 +134,8 @@ export default function Ticket(props) {
             },
             requestedGenre: selectedGenre
         }, { headers: { Authorization: `Bearer ${token}` } });
-        setExpanded(false);
-        serUpForExchange(true);
+        setExchangeExpanded(false);
+        setUpForExchange(true);
     };
 
     useEffect(() => {
@@ -175,9 +181,6 @@ export default function Ticket(props) {
                                 className={classes.chip}
                             />
                         ) : null}
-                    {file ? (
-                        <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
-                    ) : null}
                     <Typography className={classes.price}>
                         {`${price}₪`}
                     </Typography>
@@ -225,6 +228,15 @@ export default function Ticket(props) {
                             <RepeatIcon />
                         </IconButton>
                     )}
+                {file
+                    ? (
+                        <IconButton onClick={() => {
+                            toggleFileExpanded();
+                        }}
+                        >
+                            <AttachFile />
+                        </IconButton>
+                    ) : null}
             </CardActions>
             <Collapse in={exchangeExpanded} timeout="auto" unmountOnExit>
                 <CardContent>
@@ -250,6 +262,14 @@ export default function Ticket(props) {
                     <Button onClick={() => { setAsExchangeTicket(); }}>
                         Exchange
                     </Button>
+                </CardContent>
+            </Collapse>
+            <Collapse in={fileExpanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <Typography>
+                        File Attached
+                    </Typography>
+                    <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
                 </CardContent>
             </Collapse>
         </Card>
