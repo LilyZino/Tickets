@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 export default function Exchange(props) {
     const classes = useStyles();
     const { get, give, approved, denied, approveFunction, denyFunction, index, unApprovedCount } = props;
-    const priceExchange = give.ticket.price - get.ticket.price;
+    const priceExchange = get.ticket.price - give.ticket.price;
 
     return (
         <div>
