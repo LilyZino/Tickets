@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
         marginTop: '10px'
     },
+    center: {
+        textAlign: 'center'
+    },
     pos: {
         marginBottom: 12,
     },
@@ -36,6 +39,10 @@ const useStyles = makeStyles((theme) => ({
             marginTop: theme.spacing(2),
         },
     },
+    noExchangesMessage: {
+        marginTop: '20px',
+        textAlign: 'center'
+    }
 }));
 
 export default function ExchangesList() {
@@ -88,29 +95,33 @@ export default function ExchangesList() {
 
     return (
         <div>
-            <Typography variant="h4" className={classes.title}> Welcome the exchange area</Typography>
-            <Typography>Here you can find the exchanges possibilities</Typography>
-            {exchanges.length === 0 || !userId ? <div /> : exchanges.map((exchange, index) => {
-                const exchangePathIndex = _.findIndex(exchange, (path) => path.end.userId === userId);
-                const exchangePath = exchange[exchangePathIndex];
+            <div className={classes.center}>
+                <Typography variant="h3" className={classes.title}>Exchanges Area</Typography>
+                <Typography>Here you can find the exchanges possibilities</Typography>
+            </div>
+            {exchanges.length === 0 || !userId
+                ? <Typography className={classes.noExchangesMessage}>It seems that you doesn't have any exchange offers, return often to check wether there are new offers</Typography>
+                : exchanges.map((exchange, index) => {
+                    const exchangePathIndex = _.findIndex(exchange, (path) => path.end.userId === userId);
+                    const exchangePath = exchange[exchangePathIndex];
 
-                return (
-                    <Exchange
-                        get={exchangePath.start}
-                        give={exchangePath.end}
-                        approved={exchangePath.relationship.isApproved}
-                        denied={{
-                            isDenied: exchange.some((path) => path.relationship.isDenied),
-                            deniedByUser: exchangePath.relationship.isDenied
-                        }}
-                        approveFunction={() => approveExchange(exchange, exchangePath.start, exchangePath.end, index, exchangePathIndex)}
-                        denyFunction={() => denyExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
-                        index={index}
-                        unApprovedCount={exchange.filter((path) => path.relationship.isApproved !== true).length}
-                        key={uuid()}
-                    />
-                );
-            })}
+                    return (
+                        <Exchange
+                            get={exchangePath.start}
+                            give={exchangePath.end}
+                            approved={exchangePath.relationship.isApproved}
+                            denied={{
+                                isDenied: exchange.some((path) => path.relationship.isDenied),
+                                deniedByUser: exchangePath.relationship.isDenied
+                            }}
+                            approveFunction={() => approveExchange(exchange, exchangePath.start, exchangePath.end, index, exchangePathIndex)}
+                            denyFunction={() => denyExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
+                            index={index}
+                            unApprovedCount={exchange.filter((path) => path.relationship.isApproved !== true).length}
+                            key={uuid()}
+                        />
+                    );
+                })}
             <Snackbar open={snackBarOpen} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success">
                     Congrats, The exchange was completed successfully!
