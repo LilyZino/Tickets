@@ -156,11 +156,15 @@ export default function Ticket(props) {
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
             <CardContent>
                 <div className={classes.badges}>
-                    {upForExchange ? <Chip className={classes.chip} color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
-                        : null}
-                    {isSold ? (
-                        <Chip className={classes.chip} color="secondary" icon={<AttachMoney />} label="Sold" />
-                    ) : null}
+                    {
+                        (upForExchange && isSold)
+                            ? <Chip className={classes.chip} color="secondary" icon={<RepeatIcon />} label="Exchanged Successfully" />
+                            : upForExchange
+                                ? <Chip className={classes.chip} color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
+                                : isSold
+                                    ? (<Chip className={classes.chip} color="secondary" icon={<AttachMoney />} label="Sold" />)
+                                    : null
+                    }
                     {concert.isDeleted
                         ? (
                             <Chip
