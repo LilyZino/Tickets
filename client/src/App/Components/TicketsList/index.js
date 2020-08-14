@@ -4,7 +4,7 @@ import axios from 'axios';
 import Ticket from '../Ticket';
 import SoldTicket from '../SoldTicket';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     grid: {
         display: 'flex',
         flexWrap: 'wrap',

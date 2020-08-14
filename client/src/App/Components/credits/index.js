@@ -68,6 +68,7 @@ export default function Credits(props) {
     const [amount, setAmount] = React.useState(0);
     const [cvc, setcvc] = useState('');
     const [expiry, setexpiry] = useState('');
+    const [comparableExpiry, setComparableExpiry] = useState('');
     const [dateError, setdateError] = useState(false);
     const [name, setname] = useState('');
     const [cardnumber, setnumber] = useState('');
@@ -79,7 +80,7 @@ export default function Credits(props) {
         mm = `0${mm}`;
     }
 
-    today = `${mm}/${yy}`;
+    today = `${yy}${mm}`;
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -103,6 +104,7 @@ export default function Credits(props) {
         const clearValue = clearNumber(value);
 
         if (clearValue.length >= 3) {
+            setComparableExpiry(`${clearValue.slice(2, 4)}${clearValue.slice(0, 2)}`);
             return `${clearValue.slice(0, 2)}/${clearValue.slice(2, 4)}`;
         }
 
@@ -138,7 +140,7 @@ export default function Credits(props) {
                                 <Tab icon={<PaymentIcon />} label="Deposit" />
                                 <Tab icon={<AccountBalanceIcon />} label="Withrawal" />
                             </Tabs>
-                        </Paper>{// todo insert to paper
+                        </Paper>{
                         }
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
@@ -281,11 +283,14 @@ export default function Credits(props) {
                                     color="primary"
                                     autoFocus
                                     onClick={() => {
-                                        if (expiry < today) {
-                                            setdateError(true);
+                                        if (tabValue === 0) {
+                                            if (comparableExpiry < today) {
+                                                setdateError(true);
+                                            } else {
+                                                changeCredits(props.uId, amount);
+                                            }
                                         } else {
-                                            changeCredits(props.uId,
-                                                (tabValue === 0 ? amount : amount * -1));
+                                            changeCredits(props.uId, amount * -1);
                                         }
                                     }}
                                 >

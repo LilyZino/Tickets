@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
     const classes = useStyles();
-    const { openUser, setOpenUser, ticket } = props;
+    const { openUser, setOpenUser, user } = props;
     const [complaint, setComplaint] = useState('');
     const [openReport, setOpenReport] = useState(false);
 
@@ -99,13 +99,13 @@ export default (props) => {
                 <Fade in={openUser}>
                     <div className={classes.paper}>
                         <Typography variant="h3" className={classes.title}>
-                            {ticket.user.name}
+                            {user.name}
                         </Typography>
                         <Typography variant="h2" className={classes.title}>
-                            Rank: {ticket.user.rank}
+                            Rank: {user.rank}
                         </Typography>
                         <Typography variant="h2" className={classes.title}>
-                            Phone: {ticket.user.phone}, Mail: {ticket.user.email}
+                            Phone: {user.phone}, Mail: {user.email}
                         </Typography>
                         <br />
                         <Button
@@ -145,7 +145,7 @@ export default (props) => {
                 <Fade in={openReport}>
                     <div className={classes.paper}>
                         <Typography variant="h3" className={classes.title}>
-                            You are reporting <b>{ticket.user.name}</b>
+                            You are reporting <b>{user.name}</b>
                         </Typography>
                         <Typography variant="h3" className={classes.title}>
                             Please explain your complaint and the Admin will take it into consideration
@@ -169,7 +169,7 @@ export default (props) => {
                             color="primary"
                             autoFocus
                             onClick={() => {
-                                handleReport(complaint, ticket.user._id);
+                                handleReport(complaint, user._id);
                                 setOpenReport(false);
                             }}
                         >
