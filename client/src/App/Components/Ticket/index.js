@@ -10,12 +10,12 @@ import Collapse from '@material-ui/core/Collapse';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RepeatIcon from '@material-ui/icons/Repeat';
+import AttachMoney from '@material-ui/icons/AttachMoney';
 import axios from 'axios';
 import Chip from '@material-ui/core/Chip';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-import SoldImage from '../../../Assets/Images/sold.png';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
 
@@ -114,6 +114,10 @@ export default function Ticket(props) {
         });
     };
 
+    const toggleExchangeCollapse = () => {
+        setExpanded(!expanded);
+    }
+
     const setAsExchangeTicket = async () => {
         const { token } = authenticationService.currentUserValue.data;
         const userId = authenticationService.currentUserValue.data
@@ -146,6 +150,11 @@ export default function Ticket(props) {
                 <div>
                     {upForExchange ? <Chip color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
                         : null}
+                    {isSold ? (
+                        <Typography>
+                            <Chip color="secondary" icon={<AttachMoney />} label="Sold" />
+                        </Typography>
+                    ) : null}
                     <Typography variant="h5" component="h2">
                         {concert.artist}
                     </Typography>
@@ -169,11 +178,6 @@ export default function Ticket(props) {
                                 className={classes.chip}
                             />
                         ) : null}
-                    {isSold ? (
-                        <Typography>
-                            <img src={SoldImage} height="60px" width="60px" alt="sold" />
-                        </Typography>
-                    ) : null}
                     {file ? (
                         <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
                     ) : null}
@@ -218,7 +222,7 @@ export default function Ticket(props) {
                 {upForExchange ? null
                     : (
                         <IconButton onClick={() => {
-                            setExpanded(true);
+                            toggleExchangeCollapse();
                         }}
                         >
                             <RepeatIcon />
