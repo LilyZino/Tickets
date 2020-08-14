@@ -24,6 +24,7 @@ import {
 } from 'react-router-dom';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
+import RepeatIcon from '@material-ui/icons/Repeat';
 import Entrance from './Components/Users/entryButtons';
 import { authenticationService } from './_services';
 import theme from './theme';
@@ -37,6 +38,7 @@ import AddConcert from './Components/AddConcert';
 import Charts from './Components/Charts';
 import Recommendations from './Components/Recommendations';
 import UsersList from './Components/UsersList';
+import Exchanges from './Components/ExchangesList';
 import ReportList from './Components/ReportList';
 import Purchases from './Components/Purchases';
 
@@ -49,6 +51,9 @@ const useStyles = makeStyles(() => ({
     },
     title: {
         flexGrow: 1,
+    },
+    logo: {
+        width: '160px',
     }
 }));
 
@@ -71,7 +76,7 @@ export default function () {
                                 <MenuIcon />
                             </IconButton>
                             <Typography variant="h6" className={classes.title}>
-                                Tickets
+                                <img className={classes.logo} src="../../Assets/Images/logo.png" alt="" />
                             </Typography>
                             <Entrance />
                         </Toolbar>
@@ -85,6 +90,8 @@ export default function () {
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/purchases" primary="My Purchases" icon={<AttachMoney />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/userExchanges" primary="My Exchanges" icon={<RepeatIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
@@ -120,6 +127,9 @@ export default function () {
                         </Route>
                         <Route path="/purchases">
                             <Purchases />
+                        </Route>
+                        <Route path="/userExchanges">
+                            <Exchanges />
                         </Route>
                         <Route path="/users">
                             <UsersList />

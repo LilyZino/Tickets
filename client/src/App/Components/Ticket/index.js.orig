@@ -10,21 +10,19 @@ import Collapse from '@material-ui/core/Collapse';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RepeatIcon from '@material-ui/icons/Repeat';
-import AttachMoney from '@material-ui/icons/AttachMoney';
-import AttachFile from '@material-ui/icons/AttachFile';
 import axios from 'axios';
-import Chip from '@material-ui/core/Chip';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Chip } from '@material-ui/core';
+import SoldImage from '../../../Assets/Images/sold.png';
 import AddTicketFade from '../AddTicket/newTicketFade';
 import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        width: '45%',
-        margin: 15,
-        backgroundColor: '#fbfbfb'
+        minWidth: 275,
+        marginTop: 15,
     },
     bullet: {
         display: 'inline-block',
@@ -48,88 +46,60 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     },
     price: {
-        fontSize: '2rem'
+        fontSize: '2rem',
+        marginRight: '15px'
     },
     cardContent: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     soldimg: {
         marginRight: '15px'
     },
-    badges: {
+    cardTitle: {
         display: 'flex',
-        justifyContent: 'flex-end',
-    },
-    chip: {
-        margin: '0px 4px',
-        fontSize: 'x-small'
-    },
-    img: {
-        borderRadius: '10px',
-        width: '100px',
-        height: '100px'
-    },
-    sideDiv: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-end'
+        /* align-items: center; */
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 }));
 
 export default function Ticket(props) {
     const classes = useStyles();
-    const { id, price, amount, concert, desc, file, onDelete, isSold, isPhysical } = props;
-    const [upForExchange, setUpForExchange] = useState(props.upForExchange);
+    const { id, price, amount, concert, desc, file, onDelete, isSold } = props;
+    const [upForExchange, serUpForExchange] = useState(props.upForExchange);
     const [open, setOpen] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
-    const [isTicketPhysical, setIsTicketPhysical] = useState(isPhysical);
     const [enteredConcert, setEnteredConcert] = useState(concert._id);
     const [enteredPrice, setEnteredPrice] = useState(price);
     const [enteredAmount, setEnteredAmount] = useState(amount);
     const [enteredDesc, setEnteredDesc] = useState(desc);
     const [enteredFile, setEnteredFile] = useState(file);
-    const [exchangeExpanded, setExchangeExpanded] = useState(false);
-    const [fileExpanded, setFileExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false);
     const [selectedGenre, setSelectedGenre] = useState();
     const [genres, setGenres] = useState([]);
-    const { token } = authenticationService.currentUserValue.data;
-    const userId = authenticationService.currentUserValue.data
-        ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
 
-    const editTicket = async () => {
-        const formData = new FormData();
-
-        if (!isTicketPhysical) {
-            formData.append('file', enteredFile, enteredFile.name);
-        }
-
-        formData.append('_id', id);
-        formData.append('concertId', enteredConcert);
-        formData.append('price', enteredPrice);
-        formData.append('amount', enteredAmount);
-        formData.append('userId', userId);
-        formData.append('isPhysical', isTicketPhysical);
-        formData.append('desc', enteredDesc);
-
-        await axios.post('api/tickets/', formData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        });
-    };
-
-    const toggleExchangeExpanded = () => {
-        setExchangeExpanded(!exchangeExpanded);
-    };
-
-    const toggleFileExpanded = () => {
-        setFileExpanded(!fileExpanded);
+    const handleSubmit = async () => {
+        const { token } = authenticationService.currentUserValue.data;
+        const userId = authenticationService.currentUserValue.data
+            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
+        await axios.post('/api/tickets', {
+            _id: id,
+            concertId: enteredConcert,
+            price: enteredPrice,
+            amount: enteredAmount,
+            desc: enteredDesc,
+            file: enteredFile,
+            userId
+        }, { headers: { Authorization: `Bearer ${token}` } });
     };
 
     const setAsExchangeTicket = async () => {
+        const { token } = authenticationService.currentUserValue.data;
+        const userId = authenticationService.currentUserValue.data
+            ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         axios.put('/api/exchangecycles/tickets', {
             ticket: {
                 id,
@@ -139,60 +109,55 @@ export default function Ticket(props) {
             },
             requestedGenre: selectedGenre
         }, { headers: { Authorization: `Bearer ${token}` } });
-        setExchangeExpanded(false);
-        setUpForExchange(true);
+        setExpanded(false);
+        serUpForExchange(true);
     };
 
     useEffect(() => {
         (async () => {
-            if (exchangeExpanded) {
+            if (expanded) {
                 const serverGenres = await axios.get('/api/concerts/genres');
                 setGenres(serverGenres.data);
             }
         })();
-    }, [exchangeExpanded]);
+    }, [expanded]);
 
     return (
         <Card className={classes.card} elavation="2" hidden={isDeleted}>
             <CardContent>
-                <div className={classes.badges}>
-                    {
-                        (upForExchange && isSold)
-                            ? <Chip className={classes.chip} color="secondary" icon={<RepeatIcon />} label="Exchanged Successfully" />
-                            : upForExchange
-                                ? <Chip className={classes.chip} color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
-                                : isSold
-                                    ? (<Chip className={classes.chip} color="secondary" icon={<AttachMoney />} label="Sold" />)
-                                    : null
-                    }
-                    {concert.isDeleted
-                        ? (
-                            <Chip
-                                label="This concert was removed by admin"
-                            />
-                        ) : null}
+                <div className={classes.cardTitle}>
+                    <Typography variant="h5" component="h2">
+                        {concert.artist}
+                    </Typography>
+                    {upForExchange ? <Chip color="secondary" icon={<RepeatIcon />} label="Up for exchange" />
+                        : null}
                 </div>
                 <div className={classes.cardContent}>
                     <div>
-                        <Typography variant="h5" component="h2">
-                            {concert.artist}
-                        </Typography>
                         <Typography className={classes.pos} color="textSecondary">
                             {`${concert.location}, ${moment(concert.time).format('DD/MM/YYYY HH:mm')}`}
                         </Typography>
                         <Typography>
                             {amount} Tickets
-                    </Typography>
+                        </Typography>
                         {desc ? (
                             <Typography>
                                 Description: {desc}
                             </Typography>
                         ) : null}
+                        <Typography>
+                            {file ? (<embed src={`http://localhost:9000/public/${file}`} alt="img" height="70" width="70" />) : null}
+                        </Typography>
                     </div>
-                    <div className={classes.sideDiv}>
+                    <div align="right" className={classes.soldimg}>
                         <Typography className={classes.price}>
                             {`${price}₪`}
                         </Typography>
+                        {isSold ? (
+                            <Typography>
+                                <img src={SoldImage} height="60px" width="60px" alt="sold" />
+                            </Typography>
+                        ) : null}
                     </div>
                 </div>
             </CardContent>
@@ -216,9 +181,7 @@ export default function Ticket(props) {
                     setEnteredConcert={setEnteredConcert}
                     enteredFile={enteredFile}
                     setEnteredFile={setEnteredFile}
-                    isTicketPhysical={isTicketPhysical}
-                    setIsTicketPhysical={setIsTicketPhysical}
-                    handleSubmit={editTicket}
+                    handleSubmit={handleSubmit}
                     handleClose={() => setOpen(false)}
                 />
 
@@ -229,26 +192,17 @@ export default function Ticket(props) {
                 >
                     <DeleteIcon />
                 </IconButton>
-                {!upForExchange && !isSold
-                    ? (
+                {upForExchange ? null
+                    : (
                         <IconButton onClick={() => {
-                            toggleExchangeExpanded();
+                            setExpanded(true);
                         }}
                         >
                             <RepeatIcon />
                         </IconButton>
-                    ) : null}
-                {file
-                    ? (
-                        <IconButton onClick={() => {
-                            toggleFileExpanded();
-                        }}
-                        >
-                            <AttachFile />
-                        </IconButton>
-                    ) : null}
+                    )}
             </CardActions>
-            <Collapse in={exchangeExpanded} timeout="auto" unmountOnExit>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography>
                         Switching Tickets
@@ -274,14 +228,6 @@ export default function Ticket(props) {
                     </Button>
                 </CardContent>
             </Collapse>
-            <Collapse in={fileExpanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography>
-                        File Attached
-                    </Typography>
-                    <img className={classes.img} src={`http://localhost:9000/public/${file}`} alt="img" />
-                </CardContent>
-            </Collapse>
-        </Card>
+        </Card >
     );
 }

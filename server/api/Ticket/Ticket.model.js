@@ -35,6 +35,10 @@ const TicketSchema = new Schema({
     },
     image: {
         type: String
+    },
+    upForExchange: {
+        type: Boolean,
+        default: false
     }
 });
 

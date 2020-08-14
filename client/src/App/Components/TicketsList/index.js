@@ -41,7 +41,6 @@ const TicketsList = (props) => {
         setFilteredTickets(ticketsToRender);
     }, [tickets, filter, props]);
 
-
     return (
         <div className={classes.grid}>
             {isMine ? (
@@ -56,20 +55,21 @@ const TicketsList = (props) => {
                         file={ticket.file}
                         isSold={ticket.isSold}
                         onDelete={handleDelete}
+                        upForExchange={ticket.upForExchange}
                         isPhysical={ticket.isPhysical}
                     />
                 ))) : (
-                    filteredTickets.map((ticket) => (
-                        <SoldTicket
-                            ticketRank={ticket.rank}
-                            key={ticket._id}
-                            rankId={ticket._id}
-                            price={ticket.ticket.price}
-                            concert={ticket.ticket.concert}
-                            file={ticket.ticket.file}
-                            user={ticket.ticket.user}
-                        />
-                    )))}
+                filteredTickets.map((ticket) => (
+                    <SoldTicket
+                        ticketRank={ticket.rank}
+                        key={ticket._id}
+                        rankId={ticket._id}
+                        price={ticket.ticket.price}
+                        concert={ticket.ticket.concert}
+                        file={ticket.ticket.file}
+                        user={ticket.ticket.user}
+                    />
+                )))}
         </div>
     );
 };

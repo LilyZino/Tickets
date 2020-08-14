@@ -159,3 +159,8 @@ export const getConcertsRecommendations = async (req, res) => {
 
     res.send(concerts);
 };
+export const getGenres = async (req, res) => {
+    const genres = await Concert.distinct('genre');
+    res.send(genres);
+    // res.send("genres");
+};

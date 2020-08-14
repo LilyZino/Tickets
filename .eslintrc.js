@@ -36,6 +36,7 @@ module.exports = {
     'react/prop-types': 'off',
     'arrow-parens': 'off',
     'max-len': 'off',
-    'react/no-unescaped-entities': 'off'
+    'react/no-unescaped-entities': 'off',
+    'no-nested-ternary' : 'off'
   }
 };
