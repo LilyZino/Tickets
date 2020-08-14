@@ -34,10 +34,10 @@ const useStyles = makeStyles({
 export default function Exchange(props) {
     const classes = useStyles();
     const { get, give, approved, denied, approveFunction, denyFunction, index, unApprovedCount } = props;
+    const priceExchange = give.ticket.price - get.ticket.price;
 
     return (
         <div>
-            {console.log(give)}
             <Card className={classes.root}>
                 <CardContent>
                     <div className={classes.cardTitle}>
@@ -68,9 +68,11 @@ export default function Exchange(props) {
                                 {'Give: '}
                             </span>
                             {
-                                give
-                                    ? give.artist
-                                    : null
+                                !give
+                                    ? null
+                                    : (priceExchange > 0
+                                        ? <span>{`${give.artist} + ${priceExchange}`} <img height="16px" src="../../../Assets/images/coin.png" alt="" /></span>
+                                        : give.artist)
                             }
                         </Typography>
                         <Typography variant="h5" component="h2">
@@ -78,10 +80,11 @@ export default function Exchange(props) {
                                 {'Get: '}
                             </span>
                             {
-
-                                get
-                                    ? get.artist
-                                    : null
+                                !get
+                                    ? null
+                                    : (priceExchange < 0
+                                        ? <span>{`${get.artist} + ${0 - priceExchange}`} <img height="16px" src="../../../Assets/images/coin.png" alt="" /></span>
+                                        : get.artist)
                             }
                         </Typography>
                         {

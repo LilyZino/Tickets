@@ -56,6 +56,19 @@ const getCycles = async ({ userId }) => {
             cyclesPath.push(currentPath);
         }));
 
+        await Promise.all(cyclesPath.map(async (cycle) => {
+            return (Promise.all(cycle.map(async (path) => {
+                const pathWithTickets = { ...path };
+                const startTicket = await Ticket.findById(path.start.id);
+                pathWithTickets.start.ticket = startTicket;
+
+                const endTicket = await Ticket.findById(path.end.id);
+                pathWithTickets.end.ticket = endTicket;
+
+                return (pathWithTickets);
+            })));
+        }));
+
         return (cyclesPath);
     } finally {
         await session.close();
@@ -118,7 +131,7 @@ export const approveExchange = async (req, res) => {
     const session = driver.session();
     try {
         const approveExchangeResult = await session.run(
-            `MATCH (a {id:"${getId}"})-[r]-(b {id:"${giveId}"})
+            `MATCH (a {id:"${getId}"})-[r]->(b {id:"${giveId}"})
             SET r.isApproved = true`
         );
 
