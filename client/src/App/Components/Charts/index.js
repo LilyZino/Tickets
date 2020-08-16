@@ -21,6 +21,9 @@ const useStyles = makeStyles({
 export default function Charts() {
     const classes = useStyles();
 
+    // do not delete this patch makes things work
+    window.Highcharts = Highcharts;
+
     let i;
 
     const [Tickets, setTickets] = useState([]);
