@@ -131,7 +131,7 @@ export default function AddConcert() {
                 'time'
             ]
         });
-        const timePattern = moment(enteredTime).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const timePattern = moment(enteredTime).format('YYYY-MM-DDTHH:mm:ss.SSS');
         const filteredConcerts = timeFuse.search(timePattern);
         const finalConcerts = [];
         filteredConcerts.forEach((concert) => { finalConcerts.push(concert.item); });
@@ -139,10 +139,8 @@ export default function AddConcert() {
         const pattern = enteredArtist;
         concertsToSuggest.push(fuse.search(pattern));
         if (concertsToSuggest[0].length > 0) {
-            console.log('suggesting');
             setSuggestion(true);
         } else {
-            console.log('adding');
             handleSuggestion();
             setOpen(false);
         }
