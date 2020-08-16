@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        borderRadius: '15px'
     },
     form: {
         display: 'flex',
@@ -69,14 +68,14 @@ export default function AddTicketFade(props) {
                     <div className={classes.paper}>
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
-                                <Typography component="h1" variant="h5">
-                                    Please confirm the purchase:
+                                <Typography variant="h5">
+                                    Do you want to buy this tickets?
                                 </Typography>
-                                <Typography component="h1" variant="h5">
+                                <Typography variant="body1">
                                     {amount} tickets for {concert}
                                 </Typography>
-                                <Typography component="h1" variant="h5">
-                                    price: {price}₪
+                                <Typography variant="body1">
+                                    It will cost you {price}₪
                                 </Typography>
                                 <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={buyTicket}>
                                     Buy Ticket
