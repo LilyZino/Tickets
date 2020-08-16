@@ -52,6 +52,7 @@ export const purchaseTicket = async (_id, userId) => {
                 ticket.user.name,
                 ticket.concert.artist,
                 ticket.concert.time,
+                ticket.amount,
                 ticket.price,
                 buyer.name
             );
@@ -64,6 +65,7 @@ export const purchaseTicket = async (_id, userId) => {
                 ticket.concert.time,
                 ticket.concert.location,
                 ticket.price,
+                ticket.amount
             );
         }
     } catch (error) {
