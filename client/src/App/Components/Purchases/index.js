@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TicketsFeed from '../TicketsFeed';
 import { authenticationService } from '../../_services';
 import SoldTicket from '../SoldTicket';
 

@@ -182,7 +182,7 @@ export default function Ticket(props) {
                         </Typography>
                         <Typography>
                             {amount} Tickets
-                    </Typography>
+                        </Typography>
                         {desc ? (
                             <Typography>
                                 Description: {desc}

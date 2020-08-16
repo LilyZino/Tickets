@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -27,6 +27,7 @@ const useStyles = makeStyles(() => ({
 export default function Report(props) {
     const classes = useStyles();
     const { name, complaint, byUser, _id } = props;
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const solveReport = async (target) => {
         await axios.post('/api/users/remove_report', {
@@ -36,7 +37,7 @@ export default function Report(props) {
     };
 
     return (
-        <Card className={classes.card} elavation="2">
+        <Card className={classes.card} elavation="2" hidden={isDeleted}>
             <div className={classes.cardContent}>
                 <CardContent>
                     <Typography variant="h5" component="h2">
@@ -55,6 +56,7 @@ export default function Report(props) {
                         color="secondary"
                         onClick={() => {
                             solveReport(name);
+                            setIsDeleted(true);
                         }}
                     >
                     Mark as solved
