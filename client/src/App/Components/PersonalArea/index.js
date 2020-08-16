@@ -47,7 +47,7 @@ export default function PersonalArea() {
                 <Typography>Here you can find the {ticketsCount} concert, you putted up tickets for sale</Typography>
             </div>
             {isLoaded
-                ? <TicketsFeed tickets={tickets} isMine />
+                ? <TicketsFeed tickets={tickets} />
                 : <div className={classes.loader}><CircularProgress color="secondary" /></div>}
         </div>
     );
