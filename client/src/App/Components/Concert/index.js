@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -26,6 +27,11 @@ import NewConcertFade from '../AddConcert/newConcertFade';
 import { authenticationService } from '../../_services';
 
 const useStyles = makeStyles((theme) => ({
+    loader: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '30px'
+    },
     card: {
         minWidth: 275,
         marginTop: 15,
@@ -62,6 +68,7 @@ export default (props) => {
     const [expanded, setExpanded] = useState(false);
     const [mapexpanded, setmapExpanded] = useState(false);
     const [availableTickets, setAvailableTickets] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const [open, setOpen] = useState(false);
     const [login, setLogin] = useState(false);
@@ -95,6 +102,7 @@ export default (props) => {
             const response = await axios.get(`/api/tickets/concert/${id}`);
             const concertTickets = response.data;
             setAvailableTickets(concertTickets.filter((ticket) => !ticket.isSold && !ticket.user.isBlocked && !ticket.upForExchange));
+            setIsLoaded(true);
         };
 
         getTicketForConcert();
@@ -185,23 +193,25 @@ export default (props) => {
                         Available tickets:
                     </Typography>
                     <List>
-                        {availableTickets.length === 0
-                            ? (
-                                <Typography>
-                                    There are no tickets available for this concert :(
-                                </Typography>
-                            )
-                            : availableTickets
-                                .map((ticket) => {
-                                    return (
-                                        <TicketinList
-                                            key={ticket._id}
-                                            id={ticket._id}
-                                            ticket={ticket}
-                                            concert={artist}
-                                        />
-                                    );
-                                })}
+                        {isLoaded ? (
+                            availableTickets.length === 0
+                                ? (
+                                    <Typography>
+                                        There are no tickets available for this concert :(
+                                    </Typography>
+                                )
+                                : availableTickets
+                                    .map((ticket) => {
+                                        return (
+                                            <TicketinList
+                                                key={ticket._id}
+                                                id={ticket._id}
+                                                ticket={ticket}
+                                                concert={artist}
+                                            />
+                                        );
+                                    })
+                        ) : <div className={classes.loader}><CircularProgress color="secondary" /></div>}
                     </List>
                 </CardContent>
             </Collapse>
