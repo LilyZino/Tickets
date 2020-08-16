@@ -4,9 +4,12 @@ import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ReportIcon from '@material-ui/icons/Report';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import BuyTicketFade from './buyTicketFade';
@@ -72,6 +75,13 @@ const useStyles = makeStyles((theme) => ({
             textDecoration: 'underline'
         }
     },
+    price: {
+        fontSize: '1.4em',
+        marginRight: '15px'
+    },
+    listItem: {
+        whiteSpace: 'pre-line'
+    }
 }));
 
 export default (props) => {
@@ -81,7 +91,7 @@ export default (props) => {
     const [userCredits, setuserCredits] = useState('');
     const [openAfterPurchaseMessage, setOpenAfterPurchaseMessage] = useState(false);
     const [PurchaseFailedMessage, setPurchaseFailedMessage] = useState(false);
-    const [openUser, setOpenUser] = useState(false);
+    const [openReportModal, setOpenReportModal] = useState(false);
 
     useEffect(() => {
         const GetCredits = async () => {
@@ -126,28 +136,34 @@ export default (props) => {
     };
 
     return (
-        <ListItem button key={ticket._id}>
+        <ListItem button key={ticket._id} className={classes.listItem}>
             <ListItemIcon>
                 <ConfirmationNumberIcon />
             </ListItemIcon>
             {ticket.description
                 ? (
                     <ListItemText
-                        onClick={() => { setOpenUser(true); }}
-                        primary={`${ticket.amount} Tickets. Description: ${ticket.description}`}
-                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}`}
+                        primary={`${ticket.amount} Tickets`}
+                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}
+                                     ${ticket.description}`}
                     />
                 )
                 : (
                     <ListItemText
-                        onClick={() => { setOpenUser(true); }}
                         primary={`${ticket.amount} Tickets`}
-                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}`}
                     />
                 )}
-            <Typography>
+            <Typography className={classes.price}>
                 {`${ticket.price}₪`}
             </Typography>
+            <IconButton
+                className={classes.submitBtn}
+                type="submit"
+                color="secondary"
+                onClick={() => setOpenReportModal(true)}
+            >
+                <ReportIcon />
+            </IconButton>
             <Button
                 className={classes.submitBtn}
                 type="submit"
@@ -165,8 +181,8 @@ export default (props) => {
                 handleClose={handleClose}
             />
             <ReportFade
-                openUser={openUser}
-                setOpenUser={setOpenUser}
+                openReportModal={openReportModal}
+                handleModalClose={() => setOpenReportModal(false)}
                 user={ticket.user}
             />
             <Modal
