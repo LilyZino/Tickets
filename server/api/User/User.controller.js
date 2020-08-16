@@ -164,6 +164,8 @@ export const login = async (req, res) => {
 
         if (!loggedUser.isAuthenticated) return res.status(404).json({ msg: 'User was not authenticated, please check your mail' });
 
+        if (loggedUser.isBlocked) return res.status(404).json({ msg: 'User was blocked by the admin' });
+
         const token = jwt.sign(
             loggedUser.toJSON(),
             process.env.JWT_SECRET,

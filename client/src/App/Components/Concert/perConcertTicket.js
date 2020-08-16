@@ -137,9 +137,17 @@ export default (props) => {
 
     return (
         <ListItem button key={ticket._id} className={classes.listItem}>
-            <ListItemIcon>
-                <ConfirmationNumberIcon />
-            </ListItemIcon>
+            {ticket.user.rank > 30
+                ? (
+                    <ListItemIcon>
+                        <img src="../../../Assets/images/toprated.png" alt="" height="25px" />
+                    </ListItemIcon>
+                )
+                : (
+                    <ListItemIcon>
+                        <ConfirmationNumberIcon />
+                    </ListItemIcon>
+                )}
             {ticket.description
                 ? (
                     <ListItemText

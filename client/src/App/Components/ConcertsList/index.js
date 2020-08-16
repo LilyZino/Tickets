@@ -31,7 +31,6 @@ export default (props) => {
         setFilteredConcerts(concertsToRender);
     }, [concerts, filter, props]);
 
-
     return (
         <div>
             {filteredConcerts.sort((a, b) => moment(a.time).isAfter(b.time)).map((concert) => (
