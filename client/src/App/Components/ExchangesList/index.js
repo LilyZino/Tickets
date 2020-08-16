@@ -6,10 +6,16 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { authenticationService } from '../../_services';
 import Exchange from '../Exchange';
 
 const useStyles = makeStyles((theme) => ({
+    loader: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '30px'
+    },
     root: {
         minWidth: 275,
         marginTop: '10px'
@@ -46,28 +52,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ExchangesList() {
-    // const theme = useTheme();
     const classes = useStyles();
     const [exchanges, setExchanges] = useState([]);
     const [userId, setUserId] = useState();
     const [snackBarOpen, setSnackBarOpen] = React.useState(false);
     const [userCredit, setUserCredit] = useState(0);
-    //         color: theme.palette.secondary.main,
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         (async () => {
             const userId = authenticationService.currentUserValue.data
                 ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
 
-            console.log('userId Effect', userId);
             setUserId(userId);
 
             const exchangesData = (await axios.get(`/api/exchangeCycles/${userId}`)).data;
-            console.log(exchangesData);
             setExchanges(exchangesData);
 
             const userCreditsData = (await axios.put('/api/users/credits', { id: userId })).data;
             setUserCredit(userCreditsData);
+            setIsLoaded(true);
         })();
     }, []);
 
@@ -83,7 +87,7 @@ export default function ExchangesList() {
     };
 
     const denyExchange = async (get, give, exchangeIndex, exchangePathIndex) => {
-        const denyResult = await axios.post('/api/exchangeCycles/deny', { getId: get.id, giveId: give.id });
+        await axios.post('/api/exchangeCycles/deny', { getId: get.id, giveId: give.id });
         const updatedExchanges = [...exchanges];
         (updatedExchanges[exchangeIndex])[exchangePathIndex].relationship.isDenied = true;
         setExchanges(updatedExchanges);
@@ -103,30 +107,34 @@ export default function ExchangesList() {
                 <Typography variant="h3" className={classes.title}>Exchanges Area</Typography>
                 <Typography>Here you can find the exchanges possibilities</Typography>
             </div>
-            {exchanges.length === 0 || !userId
-                ? <Typography className={classes.noExchangesMessage}>It seems that you doesn't have any exchange offers, return often to check wether there are new offers</Typography>
-                : exchanges.map((exchange, index) => {
-                    const exchangePathIndex = _.findIndex(exchange, (path) => path.end.userId === userId);
-                    const exchangePath = exchange[exchangePathIndex];
+            {
+                isLoaded ? (
+                    exchanges.length === 0 || !userId
+                        ? <Typography className={classes.noExchangesMessage}>It seems that you doesn't have any exchange offers, return often to check wether there are new offers</Typography>
+                        : exchanges.map((exchange, index) => {
+                            const exchangePathIndex = _.findIndex(exchange, (path) => path.end.userId === userId);
+                            const exchangePath = exchange[exchangePathIndex];
 
-                    return (
-                        <Exchange
-                            get={exchangePath.start}
-                            give={exchangePath.end}
-                            approved={exchangePath.relationship.isApproved}
-                            denied={{
-                                isDenied: exchange.some((path) => path.relationship.isDenied),
-                                deniedByUser: exchangePath.relationship.isDenied
-                            }}
-                            approveFunction={() => approveExchange(exchange, exchangePath.start, exchangePath.end, index, exchangePathIndex)}
-                            denyFunction={() => denyExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
-                            index={index}
-                            unApprovedCount={exchange.filter((path) => path.relationship.isApproved !== true).length}
-                            key={uuid()}
-                            userCredit={userCredit}
-                        />
-                    );
-                })}
+                            return (
+                                <Exchange
+                                    get={exchangePath.start}
+                                    give={exchangePath.end}
+                                    approved={exchangePath.relationship.isApproved}
+                                    denied={{
+                                        isDenied: exchange.some((path) => path.relationship.isDenied),
+                                        deniedByUser: exchangePath.relationship.isDenied
+                                    }}
+                                    approveFunction={() => approveExchange(exchange, exchangePath.start, exchangePath.end, index, exchangePathIndex)}
+                                    denyFunction={() => denyExchange(exchangePath.start, exchangePath.end, index, exchangePathIndex)}
+                                    index={index}
+                                    unApprovedCount={exchange.filter((path) => path.relationship.isApproved !== true).length}
+                                    key={uuid()}
+                                    userCredit={userCredit}
+                                />
+                            );
+                        })
+                ) : <div className={classes.loader}><CircularProgress color="secondary" /></div>
+            }
             <Snackbar open={snackBarOpen} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success">
                     Congrats, The exchange was completed successfully!
