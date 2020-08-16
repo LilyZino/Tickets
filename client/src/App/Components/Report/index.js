@@ -81,52 +81,6 @@ export default (props) => {
 
     return (
         <div>
-            {/* <Modal
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-                className={classes.modal}
-                open={openUser}
-                onClose={() => setOpenUser(false)}
-                closeAfterTransition
-            >
-                <Fade in={openUser}>
-                    <div className={classes.paper}>
-                        <Typography variant="h3" className={classes.title}>
-                            {user.name}
-                        </Typography>
-                        <Typography variant="h2" className={classes.title}>
-                            Rank: {user.rank}
-                        </Typography>
-                        <Typography variant="h2" className={classes.title}>
-                            Phone: {user.phone}, Mail: {user.email}
-                        </Typography>
-                        <br />
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            autoFocus
-                            onClick={() => {
-                                setOpenReport(true);
-                            }}
-                        >
-                                    Report User
-                        </Button>
-                        <br />
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            autoFocus
-                            onClick={() => {
-                                setOpenUser(false);
-                            }}
-                        >
-                                    Done
-                        </Button>
-                    </div>
-                </Fade>
-            </Modal> */}
             <Modal
                 className={classes.modal}
                 open={openReportModal}
