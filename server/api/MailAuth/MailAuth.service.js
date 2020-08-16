@@ -1,6 +1,7 @@
 import mailjet from 'node-mailjet';
 import uuid from 'uuid/v4';
 import MailAuth from './MailAuth.model';
+import moment from 'moment';
 
 export const sendAuthenticationMail = async (userMail, userFullName) => {
     const userUuid = uuid();
@@ -12,7 +13,7 @@ export const sendAuthenticationMail = async (userMail, userFullName) => {
     Tickets App Team`;
 
     const mailjetHost = mailjet
-        .connect('187b0a32d7380a84deaeb1ded861eb68', 'e02c897e8da191f92fbb6d61393972a1');
+        .connect('17435b7178d3a7d91bff8350ffb34f6c', '68e09ccfff7dbdb93bbd3fedfb24026f');
 
     try {
         const result = await mailjetHost
@@ -53,8 +54,8 @@ export const sendConfirmationMail = async (userMail, userFullName, artist, time,
     const userUuid = uuid();
     const mailTemplate = `<h2>Hi ${userFullName}</h2>
     Thank you so much for your purchase <br/>
-    Here is your ticket for <b>${artist}</b> <br/>
-    date: ${time} <br/>
+    You can find your ticket for <b>${artist}</b> in your purchases area at Tickets<br/>
+    date: ${moment(time).format('DD/MM/YYYY HH:mm')} <br/>
     location: ${location} <br/>
     amount: ${amount} tickets <br/>
     price: ${price} ₪ <br/>
@@ -63,7 +64,7 @@ export const sendConfirmationMail = async (userMail, userFullName, artist, time,
     Tickets App Team`;
 
     const mailjetHost = mailjet
-        .connect('187b0a32d7380a84deaeb1ded861eb68', 'e02c897e8da191f92fbb6d61393972a1');
+        .connect('17435b7178d3a7d91bff8350ffb34f6c', '68e09ccfff7dbdb93bbd3fedfb24026f');
     try {
         const result = await mailjetHost
             .post('send', { version: 'v3.1' })
@@ -80,7 +81,7 @@ export const sendConfirmationMail = async (userMail, userFullName, artist, time,
                                 Name: userFullName
                             }
                         ],
-                        Subject: 'Here is your new ticket!',
+                        Subject: 'Thank you for your purchase!',
                         HTMLPart: mailTemplate
                     }
                 ]
@@ -103,13 +104,13 @@ export const sendConfirmationOfSaleMail = async (userMail, userFullName, artist,
     const userUuid = uuid();
     const mailTemplate = `<h2>Hi ${userFullName}</h2>
     Your ticket has been sold! Hooray! <br/>
-    <b>${amount} tickets for ${artist} on ${time}, bought by ${user}</b><br/>
+    <b>${amount} tickets for ${artist} on ${moment(time).format('DD/MM/YYYY HH:mm')}, bought by ${user}</b><br/>
     You received ${price}₪ in credits</br>
     <br/>
     Tickets App Team`;
 
     const mailjetHost = mailjet
-        .connect('187b0a32d7380a84deaeb1ded861eb68', 'e02c897e8da191f92fbb6d61393972a1');
+        .connect('17435b7178d3a7d91bff8350ffb34f6c', '68e09ccfff7dbdb93bbd3fedfb24026f');
 
     try {
         const result = await mailjetHost
