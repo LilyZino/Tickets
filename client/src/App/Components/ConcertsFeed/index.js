@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import ConcertsList from '../ConcertsList';
 import Search from '../ConcertsSearch';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { registerSocketEvent, initSockets } from '../../_services/socketService';
 
 const useStyles = makeStyles({
@@ -11,7 +12,13 @@ const useStyles = makeStyles({
         display: 'flex',
         justifyContent: 'center',
         marginTop: '30px'
-    }
+    },
+    title: {
+        marginTop: '10px'
+    },
+    center: {
+        textAlign: 'center'
+    },
 });
 
 export default function ConcertsFeed(props) {
@@ -42,6 +49,10 @@ export default function ConcertsFeed(props) {
 
     return (
         <div>
+            <div className={classes.center}>
+                <Typography variant="h3" className={classes.title}>Tickets</Typography>
+                <Typography>Welcome to Tickets, here you can buy or sell unused tickets</Typography>
+            </div>
             <Search setFilter={handleFilter} />
             {isLoaded
                 ? <ConcertsList editable={editable} filter={filter} concerts={concerts} />
