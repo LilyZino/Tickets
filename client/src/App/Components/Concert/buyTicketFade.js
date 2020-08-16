@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddTicketFade(props) {
-    const { open, price, concert, amount, buyTicket, handleClose } = props;
+    const { open, price, concert, amount, buyTicket, handleClose, isPhysical } = props;
     const classes = useStyles();
 
     return (
@@ -77,6 +77,20 @@ export default function AddTicketFade(props) {
                                 <Typography variant="body1">
                                     It will cost you {price}₪
                                 </Typography>
+                                {
+                                    isPhysical
+                                        ? (
+                                            <>
+                                                <Typography variant="subtitle1" color="secondary">
+                                                    <b>Wait a second</b>
+                                                </Typography>
+                                                <Typography variant="body1">
+                                                    this ticket is physical! contact the seller before buying the ticket
+                                                </Typography>
+                                            </>
+                                        )
+                                        : null
+                                }
                                 <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={buyTicket}>
                                     Buy Ticket
                                 </Button>

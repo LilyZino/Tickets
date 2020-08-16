@@ -185,6 +185,7 @@ export default (props) => {
                 concert={concert}
                 amount={ticket.amount}
                 price={ticket.price}
+                isPhysical={ticket.isPhysical}
                 buyTicket={buyTicket}
                 handleClose={handleClose}
             />
