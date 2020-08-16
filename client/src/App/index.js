@@ -51,6 +51,8 @@ const useStyles = makeStyles(() => ({
     },
     title: {
         flexGrow: 1,
+        display: 'flex',
+        alignItems: 'center'
     },
     logo: {
         width: '160px',
