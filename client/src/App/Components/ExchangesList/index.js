@@ -51,6 +51,7 @@ export default function ExchangesList() {
     const [exchanges, setExchanges] = useState([]);
     const [userId, setUserId] = useState();
     const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+    const [userCredit, setUserCredit] = useState(0);
     //         color: theme.palette.secondary.main,
 
     useEffect(() => {
@@ -64,6 +65,9 @@ export default function ExchangesList() {
             const exchangesData = (await axios.get(`/api/exchangeCycles/${userId}`)).data;
             console.log(exchangesData);
             setExchanges(exchangesData);
+
+            const userCreditsData = (await axios.put('/api/users/credits', { id: userId })).data;
+            setUserCredit(userCreditsData);
         })();
     }, []);
 
@@ -119,6 +123,7 @@ export default function ExchangesList() {
                             index={index}
                             unApprovedCount={exchange.filter((path) => path.relationship.isApproved !== true).length}
                             key={uuid()}
+                            userCredit={userCredit}
                         />
                     );
                 })}

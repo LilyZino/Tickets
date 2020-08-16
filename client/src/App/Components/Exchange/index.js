@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 export default function Exchange(props) {
     const classes = useStyles();
-    const { get, give, approved, denied, approveFunction, denyFunction, index, unApprovedCount } = props;
+    const { get, give, approved, denied, approveFunction, denyFunction, index, unApprovedCount, userCredit } = props;
     const priceExchange = get.ticket.price - give.ticket.price;
 
     return (
@@ -83,7 +83,7 @@ export default function Exchange(props) {
                                 !get
                                     ? null
                                     : (priceExchange < 0
-                                        ? <span>{`${get.artist} + ${0 - priceExchange}`} <img height="16px" src="../../../Assets/images/coin.png" alt="" /></span>
+                                        ? <span>{`${get.artist} + ${Math.abs(priceExchange)}`} <img height="16px" src="../../../Assets/images/coin.png" alt="" /></span>
                                         : get.artist)
                             }
                         </Typography>
@@ -96,12 +96,21 @@ export default function Exchange(props) {
                                 )
                                 : <></>
                         }
+                        {
+                            priceExchange > 0 && Math.abs(priceExchange) > userCredit
+                                ? (
+                                    <Typography variant="h5" className={classes.optionTitle}>
+                                        you don't have enough credits to proceed with this exchange
+                                    </Typography>
+                                )
+                                : null
+                        }
                     </div>
                 </CardContent>
                 {console.log(approved)}
                 {console.log(denied)}
                 {
-                    !(approved || (denied && denied.isDenied))
+                    !(approved || (denied && denied.isDenied) || (priceExchange > 0 && Math.abs(priceExchange) > userCredit))
                         ? (
                             <CardActions>
                                 <IconButton onClick={() => approveFunction()}>
