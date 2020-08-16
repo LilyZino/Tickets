@@ -63,7 +63,7 @@ export default function Purchases() {
                 )}
             {!tickets && isLoaded
                 && (
-                    <Typography component="h1" variant="h5" className={classes.error}>
+                    <Typography component="h1" variant="h5">
                         There is no purchase history
                     </Typography>
                 )}

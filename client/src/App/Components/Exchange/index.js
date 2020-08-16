@@ -27,7 +27,8 @@ const useStyles = makeStyles({
         justifyContent: 'space-between'
     },
     root: {
-        marginBottom: '10px'
+        marginBottom: '10px',
+        backgroundColor: '#fbfbfb'
     }
 });
 

@@ -179,7 +179,7 @@ export default function AddConcert() {
                         <Avatar className={classes.avatar}>
                             <ErrorIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5" className={classes.error}>
+                        <Typography component="h1" variant="h5">
                             you must login first
                         </Typography>
                     </div>
@@ -199,7 +199,7 @@ export default function AddConcert() {
             >
                 <Fade in={suggestion}>
                     <div className={classes.paper}>
-                        <Typography component="h1" variant="h5" className={classes.error}>
+                        <Typography component="h1" variant="h5">
                             We found an event similar to what you entered.
                             <br />
                             If you wish to add the event anyway, press the ignore button
