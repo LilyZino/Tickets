@@ -145,7 +145,7 @@ export const getUsersSoldTicketsCount = async (req, res) => {
         },
         ]);
 
-        const soldTicketsCount = soldTickets[0].count;
+        const soldTicketsCount = soldTickets[0] ? soldTickets[0].count : 0;
         res.json(soldTicketsCount);
     } catch (err) {
         console.error(err.message);
