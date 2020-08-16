@@ -165,9 +165,10 @@ export default function Entrance() {
                 && (
                     <Button
                         className={classes.button}
+                        color="secondary"
                         aria-controls="customized-menu"
                         aria-haspopup="true"
-                        variant="outlined"
+                        variant="contained"
                         onClick={handleOpenLogin}
                     >
                         Login
@@ -177,9 +178,10 @@ export default function Entrance() {
                 && (
                     <Button
                         className={classes.button}
+                        color="secondary"
                         aria-controls="customized-menu"
                         aria-haspopup="true"
-                        variant="outlined"
+                        variant="contained"
                         onClick={handleOpenRegister}
                     >
                         Register
