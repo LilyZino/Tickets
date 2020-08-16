@@ -29,10 +29,6 @@ const useStyles = makeStyles((theme) => ({
         margin: '0 2px',
         transform: 'scale(0.8)',
     },
-    title: {
-        fontSize: 20,
-        textAlign: 'center'
-    },
     pos: {
         marginBottom: 12,
     },
@@ -55,8 +51,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2, 4, 3),
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     userNameText: {
         float: 'left',
@@ -71,9 +65,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
     const classes = useStyles();
-    const { openUser, setOpenUser, user } = props;
+    const { openReportModal, handleModalClose, user } = props;
     const [complaint, setComplaint] = useState('');
-    const [openReport, setOpenReport] = useState(false);
 
     const handleReport = async (ReportComplaint, target) => {
         const userName = authenticationService.currentUserValue.data
@@ -89,66 +82,32 @@ export default (props) => {
     return (
         <div>
             <Modal
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
                 className={classes.modal}
-                open={openUser}
-                onClose={() => setOpenUser(false)}
+                open={openReportModal}
+                onClose={handleModalClose}
                 closeAfterTransition
             >
-                <Fade in={openUser}>
+                <Fade in={openReportModal}>
                     <div className={classes.paper}>
-                        <Typography variant="h3" className={classes.title}>
-                            {user.name}
+                        <Typography variant="h5">
+                            Something is wrong with this seller?
                         </Typography>
-                        <Typography variant="h2" className={classes.title}>
-                            Rank: {user.rank}
+                        <Typography variant="subtitle1">
+                            if so, you can file a report
                         </Typography>
-                        <Typography variant="h2" className={classes.title}>
-                            Phone: {user.phone}, Mail: {user.email}
-                        </Typography>
-                        <br />
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            autoFocus
-                            onClick={() => {
-                                setOpenReport(true);
-                            }}
-                        >
-                                    Report User
-                        </Button>
-                        <br />
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            autoFocus
-                            onClick={() => {
-                                setOpenUser(false);
-                            }}
-                        >
-                                    Done
-                        </Button>
-                    </div>
-                </Fade>
-            </Modal>
-            <Modal
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-                className={classes.modal}
-                open={openReport}
-                onClose={() => setOpenReport(false)}
-                closeAfterTransition
-            >
-                <Fade in={openReport}>
-                    <div className={classes.paper}>
-                        <Typography variant="h3" className={classes.title}>
-                            You are reporting <b>{user.name}</b>
-                        </Typography>
-                        <Typography variant="h3" className={classes.title}>
-                            Please explain your complaint and the Admin will take it into consideration
+                        <p>
+                            <Typography variant="body1">
+                                <u>Seller's information:</u>
+                            </Typography>
+                            <Typography variant="body1">
+                                {user.name}, Rank: {user.rank}
+                            </Typography>
+                            <Typography variant="body1">
+                                Contact information: {user.phone}, Mail: {user.email}
+                            </Typography>
+                        </p>
+                        <Typography variant="body2">
+                            Please explain your complaint and the admin will take it into consideration
                         </Typography>
                         <TextField
                             variant="outlined"
@@ -164,28 +123,23 @@ export default (props) => {
                             }}
                         />
                         <Button
-                            fullWidth
                             variant="contained"
                             color="primary"
-                            autoFocus
                             onClick={() => {
                                 handleReport(complaint, user._id);
-                                setOpenReport(false);
+                                handleModalClose();
                             }}
                         >
-                                    Send to Admin
+                            Send to Admin
                         </Button>
                         <br />
                         <Button
-                            fullWidth
                             variant="contained"
                             color="primary"
                             autoFocus
-                            onClick={() => {
-                                setOpenReport(false);
-                            }}
+                            onClick={handleModalClose}
                         >
-                                    Cancel
+                            Cancel
                         </Button>
                     </div>
                 </Fade>

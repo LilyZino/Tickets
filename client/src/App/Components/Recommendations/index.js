@@ -78,7 +78,7 @@ export default function Recommendations() {
                 )}
             {concertsToShow.length === 0 && isLoaded
                 && (
-                    <Typography component="h1" variant="h5" className={classes.error}>
+                    <Typography component="h1" variant="h5">
                         There are no recommendations for you, after you will sell tickets you will be able see recommendations here!
                     </Typography>
                 )}

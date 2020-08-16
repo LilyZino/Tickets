@@ -145,7 +145,7 @@ export const getUsersSoldTicketsCount = async (req, res) => {
         },
         ]);
 
-        const soldTicketsCount = soldTickets[0].count;
+        const soldTicketsCount = soldTickets[0] ? soldTickets[0].count : 0;
         res.json(soldTicketsCount);
     } catch (err) {
         console.error(err.message);
@@ -163,6 +163,8 @@ export const login = async (req, res) => {
         if (loggedUser == null) return res.status(404).json({ msg: 'User name or password are incorrect' });
 
         if (!loggedUser.isAuthenticated) return res.status(404).json({ msg: 'User was not authenticated, please check your mail' });
+
+        if (loggedUser.isBlocked) return res.status(404).json({ msg: 'User was blocked by the admin' });
 
         const token = jwt.sign(
             loggedUser.toJSON(),

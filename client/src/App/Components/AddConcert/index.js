@@ -69,7 +69,7 @@ export default function AddConcert() {
     const [enteredLocation, setEnteredLocation] = useState('');
     const [enteredGenre, setEnteredGenre] = useState('');
     const [concerts, setConcerts] = useState([]);
-    const [concertsToSuggest, setConcertsToSuggest] = useState([]);
+    const [concertsToSuggest] = useState([]);
     const options = {
         // isCaseSensitive: false,
         // includeScore: false,
@@ -110,10 +110,12 @@ export default function AddConcert() {
         setOpen(false);
         setLogin(false);
         setSuggestion(false);
+        concertsToSuggest.pop();
     };
 
     const handleSuggestion = async () => {
         const { token } = authenticationService.currentUserValue.data;
+        concertsToSuggest.pop();
         await axios.put('/api/concerts', {
             artist: enteredArtist,
             time: enteredTime,
@@ -129,17 +131,18 @@ export default function AddConcert() {
                 'time'
             ]
         });
-        const timePattern = moment(enteredTime).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const timePattern = moment(enteredTime).format('YYYY-MM-DDTHH:mm:ss.SSS');
         const filteredConcerts = timeFuse.search(timePattern);
         const finalConcerts = [];
         filteredConcerts.forEach((concert) => { finalConcerts.push(concert.item); });
         const fuse = new Fuse(finalConcerts, options);
         const pattern = enteredArtist;
-        setConcertsToSuggest(fuse.search(pattern));
-        if (concertsToSuggest) {
+        concertsToSuggest.push(fuse.search(pattern));
+        if (concertsToSuggest[0].length > 0) {
             setSuggestion(true);
         } else {
             handleSuggestion();
+            setOpen(false);
         }
     };
 
@@ -179,7 +182,7 @@ export default function AddConcert() {
                         <Avatar className={classes.avatar}>
                             <ErrorIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5" className={classes.error}>
+                        <Typography component="h1" variant="h5">
                             you must login first
                         </Typography>
                     </div>
@@ -199,13 +202,13 @@ export default function AddConcert() {
             >
                 <Fade in={suggestion}>
                     <div className={classes.paper}>
-                        <Typography component="h1" variant="h5" className={classes.error}>
+                        <Typography component="h1" variant="h5">
                             We found an event similar to what you entered.
                             <br />
                             If you wish to add the event anyway, press the ignore button
                         </Typography>
                         <br />
-                        {concertsToSuggest.map((concert) => (
+                        {concertsToSuggest[0] ? (concertsToSuggest[0].map((concert) => (
                             <div>
                                 <Typography variant="h4" component="h2">
                                     {concert.item.artist}
@@ -214,7 +217,7 @@ export default function AddConcert() {
                                     {`${concert.item.location}, ${moment(concert.item.time).format('DD/MM/YYYY HH:mm')}${concert.item.genre ? `, ${concert.item.genre}` : ''}`}
                                 </Typography>
                             </div>
-                        ))}
+                        ))) : null }
                         <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={handleClose}>
                             OK, thanks!
                         </Button>

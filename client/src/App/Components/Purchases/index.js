@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TicketsFeed from '../TicketsFeed';
 import { authenticationService } from '../../_services';
 import SoldTicket from '../SoldTicket';
 
@@ -63,7 +62,7 @@ export default function Purchases() {
                 )}
             {!tickets && isLoaded
                 && (
-                    <Typography component="h1" variant="h5" className={classes.error}>
+                    <Typography component="h1" variant="h5">
                         There is no purchase history
                     </Typography>
                 )}

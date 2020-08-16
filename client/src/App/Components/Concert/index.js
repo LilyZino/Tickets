@@ -232,7 +232,7 @@ export default (props) => {
                         <Avatar className={classes.avatar}>
                             <ErrorIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5" className={classes.error}>
+                        <Typography component="h1" variant="h5">
                             you must login first
                         </Typography>
                     </div>

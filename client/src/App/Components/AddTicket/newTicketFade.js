@@ -17,6 +17,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -40,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
         width: '30%',
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(2),
-        borderRadius: '5px',
         outline: 'none'
     },
     form: {
@@ -59,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
     },
     expandOpen: {
         background: 'gray',
+    },
+    formControl: {
+        marginTop: '5px'
     }
 }));
 
@@ -97,6 +100,12 @@ export default function AddTicketFade(props) {
             <Fade in={open} className={classes.paper}>
                 <form noValidate autoComplete="off">
                     <Grid className={classes.form}>
+                        <Typography variant="h5">
+                            Have a ticket you want to sell?
+                        </Typography>
+                        <Typography variant="subtitle1">
+                            Add it here
+                        </Typography>
                         <FormControl className={classes.formControl}>
                             <InputLabel id="concertLabel">Concert</InputLabel>
                             <Select
