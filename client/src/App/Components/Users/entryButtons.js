@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import LogoutIcon from '@material-ui/icons/MeetingRoom';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -14,6 +14,10 @@ import Smiley from '../SmileyCanvas';
 import Credits from '../credits';
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        alignItems: 'center'
+    },
     button: {
         margin: '5px'
     },
@@ -23,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     userNameText: {
         float: 'left',
         margin: '0.3em',
+        lineHeight: '1.2'
     },
     modal: {
         display: 'flex',
@@ -136,12 +141,12 @@ export default function Entrance() {
     };
 
     return (
-        <div>
+        <div className={classes.root}>
             {Uname !== ''
                 && (
                     <div className={classes.div}>
-                        <Typography component="h1" variant="h5" className={classes.userNameText}>
-                            Hello {Uname}
+                        <Typography className={classes.userNameText}>
+                            {Uname}
                         </Typography>
                         <Credits
                             uId={UId}

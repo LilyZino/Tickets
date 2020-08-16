@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     userNameText: {
         float: 'left',
         margin: '0.3em',
-        marginTop: '5%',
         textAlign: 'center',
         '&:hover': {
             textDecoration: 'underline'
@@ -31,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column'
     },
     div: {
-        display: 'inline',
+        display: 'flex',
+        alignItems: 'center',
         cursor: 'pointer'
     },
     modal: {
@@ -114,9 +114,9 @@ export default function Credits(props) {
     return (
         <div className={classes.div}>
             <Typography variant="body2" className={classes.userNameText} onClick={() => { setopenCredits(true); }}>
-                <img src="../../../Assets/images/coin.png" alt="" />
                 {myCredits}
             </Typography>
+            <img src="../../../Assets/images/coin.png" alt="" height="16px" />
 
             <Modal
                 aria-labelledby="modal-title"
