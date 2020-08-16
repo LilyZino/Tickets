@@ -25,6 +25,7 @@ import {
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import RepeatIcon from '@material-ui/icons/Repeat';
+import Divider from '@material-ui/core/Divider';
 import Entrance from './Components/Users/entryButtons';
 import { authenticationService } from './_services';
 import theme from './theme';
@@ -89,21 +90,23 @@ export default function () {
                         <List className={classes.list}>
                             <ListItemLink to="/concertsFeed" primary="Concerts" icon={<ConfirmationNumberIcon />} onClick={onDrawerClicked} />
                             {authenticationService.currentUserValue
+                                && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
+                                && <ListItemLink to="/userExchanges" primary="My Exchanges" icon={<RepeatIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/purchases" primary="My Purchases" icon={<AttachMoney />} onClick={onDrawerClicked} />}
-                            {authenticationService.currentUserValue
-                                && <ListItemLink to="/userExchanges" primary="My Exchanges" icon={<RepeatIcon />} onClick={onDrawerClicked} />}
-                            {authenticationService.currentUserValue
-                                && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
+                            <Divider />
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
+                                && <ListItemLink to="/edit-concerts" primary="Edit Concerts" icon={<EditIcon />} onClick={onDrawerClicked} />}
+                            {authenticationService.currentUserValue
                                 && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/users" primary="Users" icon={<PeopleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/reports" primary="Reports" icon={<ReportIcon />} onClick={onDrawerClicked} />}
-                            {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
-                                && <ListItemLink to="/edit-concerts" primary="Edit Concerts" icon={<EditIcon />} onClick={onDrawerClicked} />}
+                            <Divider />
                             <ListItemLink to="/about" primary="About Us" icon={<InfoIcon />} onClick={onDrawerClicked} />
                         </List>
                     </Drawer>
