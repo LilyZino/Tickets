@@ -10,7 +10,6 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { authenticationService } from '../../_services';
 import EntryModal from './entryModal';
-import Smiley from '../SmileyCanvas';
 import Credits from '../credits';
 
 const useStyles = makeStyles((theme) => ({
@@ -231,7 +230,6 @@ export default function Entrance() {
                         <Typography variant="h5" className={classes.title}>
                             Please check your mail to complete registration
                         </Typography>
-                        <Smiley />
                         <Button
                             className={classes.okButton}
                             variant="contained"

@@ -6,7 +6,7 @@ const getCycles = async ({ userId }) => {
     const session = driver.session();
     try {
         const result = await session.run(
-            `MATCH p=(n)-[*1..4]->(n)
+            `MATCH p=(n)-[*2..4]->(n)
             WHERE ANY(x in nodes(p) WHERE x.userId=$userId)
             return nodes(p)`,
             { userId }

@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Backdrop from '@material-ui/core/Backdrop';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import {
     DateTimePicker,
     MuiPickersUtilsProvider,
@@ -34,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        borderRadius: '15px'
     },
     form: {
         display: 'flex',
@@ -73,15 +73,23 @@ export default function AddConcertFade(props) {
             BackdropProps={{
                 timeout: 500,
             }}
+            tabIndex={-1}
         >
             <div>
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
+                                <Typography variant="h5">
+                                    Can't find the concert you were looking for?
+                                </Typography>
+                                <Typography variant="subtitle1">
+                                    Add a new one
+                                </Typography>
                                 <TextField
                                     label="Artist"
                                     value={enteredArtist}
+                                    margin="dense"
                                     onChange={(event) => {
                                         setEnteredArtist(event.target.value);
                                     }}
@@ -93,11 +101,13 @@ export default function AddConcertFade(props) {
                                         minDate={dateToday}
                                         value={enteredTime}
                                         onChange={setEnteredTime}
+                                        margin="dense"
                                     />
                                 </MuiPickersUtilsProvider>
                                 <TextField
                                     label="Location"
                                     value={enteredLocation}
+                                    margin="dense"
                                     onChange={(event) => {
                                         setEnteredLocation(event.target.value);
                                     }}
@@ -105,6 +115,7 @@ export default function AddConcertFade(props) {
                                 <TextField
                                     label="Genre"
                                     value={enteredGenre}
+                                    margin="dense"
                                     onChange={(event) => {
                                         setEnteredGenre(event.target.value);
                                     }}

@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: 'auto',
+        backgroundColor: theme.palette.secondary.main
     },
     title: {
         textAlign: 'center'
@@ -39,10 +40,11 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginTop: '15px'
     },
     submitBtn: {
-        marginTop: '16px'
+        marginTop: '15px'
     },
 }));
 
@@ -69,19 +71,19 @@ export default function EntryModal(props) {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon />
+                            <AccountCircleIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5" className={classes.title}>
                             {!isRegister ? 'Sign In' : 'Sign Up'}
                         </Typography>
-                        <Typography component="h5" className={classes.error}>
+                        <Typography component="h5">
                             {errorText}
                         </Typography>
                         <form noValidate autoComplete="off">
                             <Grid className={classes.form}>
                                 <TextField
                                     variant="outlined"
-                                    margin="normal"
+                                    margin="dense"
                                     required
                                     fullWidth
                                     id="UserName"
@@ -95,7 +97,7 @@ export default function EntryModal(props) {
                                 />
                                 <TextField
                                     variant="outlined"
-                                    margin="normal"
+                                    margin="dense"
                                     required
                                     fullWidth
                                     name="password"
@@ -111,7 +113,7 @@ export default function EntryModal(props) {
                                 <TextField
                                     style={registerTextBox}
                                     variant="outlined"
-                                    margin="normal"
+                                    margin="dense"
                                     required
                                     fullWidth
                                     name="email"
@@ -127,7 +129,7 @@ export default function EntryModal(props) {
                                 <TextField
                                     style={registerTextBox}
                                     variant="outlined"
-                                    margin="normal"
+                                    margin="dense"
                                     required
                                     fullWidth
                                     name="phone"
@@ -143,9 +145,9 @@ export default function EntryModal(props) {
                                 <Button
                                     fullWidth
                                     variant="contained"
-                                    color="primary"
+                                    color="secondary"
                                     autoFocus
-                                    className={classes.submit}
+                                    className={classes.submitBtn}
                                     onClick={handleSubmit}
                                 >
                                     {!isRegister ? 'Sign In' : 'Sign Up'}
