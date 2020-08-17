@@ -116,6 +116,8 @@ export default function AddConcert() {
     const handleSuggestion = async () => {
         const { token } = authenticationService.currentUserValue.data;
         concertsToSuggest.pop();
+        setOpen(false);
+        setSuggestion(false);
         await axios.put('/api/concerts', {
             artist: enteredArtist,
             time: enteredTime,
@@ -126,7 +128,8 @@ export default function AddConcert() {
 
     const handleSubmit = async () => {
         const timeFuse = new Fuse(concerts, {
-            threshold: 0.3,
+            threshold: 0.1,
+            includeScore: true,
             keys: [
                 'time'
             ]
