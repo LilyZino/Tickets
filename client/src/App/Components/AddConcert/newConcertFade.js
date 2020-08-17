@@ -12,6 +12,8 @@ import {
     MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -112,14 +114,18 @@ export default function AddConcertFade(props) {
                                         setEnteredLocation(event.target.value);
                                     }}
                                 />
-                                <TextField
-                                    label="Genre"
+                                <Select
                                     value={enteredGenre}
-                                    margin="dense"
                                     onChange={(event) => {
                                         setEnteredGenre(event.target.value);
                                     }}
-                                />
+                                >
+                                    <MenuItem value="Rock">Rock</MenuItem>
+                                    <MenuItem value="Pop">Pop</MenuItem>
+                                    <MenuItem value="Israeli">Israeli</MenuItem>
+                                    <MenuItem value="Metal">Metal</MenuItem>
+                                    <MenuItem value="Rap">Rap</MenuItem>
+                                </Select>
                                 <Button className={classes.submitBtn} variant="contained" color="primary" onClick={handleSubmit}>
                                     {AddMode ? 'Add Concert' : 'Edit Concert'}
                                 </Button>
