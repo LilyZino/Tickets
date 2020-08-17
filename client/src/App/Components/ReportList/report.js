@@ -28,7 +28,6 @@ const useStyles = makeStyles(() => ({
 export default function Report(props) {
     const classes = useStyles();
     const { user, name, complaint, byUser, _id } = props;
-    console.log(user);
     const [isDeleted, setIsDeleted] = useState(false);
 
     const solveReport = async (target) => {
