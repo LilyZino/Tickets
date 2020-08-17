@@ -93,14 +93,14 @@ export default function () {
                                 && <ListItemLink to="/recs" primary="Recommended for you" icon={<LocalActivityIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/userExchanges" primary="My Exchanges" icon={<RepeatIcon />} onClick={onDrawerClicked} />}
-                            {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
+                            {authenticationService.currentUserValue
                                 && <ListItemLink to="/userProfile" primary="My Tickets" icon={<AccountCircleIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue
                                 && <ListItemLink to="/purchases" primary="My Purchases" icon={<AttachMoney />} onClick={onDrawerClicked} />}
                             <Divider />
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/edit-concerts" primary="Edit Concerts" icon={<EditIcon />} onClick={onDrawerClicked} />}
-                            {authenticationService.currentUserValue
+                            {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/charts" primary="Statistic" icon={<BarChartIcon />} onClick={onDrawerClicked} />}
                             {authenticationService.currentUserValue && authenticationService.currentUser2.value.data.isAdmin
                                 && <ListItemLink to="/users" primary="Users" icon={<PeopleIcon />} onClick={onDrawerClicked} />}
