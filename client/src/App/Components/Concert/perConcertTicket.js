@@ -9,7 +9,6 @@ import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import BuyTicketFade from './buyTicketFade';
@@ -151,7 +150,7 @@ export default (props) => {
             <ListItemText
                 primary={`${ticket.amount} Tickets`}
                 secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}
-                                     ${ticket.description}`}
+                                     ${ticket.description ? ticket.description : ''}`}
             />
             <Typography className={classes.price}>
                 {`${ticket.price}₪`}
@@ -159,7 +158,7 @@ export default (props) => {
             <IconButton
                 className={classes.submitBtn}
                 type="submit"
-                color="secondary"
+                color=""
                 onClick={() => setOpenReportModal(true)}
             >
                 <ReportIcon />
