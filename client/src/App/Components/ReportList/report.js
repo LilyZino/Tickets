@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import BlockUser from '../BlockUser';
 
 const useStyles = makeStyles(() => ({
     card: {
@@ -26,7 +27,8 @@ const useStyles = makeStyles(() => ({
 
 export default function Report(props) {
     const classes = useStyles();
-    const { name, complaint, byUser, _id } = props;
+    const { user, name, complaint, byUser, _id } = props;
+    console.log(user);
     const [isDeleted, setIsDeleted] = useState(false);
 
     const solveReport = async (target) => {
@@ -59,8 +61,9 @@ export default function Report(props) {
                             setIsDeleted(true);
                         }}
                     >
-                    Mark as solved
+                        Mark as solved
                     </Button>
+                    <BlockUser isBlocked={user.isBlocked} id={user._id} />
                 </CardActions>
             </div>
         </Card>
