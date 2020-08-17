@@ -95,7 +95,7 @@ export default function SoldTicket(props) {
                             color="primary"
                         >
                             <a href={`http://localhost:9000/public/${file}`} download={`${concert.artist}-ticket`}>
-                                Download
+                                View Digital Ticket
                             </a>
                         </Button>
                     ) : null}
