@@ -148,19 +148,11 @@ export default (props) => {
                         <ConfirmationNumberIcon />
                     </ListItemIcon>
                 )}
-            {ticket.description
-                ? (
-                    <ListItemText
-                        primary={`${ticket.amount} Tickets`}
-                        secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}
+            <ListItemText
+                primary={`${ticket.amount} Tickets`}
+                secondary={`By ${ticket.user.name}, Rank: ${ticket.user.rank}
                                      ${ticket.description}`}
-                    />
-                )
-                : (
-                    <ListItemText
-                        primary={`${ticket.amount} Tickets`}
-                    />
-                )}
+            />
             <Typography className={classes.price}>
                 {`${ticket.price}₪`}
             </Typography>
