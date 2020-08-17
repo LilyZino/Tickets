@@ -229,7 +229,7 @@ export default function Ticket(props) {
                 >
                     <DeleteIcon />
                 </IconButton>
-                {!upForExchange && !isSold
+                {!upForExchange && !isSold && !isPhysical
                     ? (
                         <IconButton onClick={() => {
                             toggleExchangeExpanded();
