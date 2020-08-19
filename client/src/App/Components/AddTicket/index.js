@@ -79,8 +79,6 @@ export default function AddTicket() {
         const userId = authenticationService.currentUserValue.data
             ? authenticationService.currentUserValue.data._id : authenticationService.currentUserValue._id;
         const formData = new FormData();
-        console.log(file);
-
 
         if (!isTicketPhysical) {
             console.log(file);
@@ -101,6 +99,7 @@ export default function AddTicket() {
         });
 
         setOpen(false);
+        location.reload();
     };
 
     return (

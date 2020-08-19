@@ -102,7 +102,7 @@ export default function Ticket(props) {
     const editTicket = async () => {
         const formData = new FormData();
 
-        if (!isTicketPhysical && typeof(enteredFile) !== "string") {
+        if (!isTicketPhysical && typeof (enteredFile) !== "string") {
             formData.append('file', enteredFile, enteredFile.name);
         }
 
@@ -121,6 +121,7 @@ export default function Ticket(props) {
         });
 
         setOpen(false);
+        location.reload();
     };
 
     const toggleExchangeExpanded = () => {
