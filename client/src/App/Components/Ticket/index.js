@@ -102,7 +102,7 @@ export default function Ticket(props) {
     const editTicket = async () => {
         const formData = new FormData();
 
-        if (!isTicketPhysical) {
+        if (!isTicketPhysical && typeof(enteredFile) !== "string") {
             formData.append('file', enteredFile, enteredFile.name);
         }
 
@@ -119,6 +119,8 @@ export default function Ticket(props) {
                 Authorization: `Bearer ${token}`,
             }
         });
+
+        setOpen(false);
     };
 
     const toggleExchangeExpanded = () => {
