@@ -91,7 +91,7 @@ export default function AddTicketFade(props) {
                                         )
                                         : null
                                 }
-                                <Button className={classes.submitBtn} type="submit" variant="contained" color="primary" onClick={buyTicket}>
+                                <Button className={classes.submitBtn} type="button" variant="contained" color="primary" onClick={buyTicket}>
                                     Buy Ticket
                                 </Button>
                             </Grid>
