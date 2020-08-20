@@ -31,9 +31,13 @@ export default (props) => {
         setFilteredConcerts(concertsToRender);
     }, [concerts, filter, props]);
 
+    const dateComperator = (a, b) => {
+        return moment(a.time).isAfter(b.time) ? 1 : -1;
+    };
+
     return (
         <div>
-            {filteredConcerts.sort((a, b) => moment(a.time).isAfter(b.time)).map((concert) => (
+            {filteredConcerts.sort(dateComperator).map((concert) => (
                 <Concert
                     key={concert._id}
                     id={concert._id}
