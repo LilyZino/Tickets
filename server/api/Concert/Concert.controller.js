@@ -152,10 +152,14 @@ export const getConcertsRecommendations = async (req, res) => {
     const finalconcerts = await Ticket.find({
         concert: { $in: recConcerts },
     }, { concert: 1 }).populate('concert');
+    console.log(finalconcerts);
 
     // extract concerts from tickets
     const concerts = [];
-    finalconcerts.forEach((x) => { concerts.push(x.concert); });
+    finalconcerts.forEach((x) => {
+        if (!concerts.includes(x.concert)) concerts.push(x.concert);
+    });
+    console.log(concerts);
 
     res.send(concerts);
 };
