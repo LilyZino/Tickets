@@ -76,7 +76,7 @@
     "highcharts": "^8.0.0",
     "highcharts-react-official": "^2.2.2",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "material-ui-number-input": "^5.0.24",
     "material-ui-upload": "^1.2.1",
     "method-override": "^3.0.0",
