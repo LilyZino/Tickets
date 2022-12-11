@@ -63,7 +63,7 @@
     "d3": "^5.16.0",
     "date-fns": "^2.14.0",
     "dotenv-extended": "^2.8.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-async-router": "^0.1.15",
     "express-fileupload": "^1.1.9",
     "express-formidable": "^1.2.0",
